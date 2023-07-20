@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import 'leaflet/dist/leaflet.css'
 import dynamic from 'next/dynamic'
+import Weather from './Weather'
 
 interface Props {
   openStatus: boolean
@@ -12,7 +12,6 @@ export default function ContentCenter(props: Props): React.JSX.Element {
     e.stopPropagation()
   }
 
-  //useMemo bc the react-leaflet component is not compatible with nextJS otherwise
   const Map = useMemo(
     () =>
       dynamic(() => import('./Map'), {
@@ -21,10 +20,49 @@ export default function ContentCenter(props: Props): React.JSX.Element {
     []
   )
 
+  let endText: React.JSX.Element = null
+  let tmp = ''
+
+  switch (props.contentInCenter) {
+    case '1':
+      endText = <Map />
+      break
+    // case '2':
+    //   endText = <h1 className="text-left px-8" dangerouslySetInnerHTML={{ __html: props.contentInCenter }}></h1>
+    //   break
+    case '3':
+      endText = <Map />
+      break
+    case '4':
+      endText = <Weather />
+      break
+    default: {
+      const newsArr = props.contentInCenter.split('&&&&&$$$$$')
+      if (newsArr[1] !== undefined) {
+        if (newsArr[1].length > 45) tmp = newsArr[1].substring(0, 45) + ' ...'
+        else tmp = newsArr[1].substring(0, 45)
+      }
+      endText = (
+        <>
+          <div id="newsTimeInCenter" className="text-yellow-400 text-md font-bold text-left py-4 px-10">
+            {newsArr[0]}
+          </div>
+          <div id="newsTitleInCenter" className="text-white text-2xl font-bold text-left py-4 px-10">
+            {tmp}
+          </div>
+          <div
+            id="newsTextInCenter"
+            className="bg-white text-base text-left py-4 px-10"
+            dangerouslySetInnerHTML={{ __html: newsArr[2] }}
+          ></div>
+        </>
+      )
+    }
+  }
+
   return (
     <div onClick={(e) => handleClick(e)} id="content_center_area" style={props.openStatus ? { zIndex: '0' } : {}}>
-      {props.openStatus && <h1>{props.contentInCenter}</h1>}
-      {props.contentInCenter === '1' && <Map />}
+      {props.openStatus && endText}
     </div>
   )
 }
