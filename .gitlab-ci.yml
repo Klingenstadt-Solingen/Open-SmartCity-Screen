@@ -1,0 +1,13 @@
+image: node:18-alpine
+
+stages:
+  - check
+
+check:
+  stage: check
+  image: node:18-alpine
+  script:
+    - yarn install --frozen-lockfile
+    - yarn lint
+  tags:
+    - docker

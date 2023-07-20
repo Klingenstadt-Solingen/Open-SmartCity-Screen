@@ -1,0 +1,8 @@
+node_modules
+*.log
+.next
+app
+dist
+build
+.DS_Store
+renderer/.next
