@@ -11,7 +11,7 @@ export default function ContentPanel() {
   const contents = [
     {
       num: 1,
-      text: 'TEXT_1.'
+      text: 'Map Tile'
     },
     {
       num: 2,

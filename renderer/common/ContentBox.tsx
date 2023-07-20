@@ -59,15 +59,15 @@ export default function ContentBox(props: PropsWithChildren<Props>): React.JSX.E
   }
 
   return (
-    <div id={props.num.toString()} className="content_boxes" style={endCssData}>
+    <div
+      id={props.num.toString()}
+      className="content_boxes"
+      style={endCssData}
+      onClick={() => props.showSomething(props.num.toString())}
+    >
       <br />
       <br />
-      <h1
-        style={{ cursor: 'pointer' }}
-        onClick={() => props.showSomething('hier ist Information aus Box ' + props.num.toString())}
-      >
-        {props.num.toString()}
-      </h1>
+      <h1>{props.num.toString()}</h1>
       <br />
       <br />
       <div className="description">{props.text}</div>
