@@ -54,8 +54,8 @@ export default function ContentPanel() {
   ]
 
   const isOpenState = [
-    { animation: 'openTopAnimation 0.5s 1 forwards' },
-    { animation: 'openBottomAnimation 0.5s 1 forwards' }
+    { animation: 'openTopAnimation 0.5s 1 forwards, makeTransparentAnimation 0.6s 1 forwards' },
+    { animation: 'openBottomAnimation 0.5s 1 forwards, makeTransparentAnimation 0.6s 1 forwards' }
   ]
 
   const boxOrder = [
@@ -89,7 +89,7 @@ export default function ContentPanel() {
 
   return (
     <WeatherContext.Provider value={contentInWeather}>
-      <div id="content_panel" onClick={handleClick}>
+      <div id="content_panel" style={isOpen ? { backgroundColor: 'black' } : undefined} onClick={handleClick}>
         {contents.map((content, index) => (
           <ContentBox
             key={content.num}
