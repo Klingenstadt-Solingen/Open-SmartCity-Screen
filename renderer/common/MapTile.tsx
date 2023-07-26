@@ -9,20 +9,15 @@ interface Props {
 export default function MapTile(props: Props): React.JSX.Element {
   return (
     <>
-      <div id="mapTileContainer" className="text-5xl font-bold p-4">
-        <div className="text-left">
-          Solingen
-          <br />à la Carte!
+      <div id="mapTileContainer" className="text-6xl font-bold p-12">
+        <div className="text-left mb-20 tracking-wide">Solingen à la Carte!</div>
+        <div id="mapIcon" className="mx-auto mb-24"></div>
+        <div id="textInMapTile_1" className="text-4xl text-white tracking-wide mb-16 museo-sans font-light">
+          Interessante Orte
+          <br />
+          in Solingen
         </div>
-        <div id="mapIcon"></div>
-        <div id="textInMapTile_1" className="text-3xl text-white mt-5">
-          Interessante Orte in Solingen
-        </div>
-        <button
-          id="btnInMapTile"
-          className="text-base w-40 h-10 rounded-lg mt-8"
-          onClick={() => props.showSomething('1')}
-        >
+        <button id="btnInMapTile" className="w-60 h-14 rounded-lg text-2xl" onClick={() => props.showSomething('1')}>
           Jetzt entdecken
         </button>
       </div>

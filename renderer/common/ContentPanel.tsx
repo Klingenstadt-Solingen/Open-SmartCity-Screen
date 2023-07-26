@@ -71,12 +71,14 @@ export default function ContentPanel() {
 
   function showMessage(msg: string): void {
     // setIsShowInCenter((isShownInCenter) => !isShownInCenter)
-    if (!isOpen) setIsOpen((isOpen) => !isOpen)
-    contentPassToCenter = msg
+    if (!isOpen) {
+      setIsOpen((isOpen) => !isOpen)
+      contentPassToCenter = msg
+    }
   }
 
   function handleClick(): void {
-    if (isOpen) setIsOpen((isOpen) => !isOpen)
+    if (isOpen) setIsOpen(false)
   }
 
   function handleButtonClick(event: React.FormEvent): void {

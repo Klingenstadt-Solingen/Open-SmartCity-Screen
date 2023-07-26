@@ -17,11 +17,9 @@ interface Props {
 export default function NewsTile(props: Props): React.JSX.Element {
   let tmpTitle = ''
   return (
-    <>
-      <div id="textInNewsTile_1" className="text-5xl text-left font-bold p-4">
-        Neues aus
-        <br />
-        Solingen.
+    <div className="p-12">
+      <div id="textInNewsTile_1" className="text-6xl text-left font-bold mb-8 tracking-wide">
+        Neues aus Solingen.
       </div>
       <div id="news_container">
         {props.details.map((news) => {
@@ -31,11 +29,16 @@ export default function NewsTile(props: Props): React.JSX.Element {
             tmpTitle = news.title.substring(0, 80)
           }
           return (
-            <div key={news.id} className="text-left p-4 font-bold">
-              <div className="textInNewsTile_2 text-sm">{news.time}</div>
-              <div className="textInNewsTile_3 text-basic mb-4">{tmpTitle}</div>
+            <div key={news.id} className="text-left font-bold mb-12">
+              <div
+                className="textInNewsTile_2 text-lg font-thin museo-sans"
+                style={{ paddingLeft: '10px', marginLeft: '-5px', borderLeft: '2px solid #ffbf00' }}
+              >
+                {news.time}
+              </div>
+              <div className="textInNewsTile_3 mb-4 text-xl">{tmpTitle}</div>
               <button
-                className="btnInNewsTile text-sm w-32 h-9 rounded-lg"
+                className="btnInNewsTile text-base w-32 h-10 rounded-lg"
                 onClick={() =>
                   props.showSomething(news.time + '&&&&&$$$$$' + news.title + '&&&&&$$$$$' + news.contentOfNews)
                 }
@@ -46,6 +49,6 @@ export default function NewsTile(props: Props): React.JSX.Element {
           )
         })}
       </div>
-    </>
+    </div>
   )
 }

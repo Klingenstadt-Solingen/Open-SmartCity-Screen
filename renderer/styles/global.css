@@ -3,41 +3,300 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Museo_500';
+  font-family: 'Museo';
   src:
-    url('../fonts/Museo/MuseoW01-500.woff2') format('woff2'),
-    url('../fonts/Museo/MuseoW01-500.woff') format('woff');
+    url('/fonts/Museo/MuseoW01-300Italic.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-300Italic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-700.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-700.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-500.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-500.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'MuseoSans_100';
+  font-family: 'Museo';
   src:
-    url('../fonts/MuseoSans/MuseoSansW01-100.woff2') format('woff2'),
-    url('../fonts/MuseoSans/MuseoSansW01-100.woff') format('woff');
+    url('/fonts/Museo/MuseoW01-100.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-100.woff') format('woff');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'MuseoSans_500';
+  font-family: 'Museo';
   src:
-    url('../fonts/MuseoSans/MuseoSansW01-500.woff2') format('woff2'),
-    url('../fonts/MuseoSans/MuseoSansW01-500.woff') format('woff');
+    url('/fonts/Museo/MuseoW01-300.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-300.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-100Italic.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-100Italic.woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-900.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-900.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-500Italic.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-500Italic.woff') format('woff');
   font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-700Italic.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-700Italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src:
+    url('/fonts/Museo/MuseoW01-900Italic.woff2') format('woff2'),
+    url('/fonts/Museo/MuseoW01-900Italic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-700.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-700.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-900.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-900.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-100.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-100.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-100.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-100.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-300.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-300.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-700.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-700.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-900.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-900.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-500.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-500.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-300.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-300.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-500Italic.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-500Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MuseoSans';
+  src:
+    url('/fonts/MuseoSans/MuseoSansW01-500.woff2') format('woff2'),
+    url('/fonts/MuseoSans/MuseoSansW01-500.woff') format('woff');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 html,
 body {
+  font-family: 'Museo', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
@@ -46,13 +305,16 @@ body {
   position: relative;
 }
 
+.museo-sans {
+  font-family: 'MuseoSans';
+}
+
 #content_panel {
   position: absolute;
   width: 100%;
   height: 100%;
   min-height: 100%;
   text-align: center;
-  background-color: #004373;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -67,8 +329,6 @@ body {
   margin-left: 1px;
   z-index: 1;
   animation: 'closeAnimation 0.5s 1 forwards';
-  cursor: pointer;
-  font-family: 'Museo_500';
 }
 
 @keyframes openTopAnimation {
@@ -104,7 +364,6 @@ body {
 #content_center_area {
   position: absolute;
   text-align: center;
-  background-color: #004373;
   margin: 0 auto;
   width: 100%;
   z-index: -1;
@@ -112,24 +371,14 @@ body {
   margin-top: 25vh;
 }
 
-#weather {
-  width: 90%;
-  height: 30%;
-  background-color: greenyellow;
-  margin-left: 1%;
-  margin: 0 auto;
-}
-
 #news_container {
   height: 30vh;
 }
 
 #mapIcon {
-  width: 200px;
-  height: 200px;
+  width: 230px;
+  height: 230px;
   border-radius: 100%;
-  margin: 0 auto;
-  margin-top: 40px;
   background: white url('../../resources/map.svg') no-repeat center;
   background-size: 60%;
 }
@@ -156,10 +405,6 @@ body {
   background-color: #004373;
   color: #ffbf00;
   box-sizing: border-box;
-}
-
-#textInMapTile_1 {
-  font-family: 'MuseoSans_100';
 }
 
 #btnInMapTile {
@@ -192,22 +437,22 @@ body {
 }
 
 .btnInPoi {
-  height: 10vh;
+  height: 10.5vh;
   background-color: #004373;
   border-radius: 10px;
   margin: 0 auto;
   margin-top: 30px;
-  font-size: 20px;
   color: white;
   text-align: right;
   padding-top: 5vh;
   padding-right: 15px;
   padding-bottom: 15px;
+  width: 100%;
 }
 
 #btnImgInPoi_1 {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   background: url('../../resources/wifi.svg') no-repeat center;
   background-size: 50%;
   margin-top: -6vh;
@@ -215,8 +460,8 @@ body {
 }
 
 #btnImgInPoi_2 {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   background: url('../../resources/food.svg') no-repeat center;
   background-size: 50%;
   margin-top: -6vh;
@@ -224,8 +469,8 @@ body {
 }
 
 #btnImgInPoi_3 {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   background: url('../../resources/hello_world.svg') no-repeat center;
   background-size: 50%;
   margin-top: -6vh;
@@ -242,17 +487,11 @@ body {
 }
 
 #weatherIcon {
-  width: 200px;
-  height: 200px;
+  width: 230px;
+  height: 230px;
   border-radius: 100%;
-  margin: 0 auto;
-  margin-top: 20px;
   background: white url('../../resources/weather.svg') no-repeat center;
   background-size: 60%;
-}
-
-#textInWeatherTile_1 {
-  font-family: 'MuseoSans_500';
 }
 
 #btnInWeatherTile {

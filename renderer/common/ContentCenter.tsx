@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Weather from './Weather'
 
@@ -11,6 +11,17 @@ export default function ContentCenter(props: Props): React.JSX.Element {
   function handleClick(e: React.FormEvent): void {
     e.stopPropagation()
   }
+
+  const [showContent, setShowContent] = useState(props.openStatus)
+
+  useEffect(() => {
+    if (props.openStatus) {
+      setShowContent(true)
+    } else {
+      const timer = setTimeout(() => setShowContent(false), 400)
+      return () => clearTimeout(timer)
+    }
+  }, [props.openStatus])
 
   const Map = useMemo(
     () =>
@@ -62,7 +73,7 @@ export default function ContentCenter(props: Props): React.JSX.Element {
 
   return (
     <div onClick={(e) => handleClick(e)} id="content_center_area" style={props.openStatus ? { zIndex: '0' } : {}}>
-      {props.openStatus && endText}
+      {showContent && endText}
     </div>
   )
 }

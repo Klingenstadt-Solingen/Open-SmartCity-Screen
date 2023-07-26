@@ -17,7 +17,7 @@ export default function Map(): React.JSX.Element {
     <MapContainer
       center={[51.170208, 7.083141]}
       zoom={16}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ height: '100%', width: '100%' }}
     >
       <TileLayer

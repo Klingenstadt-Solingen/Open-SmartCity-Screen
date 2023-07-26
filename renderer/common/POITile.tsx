@@ -9,21 +9,21 @@ interface Props {
 export default function POITile(props: Props): React.JSX.Element {
   return (
     <>
-      <div id="poiTileContainer" className="text-5xl font-bold p-4 m-4 rounded-lg">
-        <div className="text-left">
+      <div id="poiTileContainer" className="p-8 m-5 rounded-lg">
+        <div className="ml-4 text-left tracking-wide text-6xl font-bold">
           Häufig
           <br />
           gesucht.
         </div>
-        <div className="btnInPoi" onClick={() => props.showSomething('3')}>
+        <button className="btnInPoi text-3xl" onClick={() => props.showSomething('3')}>
           <div id="btnImgInPoi_1"></div>Freifunk WLAN
-        </div>
-        <div className="btnInPoi" onClick={() => props.showSomething('3')}>
+        </button>
+        <button className="btnInPoi text-3xl" onClick={() => props.showSomething('3')}>
           <div id="btnImgInPoi_2"></div>Restaurants in Solingen
-        </div>
-        <div className="btnInPoi" onClick={() => props.showSomething('3')}>
+        </button>
+        <button className="btnInPoi text-3xl" onClick={() => props.showSomething('3')}>
           <div id="btnImgInPoi_3"></div>Hallo Welt
-        </div>
+        </button>
       </div>
     </>
   )

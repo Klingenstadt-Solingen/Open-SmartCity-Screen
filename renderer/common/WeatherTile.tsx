@@ -9,21 +9,22 @@ interface Props {
 export default function MapTile(props: Props): React.JSX.Element {
   return (
     <>
-      <div id="weatherTileContainer" className="text-5xl font-bold p-8">
-        <div className="text-left">
+      <div id="weatherTileContainer" className="p-12">
+        <div className="text-left text-6xl font-bold tracking-wide">
           Aktuelles
           <br />
           Wetter.
         </div>
-        <div className="text-sm text-left pt-2 pl-2">XXXX Straße 1</div>
-        <div id="weatherIcon"></div>
-        <div id="textInWeatherTile_1" className="text-7xl mt-4">
-          11.9
+        <div className="text-left text-xl museo-sans font-extralight text-black">Merianstr. (Rathaus)</div>
+        <div id="weatherIcon" className="mx-auto mt-14"></div>
+        <div id="textInWeatherTile_1" className="text-9xl mt-16 font-bold">
+          <span className="museo-sans">23.9</span>
+          <span className="font-thin text-6xl align-top">°C</span>
         </div>
-        <div className="text-sm pt-2 pl-2">Aktualisiert am xxxxx</div>
+        <div className="text-black museo-sans font-thin text-lg mt-2">aktualisiert am 26.07.2023</div>
         <button
           id="btnInWeatherTile"
-          className="text-base w-40 h-10 rounded-lg mt-8"
+          className="w-60 h-14 rounded-lg text-2xl mt-14"
           onClick={() => props.showSomething('4')}
         >
           weitere Daten
