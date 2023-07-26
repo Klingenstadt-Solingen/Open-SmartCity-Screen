@@ -534,6 +534,7 @@ body {
   flex-direction: row;
   padding: 3%;
   box-sizing: border-box;
+  font-family: 'MuseoSans_500';
 }
 
 .weatherBlock {
@@ -546,32 +547,84 @@ body {
 
 #weatherBlock_1 {
   width: 65%;
-  background: #ffbf00 url('../../resources/weather.svg') no-repeat center;
   margin-left: 0px;
+  background-color: #ffbf00;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 #weatherBlock_2 {
-  background: lightgreen url('../../resources/hello_world.svg') no-repeat center;
+  background-color: lightgreen;
 }
 
 #weatherBlock_3 {
   margin-left: 0px;
-  background: lightblue url('../../resources/hello_world.svg') no-repeat center;
+  background-color: lightblue;
 }
 
 #weatherBlock_4 {
-  background: #f2f2f2 url('../../resources/hello_world.svg') no-repeat center;
+  background-color: #f2f2f2;
+  color: #004373;
 }
 
 #weatherBlock_5 {
-  background: #f2f2f2 url('../../resources/hello_world.svg') no-repeat center;
+  background-color: #f2f2f2;
+  color: #004373;
+}
+
+#weatherBlock_1_1 {
+  width: 50%;
+  height: 100%;
+  background-size: contain;
+  background: url('../../resources/temperature.svg') no-repeat center;
+}
+
+#weatherBlock_1_2 {
+  width: 50%;
+  height: 100%;
+  color: #004373;
+  text-align: left;
+}
+
+#weatherBlock_2_1 {
+  width: 100%;
+  height: 30%;
+  background-size: contain;
+  background: url('../../resources/UV.svg') no-repeat left;
+}
+
+.weatherBlock_2_2 {
+  width: 100%;
+  height: 20%;
+  text-align: left;
+}
+
+#weatherBlock_3_1 {
+  width: 100%;
+  height: 30%;
+  background-size: contain;
+  background: url('../../resources/rain.svg') no-repeat left;
+}
+
+#weatherBlock_4_1 {
+  width: 100%;
+  height: 30%;
+  background-size: contain;
+  background: url('../../resources/moisture.svg') no-repeat left;
+}
+
+#weatherBlock_5_1 {
+  width: 100%;
+  height: 30%;
+  background-size: contain;
+  background: url('../../resources/airPressure.svg') no-repeat left;
 }
 
 .darkPanel {
   position: absolute;
   width: 100%;
   height: 25vh;
-  text-align: center;
   background-color: #004373;
   z-index: 2;
   opacity: 0.9;
