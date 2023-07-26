@@ -381,7 +381,7 @@ body {
   width: 50px;
   height: 50px;
   z-index: 1;
-  background: #004373 url('../../resources/rotate.svg') no-repeat center;
+  background: white url('../../resources/rotate.svg') no-repeat center;
   background-size: 60%;
   border-radius: 20%;
 }
@@ -522,4 +522,57 @@ body {
 #btnInWeatherTile {
   background-color: #004373;
   color: white;
+}
+
+#weatherDetailsContainer {
+  width: 100%;
+  height: 50vh;
+  background-color: white;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 3%;
+  box-sizing: border-box;
+}
+
+.weatherBlock {
+  width: 31%;
+  height: 20vh;
+  background-size: 10%;
+  margin-left: 3%;
+  border-radius: 30px;
+}
+
+#weatherBlock_1 {
+  width: 65%;
+  background: #ffbf00 url('../../resources/weather.svg') no-repeat center;
+  margin-left: 0px;
+}
+
+#weatherBlock_2 {
+  background: lightgreen url('../../resources/hello_world.svg') no-repeat center;
+}
+
+#weatherBlock_3 {
+  margin-left: 0px;
+  background: lightblue url('../../resources/hello_world.svg') no-repeat center;
+}
+
+#weatherBlock_4 {
+  background: #f2f2f2 url('../../resources/hello_world.svg') no-repeat center;
+}
+
+#weatherBlock_5 {
+  background: #f2f2f2 url('../../resources/hello_world.svg') no-repeat center;
+}
+
+.darkPanel {
+  position: absolute;
+  width: 100%;
+  height: 25vh;
+  text-align: center;
+  background-color: #004373;
+  z-index: 2;
+  opacity: 0.9;
 }
