@@ -9,8 +9,13 @@ interface Props {
 export default function POITile(props: Props): React.JSX.Element {
   return (
     <>
+<<<<<<< HEAD
       <div id="poiTileContainer" className="p-8 m-5 rounded-lg">
         <div className="ml-4 text-left tracking-wide text-6xl font-bold">
+=======
+      <div id="poiTileContainer" className="text-5xl font-bold p-4 rounded-lg">
+        <div className="text-left">
+>>>>>>> e1ca987 (fix(4x Tiles): CSS-Bugs)
           Häufig
           <br />
           gesucht.

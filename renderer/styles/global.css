@@ -455,9 +455,13 @@ body {
 }
 
 #poiTileContainer {
+  position: absolute;
   color: #004373;
   background-color: #f2f2f2;
+  width: 46%;
   height: 48vh;
+  margin-left: 2%;
+  margin-top: 1vh;
   box-sizing: border-box;
 }
 

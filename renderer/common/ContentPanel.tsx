@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import ContentBox from './ContentBox'
 import ContentCenter from './ContentCenter'
 import { WeatherContext } from '../utils/Context'
-import Darkness from './Darkness'
 
 const contentInWeather = 'Bitte Hier Klicken für Wetter in Aachen' // in Context Provider Value to WeatherComponent
 let contentPassToCenter = ''
@@ -105,7 +104,6 @@ export default function ContentPanel() {
         ))}
         <ContentCenter openStatus={isOpen} contentInCenter={contentPassToCenter}></ContentCenter>
         <button id="rotation_btn" onClick={handleButtonClick} style={isOpen ? { display: 'none' } : {}}></button>
-        <Darkness openStatus={isOpen} isUp={false} />
       </div>
     </WeatherContext.Provider>
   )
