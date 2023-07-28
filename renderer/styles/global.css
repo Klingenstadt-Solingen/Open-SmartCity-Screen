@@ -381,7 +381,7 @@ body {
   width: 50px;
   height: 50px;
   z-index: 1;
-  background: white url('../../resources/rotate.svg') no-repeat center;
+  background: #f2f2f2 url('/images/svg/rotate.svg') no-repeat center;
   background-size: 60%;
   border-radius: 20%;
 }
@@ -404,7 +404,7 @@ body {
   width: 230px;
   height: 230px;
   border-radius: 100%;
-  background: white url('../../resources/map.svg') no-repeat center;
+  background: white url('/images/svg/map.svg') no-repeat center;
   background-size: 60%;
 }
 
@@ -482,7 +482,7 @@ body {
 #btnImgInPoi_1 {
   width: 150px;
   height: 150px;
-  background: url('../../resources/wifi.svg') no-repeat center;
+  background: url('/images/svg/wifi.svg') no-repeat center;
   background-size: 50%;
   margin-top: -6vh;
   margin-left: -10px;
@@ -491,7 +491,7 @@ body {
 #btnImgInPoi_2 {
   width: 150px;
   height: 150px;
-  background: url('../../resources/food.svg') no-repeat center;
+  background: url('/images/svg/food.svg') no-repeat center;
   background-size: 50%;
   margin-top: -6vh;
   margin-left: -10px;
@@ -500,7 +500,7 @@ body {
 #btnImgInPoi_3 {
   width: 150px;
   height: 150px;
-  background: url('../../resources/hello_world.svg') no-repeat center;
+  background: url('/images/svg/hello_world.svg') no-repeat center;
   background-size: 50%;
   margin-top: -6vh;
   margin-left: -10px;
@@ -519,7 +519,7 @@ body {
   width: 230px;
   height: 230px;
   border-radius: 100%;
-  background: white url('../../resources/weather.svg') no-repeat center;
+  background: white url('/images/svg/weather.svg') no-repeat center;
   background-size: 60%;
 }
 
@@ -530,106 +530,65 @@ body {
 
 #weatherDetailsContainer {
   width: 100%;
-  height: 50vh;
+  height: 56vh;
   background-color: white;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  padding: 3%;
+  padding: 4vh;
   box-sizing: border-box;
-  font-family: 'MuseoSans_500';
+  font-family: ' font-family: ' MuseoSans ';';
 }
 
-.weatherBlock {
-  width: 31%;
-  height: 20vh;
-  background-size: 10%;
-  margin-left: 3%;
-  border-radius: 30px;
-}
-
-#weatherBlock_1 {
+#weatherBlock_big {
   width: 65%;
-  margin-left: 0px;
+  height: 22vh;
+  background-size: 10%;
+  margin-left: 1%;
+  border-radius: 30px;
   background-color: #ffbf00;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
 }
 
-#weatherBlock_2 {
-  background-color: lightgreen;
-}
-
-#weatherBlock_3 {
-  margin-left: 0px;
-  background-color: lightblue;
-}
-
-#weatherBlock_4 {
-  background-color: #f2f2f2;
-  color: #004373;
-}
-
-#weatherBlock_5 {
-  background-color: #f2f2f2;
-  color: #004373;
-}
-
-#weatherBlock_1_1 {
-  width: 50%;
+#weatherBlock_big_1 {
+  width: 45%;
   height: 100%;
   background-size: contain;
-  background: url('../../resources/temperature.svg') no-repeat center;
+  background: url('/images/svg/temperature.svg') no-repeat center;
 }
 
-#weatherBlock_1_2 {
-  width: 50%;
+#weatherBlock_big_2 {
+  width: 55%;
   height: 100%;
   color: #004373;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
 }
 
-#weatherBlock_2_1 {
+.weatherBlock_small {
+  width: 32%;
+  height: 22vh;
+  background-size: 10%;
+  margin-left: 1%;
+  border-radius: 30px;
+}
+
+.weatherBlock_2_1 {
   width: 100%;
   height: 30%;
   background-size: contain;
-  background: url('../../resources/UV.svg') no-repeat left;
+  background-position: left;
+  background-repeat: no-repeat;
+  /* background-color: red; */
 }
 
 .weatherBlock_2_2 {
   width: 100%;
-  height: 20%;
   text-align: left;
-}
-
-#weatherBlock_3_1 {
-  width: 100%;
-  height: 30%;
-  background-size: contain;
-  background: url('../../resources/rain.svg') no-repeat left;
-}
-
-#weatherBlock_4_1 {
-  width: 100%;
-  height: 30%;
-  background-size: contain;
-  background: url('../../resources/moisture.svg') no-repeat left;
-}
-
-#weatherBlock_5_1 {
-  width: 100%;
-  height: 30%;
-  background-size: contain;
-  background: url('../../resources/airPressure.svg') no-repeat left;
-}
-
-.darkPanel {
-  position: absolute;
-  width: 100%;
-  height: 25vh;
-  background-color: #004373;
-  z-index: 2;
-  opacity: 0.9;
 }

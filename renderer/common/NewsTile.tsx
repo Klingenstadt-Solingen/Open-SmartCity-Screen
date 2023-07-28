@@ -23,10 +23,10 @@ export default function NewsTile(props: Props): React.JSX.Element {
       </div>
       <div id="news_container">
         {props.details.map((news) => {
-          if (news.title.length > 80) {
-            tmpTitle = news.title.substring(0, 80) + ' ...'
+          if (news.title.length > 100) {
+            tmpTitle = news.title.substring(0, 100) + ' ...'
           } else {
-            tmpTitle = news.title.substring(0, 80)
+            tmpTitle = news.title.substring(0, 100)
           }
           return (
             <div key={news.id} className="text-left font-bold mb-12">

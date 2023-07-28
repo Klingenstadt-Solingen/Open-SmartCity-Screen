@@ -50,8 +50,8 @@ export default function ContentCenter(props: Props): React.JSX.Element {
     default: {
       const newsArr = props.contentInCenter.split('&&&&&$$$$$')
       if (newsArr[1] !== undefined) {
-        if (newsArr[1].length > 45) tmp = newsArr[1].substring(0, 45) + ' ...'
-        else tmp = newsArr[1].substring(0, 45)
+        if (newsArr[1].length > 100) tmp = newsArr[1].substring(0, 100) + ' ...'
+        else tmp = newsArr[1].substring(0, 100)
       }
       endText = (
         <>

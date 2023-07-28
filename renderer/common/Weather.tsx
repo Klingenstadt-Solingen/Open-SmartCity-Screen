@@ -2,43 +2,77 @@ import React from 'react'
 // import { WeatherContext } from '../utils/Context'
 // import { type PropsWithChildren } from 'react'
 
+const weatherInfo = [
+  {
+    num: 1,
+    text_1: 'UV-Licht',
+    text_2: '0',
+    bgColor: 'lightgreen',
+    fontColor: 'white',
+    borderColor: 'white',
+    bgImage: '/images/svg/UV.svg'
+  },
+  {
+    num: 2,
+    text_1: 'Niederschlag',
+    text_2: '0.01mm/h',
+    bgColor: 'lightblue',
+    fontColor: 'white',
+    borderColor: 'white',
+    bgImage: '/images/svg/rain.svg'
+  },
+  {
+    num: 3,
+    text_1: 'Luftfeuchtigkeit',
+    text_2: '92.6%',
+    bgColor: '#f2f2f2',
+    fontColor: '#004373',
+    borderColor: '#FFBF00',
+    bgImage: '/images/svg/moisture.svg'
+  },
+  {
+    num: 4,
+    text_1: 'Luftdruck',
+    text_2: '1025.9hpa',
+    bgColor: '#f2f2f2',
+    fontColor: '#004373',
+    borderColor: '#FFBF00',
+    bgImage: '/images/svg/airPressure.svg'
+  }
+]
+
 export default function Weather(): React.JSX.Element {
   // const content = useContext(WeatherContext) //get value from Panel
 
   return (
-    <div id="weatherDetailsContainer">
-      <div id="weatherBlock_1" className="weatherBlock ">
-        <div id="weatherBlock_1_1"></div>
-        <div id="weatherBlock_1_2">
-          <div className="text-3xl pt-8 pb-6">Temperatur</div>
-          <div className="text-7xl font-bold py-3">7.9°C</div>
-          <div className="text-xs">aktualisiert 3.2.2023, 13:50:07</div>
+    <div id="weatherDetailsContainer" className="tracking-wide">
+      <div id="weatherBlock_big" className="weatherBlock ">
+        <div id="weatherBlock_big_1"></div>
+        <div id="weatherBlock_big_2">
+          <div className="text-5xl font-bold pl-3" style={{ borderLeft: '8px solid #004373' }}>
+            Temperatur
+          </div>
+          <div className="text-9xl font-bold my-9">7.9°C</div>
+          <div className="text-3xl">aktualisiert 3.2.2023, 13:50:07</div>
         </div>
       </div>
 
-      <div id="weatherBlock_2" className="weatherBlock text-white">
-        <div id="weatherBlock_2_1" className="mt-6 ml-8"></div>
-        <div className="weatherBlock_2_2 text-xl font-bold mt-3 ml-8">UV-Licht</div>
-        <div className="weatherBlock_2_2 text-6xl font-bold ml-8">0</div>
-      </div>
-
-      <div id="weatherBlock_3" className="weatherBlock text-white">
-        <div id="weatherBlock_3_1" className="mt-6 ml-8"></div>
-        <div className="weatherBlock_2_2 text-xl font-bold mt-3 ml-8">Niederschlag</div>
-        <div className="weatherBlock_2_2 text-3xl font-bold ml-8">0.01mm/h</div>
-      </div>
-
-      <div id="weatherBlock_4" className="weatherBlock">
-        <div id="weatherBlock_4_1" className="mt-6 ml-8"></div>
-        <div className="weatherBlock_2_2 text-xl font-bold mt-3 ml-8">Luftfeuchtigkeit</div>
-        <div className="weatherBlock_2_2 text-3xl font-bold ml-8">92.6%</div>
-      </div>
-
-      <div id="weatherBlock_5" className="weatherBlock">
-        <div id="weatherBlock_5_1" className="mt-6 ml-8"></div>
-        <div className="weatherBlock_2_2 text-xl font-bold mt-3 ml-8">Luftdruck</div>
-        <div className="weatherBlock_2_2 text-3xl font-bold ml-8">1025.9hpa</div>
-      </div>
+      {weatherInfo.map((weather) => (
+        <div
+          key={weather.num}
+          style={{ color: weather.fontColor, backgroundColor: weather.bgColor }}
+          className="weatherBlock_small"
+        >
+          <div className="weatherBlock_2_1 mt-20 ml-10" style={{ backgroundImage: `url(${weather.bgImage})` }}></div>
+          <div
+            className="weatherBlock_2_2 text-3xl font-bold my-20 ml-10 pl-5"
+            style={{ borderLeft: `8px solid ${weather.borderColor}` }}
+          >
+            {weather.text_1}
+          </div>
+          <div className="weatherBlock_2_2 text-4xl font-bold ml-10">{weather.text_2}</div>
+        </div>
+      ))}
     </div>
   )
 }
