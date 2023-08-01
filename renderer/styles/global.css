@@ -577,6 +577,9 @@ body {
   background-size: 10%;
   margin-left: 1%;
   border-radius: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .weatherBlock_2_1 {
@@ -585,7 +588,6 @@ body {
   background-size: contain;
   background-position: left;
   background-repeat: no-repeat;
-  /* background-color: red; */
 }
 
 .weatherBlock_2_2 {

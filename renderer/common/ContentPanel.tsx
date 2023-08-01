@@ -67,10 +67,8 @@ export default function ContentPanel() {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [orderStatus, setOrderStatus] = useState<number>(0)
-  // const [isShowInCenter, setIsShowInCenter] = useState<boolean>(false)
 
   function showMessage(msg: string): void {
-    // setIsShowInCenter((isShownInCenter) => !isShownInCenter)
     if (!isOpen) {
       setIsOpen((isOpen) => !isOpen)
       contentPassToCenter = msg
@@ -98,9 +96,7 @@ export default function ContentPanel() {
             openCss={Number(boxOrder[orderStatus][index].order) < 3 ? isOpenState[0] : isOpenState[1]}
             {...content}
             showSomething={showMessage}
-          >
-            {/* <Weather showSomething={showMessage} /> */}
-          </ContentBox>
+          ></ContentBox>
         ))}
         <ContentCenter openStatus={isOpen} contentInCenter={contentPassToCenter}></ContentCenter>
         <button id="rotation_btn" onClick={handleButtonClick} style={isOpen ? { display: 'none' } : {}}></button>

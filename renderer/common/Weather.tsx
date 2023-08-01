@@ -65,7 +65,7 @@ export default function Weather(): React.JSX.Element {
         >
           <div className="weatherBlock_2_1 mt-20 ml-10" style={{ backgroundImage: `url(${weather.bgImage})` }}></div>
           <div
-            className="weatherBlock_2_2 text-3xl font-bold my-20 ml-10 pl-5"
+            className="weatherBlock_2_2 text-3xl font-bold my-10 ml-10 pl-5"
             style={{ borderLeft: `8px solid ${weather.borderColor}` }}
           >
             {weather.text_1}

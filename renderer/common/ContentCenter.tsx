@@ -38,9 +38,6 @@ export default function ContentCenter(props: Props): React.JSX.Element {
     case '1':
       endText = <Map />
       break
-    // case '2':
-    //   endText = <h1 className="text-left px-8" dangerouslySetInnerHTML={{ __html: props.contentInCenter }}></h1>
-    //   break
     case '3':
       endText = <Map />
       break
