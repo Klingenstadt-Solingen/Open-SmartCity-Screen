@@ -2,6 +2,7 @@ image: node:18-alpine
 
 stages:
   - check
+  - build
 
 check:
   stage: check
@@ -11,3 +12,19 @@ check:
     - yarn lint
   tags:
     - docker
+
+build:
+  stage: build
+  image: electronuserland/builder:wine
+  script:
+    - yarn install --frozen-lockfile
+    - yarn build
+  artifacts:
+    paths:
+      - dist/
+  tags:
+    - docker
+  only:
+    refs:
+      - development
+      - master

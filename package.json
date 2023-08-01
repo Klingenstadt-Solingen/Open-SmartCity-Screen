@@ -7,11 +7,13 @@
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
-    "build": "nextron build --win --x64",
+    "build": "nextron build -w --x64",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
-    "format:fix": "prettier --write renderer/"
+    "format:fix": "prettier --write renderer/",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "browserslist": {
     "production": [
@@ -63,17 +65,15 @@
     "typescript": "^4.9.4"
   },
   "build": {
-    "appId": "com.electron.digitalsignage",
     "win": {
       "target": [
         {
-          "target": "nsis",
+          "target": "portable",
           "arch": [
             "x64"
           ]
         }
-      ],
-      "signAndEditExecutable": false
+      ]
     }
   }
 }
