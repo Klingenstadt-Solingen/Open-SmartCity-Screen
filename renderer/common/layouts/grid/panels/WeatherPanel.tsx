@@ -7,7 +7,7 @@ const weatherInfo = [
     num: 1,
     text_1: 'UV-Licht',
     text_2: '0',
-    bgColor: 'lightgreen',
+    bgColor: '#9aca78',
     fontColor: 'white',
     borderColor: 'white',
     bgImage: '/images/svg/UV.svg'
@@ -16,7 +16,7 @@ const weatherInfo = [
     num: 2,
     text_1: 'Niederschlag',
     text_2: '0.01mm/h',
-    bgColor: 'lightblue',
+    bgColor: '#5ea4ee',
     fontColor: 'white',
     borderColor: 'white',
     bgImage: '/images/svg/rain.svg'
@@ -41,17 +41,15 @@ const weatherInfo = [
   }
 ]
 
-export default function Weather(): React.JSX.Element {
+export default function WeatherPanel(): React.JSX.Element {
   // const content = useContext(WeatherContext) //get value from Panel
 
   return (
     <div id="weatherDetailsContainer" className="tracking-wide">
-      <div id="weatherBlock_big" className="weatherBlock ">
+      <div id="weatherBlock_big" className="bg-solingen-yellow">
         <div id="weatherBlock_big_1"></div>
         <div id="weatherBlock_big_2">
-          <div className="text-5xl font-bold pl-3" style={{ borderLeft: '8px solid #004373' }}>
-            Temperatur
-          </div>
+          <div className="text-5xl font-bold pl-3 border-l-8 border-solingen-blue">Temperatur</div>
           <div className="text-9xl font-bold my-9">7.9°C</div>
           <div className="text-3xl">aktualisiert 3.2.2023, 13:50:07</div>
         </div>
@@ -63,7 +61,10 @@ export default function Weather(): React.JSX.Element {
           style={{ color: weather.fontColor, backgroundColor: weather.bgColor }}
           className="weatherBlock_small"
         >
-          <div className="weatherBlock_2_1 mt-20 ml-10" style={{ backgroundImage: `url(${weather.bgImage})` }}></div>
+          <div
+            className="weatherBlock_2_1 mt-20 ml-10"
+            style={{ backgroundImage: `url(${weather.bgImage})` }}
+          ></div>
           <div
             className="weatherBlock_2_2 text-3xl font-bold my-10 ml-10 pl-5"
             style={{ borderLeft: `8px solid ${weather.borderColor}` }}

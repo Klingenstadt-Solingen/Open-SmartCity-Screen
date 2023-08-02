@@ -12,18 +12,16 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow.src
 })
 
-export default function Map(): React.JSX.Element {
+export default function MapPanel(): React.JSX.Element {
   return (
     <MapContainer
       center={[51.170208, 7.083141]}
       zoom={16}
       scrollWheelZoom={true}
       style={{ height: '100%', width: '100%' }}
+      attributionControl={false}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[51.170208, 7.083141]}>
         <Popup>Solingen Zentrum</Popup>
       </Marker>

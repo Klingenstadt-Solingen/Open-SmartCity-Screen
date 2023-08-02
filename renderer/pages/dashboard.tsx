@@ -1,8 +1,8 @@
 import React from 'react'
-import ContentPanel from '../common/ContentPanel'
+import Grid from '../common/layouts/grid/Grid'
 
 const Dashboard = () => {
-  return <ContentPanel></ContentPanel>
+  return <Grid></Grid>
 }
 
 export default Dashboard

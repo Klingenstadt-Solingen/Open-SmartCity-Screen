@@ -4,6 +4,13 @@ module.exports = {
     extend: {
       fontSize: {
         '6xl': ['4.3rem', '1.2']
+      },
+      colors: {
+        'solingen-yellow': '#ffbf00',
+        'solingen-blue': '#004373'
+      },
+      gridTemplateColumns: {
+        '50/50': '1fr, 1fr'
       }
     }
   },

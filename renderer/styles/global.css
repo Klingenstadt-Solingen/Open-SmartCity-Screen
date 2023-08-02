@@ -2,300 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-300Italic.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-300Italic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-700.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-700.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-500.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-500.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-100.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-100.woff') format('woff');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-300.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-300.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-100Italic.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-100Italic.woff') format('woff');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-900.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-900.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-500Italic.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-500Italic.woff') format('woff');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-700Italic.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-700Italic.woff') format('woff');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Museo';
-  src:
-    url('/fonts/Museo/MuseoW01-900Italic.woff2') format('woff2'),
-    url('/fonts/Museo/MuseoW01-900Italic.woff') format('woff');
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff') format('woff');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-700.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-700.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-900.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-900.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff') format('woff');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-100.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-100.woff') format('woff');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-700Italic.woff') format('woff');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-100Italic.woff') format('woff');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-100.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-100.woff') format('woff');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-300.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-300.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-700.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-700.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-900.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-900.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff') format('woff');
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-500.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-900Italic.woff') format('woff');
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-300.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-300.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-300Italic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-500Italic.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-500Italic.woff') format('woff');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MuseoSans';
-  src:
-    url('/fonts/MuseoSans/MuseoSansW01-500.woff2') format('woff2'),
-    url('/fonts/MuseoSans/MuseoSansW01-500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 html,
 body {
   font-family: 'Museo', sans-serif;
   margin: 0;
+  font-size: 0.86vh;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -303,84 +14,61 @@ body {
   height: 100%;
   overflow: hidden;
   position: relative;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .museo-sans {
   font-family: 'MuseoSans';
 }
 
-#content_panel {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
+.tile {
   text-align: center;
-  margin: 0 auto;
+  width: 50vw;
+  height: 50vh;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  z-index: 1;
-}
-
-.content_boxes {
-  width: calc(50% - 0.5px);
   background-color: white;
-  height: calc(50% - 0.5px);
-  margin-top: 1px;
-  margin-left: 1px;
-  z-index: 1;
-  animation: 'closeAnimation 0.5s 1 forwards';
 }
 
 @keyframes openTopAnimation {
-  to {
+  0% {
+    margin-top: 0;
+    filter: blur(0px) grayscale(0) brightness(1);
+  }
+  100% {
     margin-top: -28vh;
+    filter: blur(1px) grayscale(30%) brightness(0.7);
   }
 }
 
 @keyframes openBottomAnimation {
-  to {
+  0% {
+    margin-top: 0;
+    filter: blur(0px) grayscale(0) brightness(1);
+  }
+  100% {
     margin-top: 56vh;
+    filter: blur(1px) grayscale(30%) brightness(0.7);
   }
 }
 
 @keyframes closeAnimation {
-  to {
+  0% {
+    filter: blur(1px) grayscale(30%) brightness(0.7);
+  }
+  100% {
     margin-top: 0vh;
-  }
-}
-
-@keyframes makeOpaqueAnimation {
-  0% {
-    opacity: 0.7;
-  }
-  25% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes makeTransparentAnimation {
-  0% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.7;
+    filter: blur(0px) grayscale(0) brightness(1);
   }
 }
 
 #rotation_btn {
   position: absolute;
-  right: 1%;
-  bottom: 1%;
-  width: 50px;
-  height: 50px;
-  z-index: 1;
+  right: 3rem;
+  bottom: 3rem;
+  width: 8rem;
+  height: 8rem;
   background: #f2f2f2 url('/images/svg/rotate.svg') no-repeat center;
   background-size: 60%;
   border-radius: 20%;
@@ -391,7 +79,6 @@ body {
   text-align: center;
   margin: 0 auto;
   width: 100%;
-  z-index: -1;
   height: 56vh;
   margin-top: 22vh;
 }
@@ -401,21 +88,19 @@ body {
 }
 
 #mapIcon {
-  width: 230px;
-  height: 230px;
-  border-radius: 100%;
+  width: 12vh;
+  height: 12vh;
+  border-radius: 50%;
   background: white url('/images/svg/map.svg') no-repeat center;
-  background-size: 60%;
+  background-size: 55%;
 }
 
 #newsTimeInCenter {
   height: 5vh;
-  background-color: #004373;
 }
 
 #newsTitleInCenter {
   height: 5vh;
-  background-color: #004373;
 }
 
 #newsTextInCenter {
@@ -423,109 +108,27 @@ body {
   background-color: white;
 }
 
-#mapTileContainer {
-  position: absolute;
-  width: 50%;
-  height: 50vh;
-  background-color: #004373;
-  color: #ffbf00;
-  box-sizing: border-box;
-}
-
-#btnInMapTile {
-  background-color: #ffbf00;
-  color: #004373;
-}
-
-#textInNewsTile_1 {
-  color: #004373;
-}
-
-.textInNewsTile_2 {
-  color: black;
-}
-
-.textInNewsTile_3 {
-  color: #004373;
-}
-
-.btnInNewsTile {
-  background-color: #ffbf00;
-  color: #004373;
-}
-
-#poiTileContainer {
-  position: absolute;
-  color: #004373;
-  background-color: #f2f2f2;
-  width: 46%;
-  height: 48vh;
-  margin-left: 2%;
-  margin-top: 1vh;
-  box-sizing: border-box;
-}
-
-.btnInPoi {
-  height: 10.5vh;
-  background-color: #004373;
-  border-radius: 10px;
-  margin: 0 auto;
-  margin-top: 30px;
-  color: white;
-  text-align: right;
-  padding-top: 5vh;
-  padding-right: 15px;
-  padding-bottom: 15px;
-  width: 100%;
-}
-
 #btnImgInPoi_1 {
-  width: 150px;
-  height: 150px;
-  background: url('/images/svg/wifi.svg') no-repeat center;
-  background-size: 50%;
-  margin-top: -6vh;
-  margin-left: -10px;
+  background: url('/images/svg/wifi.svg') no-repeat;
+  background-size: contain;
 }
 
 #btnImgInPoi_2 {
-  width: 150px;
-  height: 150px;
-  background: url('/images/svg/food.svg') no-repeat center;
-  background-size: 50%;
-  margin-top: -6vh;
-  margin-left: -10px;
+  background: url('/images/svg/food.svg') no-repeat;
+  background-size: contain;
 }
 
 #btnImgInPoi_3 {
-  width: 150px;
-  height: 150px;
-  background: url('/images/svg/hello_world.svg') no-repeat center;
-  background-size: 50%;
-  margin-top: -6vh;
-  margin-left: -10px;
-}
-
-#weatherTileContainer {
-  position: absolute;
-  width: 50%;
-  height: 50vh;
-  background-color: #ffbf00;
-  color: #004373;
-  box-sizing: border-box;
+  background: url('/images/svg/hello_world.svg') no-repeat;
+  background-size: contain;
 }
 
 #weatherIcon {
-  width: 230px;
-  height: 230px;
-  border-radius: 100%;
+  width: 12vh;
+  height: 12vh;
+  border-radius: 50%;
   background: white url('/images/svg/weather.svg') no-repeat center;
   background-size: 60%;
-}
-
-#btnInWeatherTile {
-  background-color: #004373;
-  color: white;
 }
 
 #weatherDetailsContainer {
@@ -538,7 +141,6 @@ body {
   flex-direction: row;
   padding: 4vh;
   box-sizing: border-box;
-  font-family: ' font-family: ' MuseoSans ';';
 }
 
 #weatherBlock_big {
@@ -547,7 +149,6 @@ body {
   background-size: 10%;
   margin-left: 1%;
   border-radius: 30px;
-  background-color: #ffbf00;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
