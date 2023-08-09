@@ -5,6 +5,8 @@ import L from 'leaflet'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { db } from '../../../../utils/dexie'
 
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon.src,
@@ -13,18 +15,26 @@ L.Icon.Default.mergeOptions({
 })
 
 export default function MapPanel(): React.JSX.Element {
+  const location = useLiveQuery(async () => {
+    return (await db.screen.toCollection().first()).location
+  })
+
   return (
-    <MapContainer
-      center={[51.170208, 7.083141]}
-      zoom={16}
-      scrollWheelZoom={true}
-      style={{ height: '100%', width: '100%' }}
-      attributionControl={false}
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={[51.170208, 7.083141]}>
-        <Popup>Solingen Zentrum</Popup>
-      </Marker>
-    </MapContainer>
+    <>
+      {location && (
+        <MapContainer
+          center={[location.latitude, location.longitude]}
+          zoom={16}
+          scrollWheelZoom={true}
+          style={{ height: '100%', width: '100%' }}
+          attributionControl={false}
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <Marker position={[location.latitude, location.longitude]}>
+            <Popup>Solingen Zentrum</Popup>
+          </Marker>
+        </MapContainer>
+      )}
+    </>
   )
 }

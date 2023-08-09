@@ -67,8 +67,8 @@ body {
   position: absolute;
   right: 3rem;
   bottom: 3rem;
-  width: 8rem;
-  height: 8rem;
+  width: 5rem;
+  height: 5rem;
   background: #f2f2f2 url('/images/svg/rotate.svg') no-repeat center;
   background-size: 60%;
   border-radius: 20%;
@@ -157,7 +157,7 @@ body {
 #weatherBlock_big_1 {
   width: 45%;
   height: 100%;
-  background-size: contain;
+  background-size: 40% !important;
   background: url('/images/svg/temperature.svg') no-repeat center;
 }
 

@@ -5,6 +5,6 @@ export interface Tile {
 export enum TileType {
   MAP = 'MAP',
   POI = 'POI',
-  NEWS = 'NEWS',
+  PRESSRELEASES = 'PRESSRELEASES',
   WEATHER = 'WEATHER'
 }

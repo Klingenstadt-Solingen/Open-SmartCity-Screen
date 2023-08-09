@@ -8,7 +8,7 @@ const tiles: Tile[] = [
     type: TileType.MAP
   },
   {
-    type: TileType.NEWS
+    type: TileType.PRESSRELEASES
   },
   {
     type: TileType.POI

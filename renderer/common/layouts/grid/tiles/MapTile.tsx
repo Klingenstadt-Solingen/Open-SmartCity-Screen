@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import dynamic from 'next/dynamic'
+import React from 'react'
+import MapPanel from '../panels/MapPanel'
 
 type setCenter = (panel: React.JSX.Element) => void
 
@@ -8,13 +8,6 @@ interface Props {
 }
 
 export default function MapTile(props: Props): React.JSX.Element {
-  const Map = useMemo(
-    () =>
-      dynamic(() => import('../panels/MapPanel'), {
-        ssr: false
-      }),
-    []
-  )
   return (
     <div
       className="flex flex-col items-center text-6xl font-bold p-12 h-full
@@ -34,7 +27,7 @@ export default function MapTile(props: Props): React.JSX.Element {
       </div>
       <button
         className="w-60 h-14 rounded-lg text-2xl bg-solingen-yellow text-solingen-blue"
-        onClick={() => props.setCenter(<Map></Map>)}
+        onClick={() => props.setCenter(<MapPanel></MapPanel>)}
       >
         Jetzt entdecken
       </button>

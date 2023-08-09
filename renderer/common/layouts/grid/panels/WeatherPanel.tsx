@@ -1,6 +1,5 @@
 import React from 'react'
-// import { WeatherContext } from '../utils/Context'
-// import { type PropsWithChildren } from 'react'
+import { Weather } from '../../../../models/weather'
 
 const weatherInfo = [
   {
@@ -41,20 +40,30 @@ const weatherInfo = [
   }
 ]
 
-export default function WeatherPanel(): React.JSX.Element {
-  // const content = useContext(WeatherContext) //get value from Panel
-
+export default function WeatherPanel(props: { weather: Weather }): React.JSX.Element {
   return (
     <div id="weatherDetailsContainer" className="tracking-wide">
-      <div id="weatherBlock_big" className="bg-solingen-yellow">
+      <div className="w-full text-6xl text-solingen-blue font-bold mb-6">
+        Wetter <span>{props.weather?.shortName}</span>
+      </div>
+      <div id="weatherBlock_big" className="bg-solingen-yellow mb-5">
         <div id="weatherBlock_big_1"></div>
         <div id="weatherBlock_big_2">
-          <div className="text-5xl font-bold pl-3 border-l-8 border-solingen-blue">Temperatur</div>
-          <div className="text-9xl font-bold my-9">7.9°C</div>
-          <div className="text-3xl">aktualisiert 3.2.2023, 13:50:07</div>
+          <div
+            className="text-5xl font-bold pl-3 border-l-8 border-solingen-blue"
+            style={{ marginLeft: '-20px' }}
+          >
+            Temperatur
+          </div>
+          <div className="text-9xl font-bold my-9" style={{ marginLeft: '-20px' }}>
+            {props.weather?.values?.lufttemperatur?.value}
+            {props.weather?.values?.lufttemperatur?.unit}
+          </div>
+          <div className="text-3xl" style={{ marginLeft: '-20px' }}>
+            aktualisiert am {new Intl.DateTimeFormat('de-DE').format(props.weather?.dateObserved)}
+          </div>
         </div>
       </div>
-
       {weatherInfo.map((weather) => (
         <div
           key={weather.num}
