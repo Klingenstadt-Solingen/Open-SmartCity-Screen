@@ -26,8 +26,11 @@ export default function MapTile(props: Props): React.JSX.Element {
         <div className="text-left text-xl museo-sans font-extralight text-black">
           {weather.shortName}
         </div>
-        <div id="weatherIcon" className="mx-auto mt-11"></div>
-        <div id="textInWeatherTile_1" className="text-9xl mt-16 font-bold">
+        <div
+          style={{ backgroundImage: 'url("/images/svg/weather.svg")', backgroundSize: '80%' }}
+          className="mx-auto mt-11 w-[12vh] h-[12vh] rounded-full bg-white bg-center bg-no-repeat"
+        ></div>
+        <div className="text-9xl mt-16 font-bold">
           <span className="museo-sans">{weather.values?.lufttemperatur?.value}</span>
           <span className="font-thin text-6xl align-top">
             {weather.values?.lufttemperatur?.unit}

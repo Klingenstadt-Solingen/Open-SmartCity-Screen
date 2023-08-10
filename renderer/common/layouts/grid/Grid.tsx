@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import BaseTile from './tiles/BaseTile'
 import BasePanel from './panels/BasePanel'
-import { Tile, TileType } from '../../../models/tile'
+import { Tile } from '../../../models/tile'
 
 const tiles: Tile[] = [
   {
-    type: TileType.MAP
+    type: { name: 'MAP' }
   },
   {
-    type: TileType.PRESSRELEASES
+    type: { name: 'PRESSRELEASES' }
   },
   {
-    type: TileType.POI
+    type: { name: 'POI' }
   },
   {
-    type: TileType.WEATHER
+    //type: {name: "WEATHER"}
+    type: { name: 'WEATHER' }
   }
 ]
 
@@ -61,7 +62,11 @@ export default function Grid() {
       ))}
       <BasePanel openStatus={isOpen}>{centerPanel}</BasePanel>
       {!isOpen && (
-        <button id="rotation_btn" onClick={handleRotationButtonClick} className="z-10"></button>
+        <button
+          onClick={handleRotationButtonClick}
+          className="z-10 absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-no-repeat bg-center bg-solingen-grey opacity-80"
+          style={{ backgroundImage: 'url("/images/svg/rotate.svg")', backgroundSize: '60%' }}
+        ></button>
       )}
     </div>
   )

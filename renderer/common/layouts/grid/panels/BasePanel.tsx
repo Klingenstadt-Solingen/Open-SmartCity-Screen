@@ -18,8 +18,8 @@ export default function BasePanel(props: PropsWithChildren<Props>): React.JSX.El
 
   return (
     <div
+      className=" absolute text-center w-full h-[56vh] mt-[22vh]"
       onClick={(e) => e.stopPropagation()}
-      id="content_center_area"
       style={props.openStatus ? { zIndex: 0 } : { zIndex: -1 }}
     >
       {showContent && props.children}

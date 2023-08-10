@@ -41,7 +41,9 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     .descending('date')
     .limit(5)
 
-  //returns appID from localStorage or creates new one if none is found
+  /**
+   * @returns appID from localStorage or creates new one if none is found
+   */
   function getAppId(): string {
     if (localStorage.getItem('app-id')) {
       console.log('Found AppID: ', localStorage.getItem('app-id'))
@@ -54,7 +56,16 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     }
   }
 
-  //creates liveQuerySubscription and hooks it to IndexedDB Table. Use options to overwrite certain Event behavior
+  /**
+   * creates liveQuerySubscription and hooks it to IndexedDB Table. Use options to overwrite certain Event behavior
+   * @param query
+   * query to subscribe to
+   * @param table
+   * table to fill with query results
+   * @param options
+   * further options
+   * @returns
+   */
   async function subscribeTableToQuery<T>(
     query: Query<Parse.Object<T>>,
     table: Table<T, IndexableType>,
@@ -126,7 +137,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             table
               .bulkAdd(
                 results.map((res) => {
-                  console.table(res)
                   return mapToIndexedDB<T>(res.attributes)
                 }),
                 results.map((res) => {

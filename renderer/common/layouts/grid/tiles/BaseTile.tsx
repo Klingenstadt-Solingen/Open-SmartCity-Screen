@@ -4,6 +4,8 @@ import MapTile from './MapTile'
 import POITile from './POITile'
 import WeatherTile from './WeatherTile'
 import { TileType } from '../../../../models/tile'
+import ImageTile from '../../diashow/tiles/ImageTile'
+import { imagesInfo } from '../../diashow/Diashow'
 interface Props {
   isOpen: boolean
   position: number
@@ -33,23 +35,41 @@ export default function BaseTile(props: Props): React.JSX.Element {
     }
   }
 
-  switch (props.type) {
-    case TileType.MAP:
+  switch (props.type.name) {
+    case 'MAP':
       tile = <MapTile setCenter={props.setCenter} />
       break
-    case TileType.PRESSRELEASES:
+    case 'PRESSRELEASES':
       tile = <PressReleaseTile setCenter={props.setCenter} />
       break
-    case TileType.POI:
+    case 'POI':
       tile = <POITile setCenter={props.setCenter} />
       break
-    case TileType.WEATHER:
+    case 'WEATHER':
       tile = <WeatherTile setCenter={props.setCenter} />
+      break
+    case 'DIASHOW':
+      tile = (
+        <ImageTile
+          ImageGroup={imagesInfo}
+          dimensionImageTile={'w-[50vw] h-[50vh]'}
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          dimensionForPdf={{
+            docCptSize: 'w-[50vw]',
+            pdfScale: 0.6
+          }}
+        />
+      )
       break
   }
 
   return (
-    <div id={props.type} className="tile z-10" style={{ order: props.position, ...cssAnimation }}>
+    <div
+      id={props.type.name}
+      className="z-10 text-center w-[50vw] h-[50vh] flex bg-white"
+      style={{ order: props.position, ...cssAnimation }}
+    >
       {tile}
     </div>
   )

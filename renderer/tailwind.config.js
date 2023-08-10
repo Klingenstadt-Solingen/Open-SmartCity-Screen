@@ -7,7 +7,8 @@ module.exports = {
       },
       colors: {
         'solingen-yellow': '#ffbf00',
-        'solingen-blue': '#004373'
+        'solingen-blue': '#004373',
+        'solingen-grey': '#f2f2f2'
       },
       gridTemplateColumns: {
         '50/50': '1fr, 1fr'

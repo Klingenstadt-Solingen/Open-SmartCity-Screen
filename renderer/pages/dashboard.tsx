@@ -18,15 +18,21 @@ const Dashboard = () => {
   })
 
   if (typeof screen === 'undefined') {
-    return <></>
+    return <div className="text-8xl">No Screen Defined</div>
   } else {
-    if (screen.state.name === 'INACTIVE') {
-      return <div className="text-8xl">{screen.name}</div>
+    if (screen.state?.name === 'INACTIVE') {
+      return (
+        <div className="text-8xl text-center flex h-[100vh] items-center justify-center">
+          {screen.name}
+        </div>
+      )
     } else {
-      if (screen.layoutType.name === 'GRID') {
+      if (screen.layoutType?.name === 'GRID') {
         return <Grid></Grid>
-      } else if (screen.layoutType.name === 'DIASHOW') {
+      } else if (screen.layoutType?.name === 'DIASHOW') {
         return <Diashow></Diashow>
+      } else {
+        return <div className="text-8xl text-center">{screen.name}</div>
       }
     }
   }
