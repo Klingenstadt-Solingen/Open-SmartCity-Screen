@@ -2,6 +2,6 @@ export interface Tile {
   type: TileType
 }
 
-interface TileType {
+export interface TileType {
   name: 'MAP' | 'POI' | 'PRESSRELEASES' | 'WEATHER' | 'DIASHOW'
 }
