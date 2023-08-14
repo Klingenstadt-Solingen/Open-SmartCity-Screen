@@ -5,7 +5,7 @@ import POITile from './POITile'
 import WeatherTile from './WeatherTile'
 import { TileType } from '../../../../models/tile'
 import ImageTile from '../../diashow/tiles/ImageTile'
-import { imagesInfo } from '../../diashow/Diashow'
+import { imagesInfo } from '../../../../models/imagesInfo'
 interface Props {
   isOpen: boolean
   position: number
