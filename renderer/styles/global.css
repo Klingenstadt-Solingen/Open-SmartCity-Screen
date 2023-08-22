@@ -4,7 +4,7 @@
 
 html,
 body {
-  font-family: 'Museo', sans-serif;
+  font-family: 'MuseoSans', sans-serif;
   margin: 0;
   font-size: 0.86vh;
   padding: 0;
@@ -19,38 +19,29 @@ body {
   user-select: none;
 }
 
-.museo-sans {
-  font-family: 'MuseoSans';
+/* no idea why next creates non fullsize div. This makes it fullsize */
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
 }
 
-@keyframes openTopAnimation {
+@keyframes scrolling-left1 {
   0% {
-    margin-top: 0;
-    filter: blur(0px) grayscale(0) brightness(1);
+    transform: translateX(calc(100vw));
   }
   100% {
-    margin-top: -28vh;
-    filter: blur(1px) grayscale(30%) brightness(0.7);
-  }
-}
-
-@keyframes openBottomAnimation {
-  0% {
-    margin-top: 0;
-    filter: blur(0px) grayscale(0) brightness(1);
-  }
-  100% {
-    margin-top: 56vh;
-    filter: blur(1px) grayscale(30%) brightness(0.7);
+    transform: translateX(calc(-200%));
   }
 }
 
-@keyframes closeAnimation {
+@keyframes scrolling-left2 {
   0% {
-    filter: blur(1px) grayscale(30%) brightness(0.7);
+    transform: translateX(calc(100vw));
   }
   100% {
-    margin-top: 0vh;
-    filter: blur(0px) grayscale(0) brightness(1);
+    transform: translateX(calc(-200%));
   }
 }

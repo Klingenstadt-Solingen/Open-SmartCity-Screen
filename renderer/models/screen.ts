@@ -6,6 +6,7 @@ export interface Screen {
   layoutType: LayoutType
   state: ScreenState
   location?: GeoPoint
+  showHeaderAndFooter: boolean
 }
 
 export interface LayoutType {

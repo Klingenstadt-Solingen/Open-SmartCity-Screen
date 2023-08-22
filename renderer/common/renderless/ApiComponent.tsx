@@ -39,7 +39,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     Parse.Object<PressRelease>
   >('PressRelease')
     .descending('date')
-    .limit(5)
+    .limit(10)
 
   /**
    * @returns appID from localStorage or creates new one if none is found

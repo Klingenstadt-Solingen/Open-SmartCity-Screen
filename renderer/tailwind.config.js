@@ -10,8 +10,11 @@ module.exports = {
         'solingen-blue': '#004373',
         'solingen-grey': '#f2f2f2'
       },
-      gridTemplateColumns: {
-        '50/50': '1fr, 1fr'
+      transitionDuration: {
+        'solingen-speed': '600ms'
+      },
+      gridTemplateRows: {
+        base: '6.5% 90% 3.5%'
       }
     }
   },

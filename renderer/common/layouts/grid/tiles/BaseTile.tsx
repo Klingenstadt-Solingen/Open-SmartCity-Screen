@@ -14,45 +14,33 @@ interface Props {
 }
 
 export default function BaseTile(props: Props): React.JSX.Element {
-  let cssAnimation: React.CSSProperties
   let tile: React.JSX.Element
-  const closeTopAnimation = { animation: 'closeAnimation 0.5s ease 0s 1 forwards' }
-  const closeBottomAnimation = { animation: 'closeAnimation 0.5s ease 0s 1 forwards' }
-  const openTopAnimation = { animation: 'openTopAnimation 0.5s ease 0s 1 forwards' }
-  const openBottomAnimation = { animation: 'openBottomAnimation 0.5s ease 0s 1 forwards' }
-
-  if (props.isOpen) {
-    if (props.position < 3) {
-      cssAnimation = { ...openTopAnimation }
-    } else {
-      cssAnimation = { ...openBottomAnimation }
-    }
-  } else {
-    if (props.position < 3) {
-      cssAnimation = { ...{ marginTop: '-28vh' }, ...closeTopAnimation }
-    } else {
-      cssAnimation = { ...{ marginTop: '56vh' }, ...closeBottomAnimation }
-    }
-  }
 
   switch (props.type.name) {
     case 'MAP':
-      tile = <MapTile setCenter={props.setCenter} />
+      tile = <MapTile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
       break
     case 'PRESSRELEASES':
-      tile = <PressReleaseTile setCenter={props.setCenter} />
+      tile = (
+        <PressReleaseTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          tilePos={props.position}
+        />
+      )
       break
     case 'POI':
-      tile = <POITile setCenter={props.setCenter} />
+      tile = <POITile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
       break
     case 'WEATHER':
-      tile = <WeatherTile setCenter={props.setCenter} />
+      tile = (
+        <WeatherTile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
+      )
       break
     case 'DIASHOW':
       tile = (
         <ImageTile
           ImageGroup={imagesInfo}
-          dimensionImageTile={'w-[50vw] h-[50vh]'}
           setCenter={props.setCenter}
           isOpen={props.isOpen}
           dimensionForPdf={{
@@ -66,9 +54,13 @@ export default function BaseTile(props: Props): React.JSX.Element {
 
   return (
     <div
-      id={props.type.name}
-      className="z-10 text-center w-[50vw] h-[50vh] flex bg-white"
-      style={{ order: props.position, ...cssAnimation }}
+      id={props.position.toString()}
+      className="z-10 text-center w-full h-full flex bg-white transition-[filter] duration-solingen-speed"
+      style={
+        props.isOpen
+          ? { order: props.position, filter: 'blur(1px) grayscale(25%) brightness(0.65)' }
+          : { order: props.position, filter: 'blur(0px) grayscale(0%) brightness(1)' }
+      }
     >
       {tile}
     </div>

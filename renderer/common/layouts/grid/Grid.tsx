@@ -14,8 +14,8 @@ const tiles: Tile[] = [
     type: { name: 'POI' }
   },
   {
-    //type: {name: "WEATHER"}
     type: { name: 'WEATHER' }
+    // type: { name: 'DIASHOW' }
   }
 ]
 
@@ -50,7 +50,11 @@ export default function Grid() {
   }
 
   return (
-    <div className="grid grid-cols-50/50 z-10" onClick={handleOutsideClick}>
+    <div
+      className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-[row-gap] duration-solingen-speed"
+      style={isOpen ? { rowGap: '65%' } : { rowGap: '0' }}
+      onClick={handleOutsideClick}
+    >
       {tiles.map((tile, index) => (
         <BaseTile
           key={index}
@@ -60,12 +64,15 @@ export default function Grid() {
           setCenter={setCenter}
         ></BaseTile>
       ))}
-      <BasePanel openStatus={isOpen}>{centerPanel}</BasePanel>
+      <BasePanel isOpen={isOpen}>{centerPanel}</BasePanel>
       {!isOpen && (
         <button
           onClick={handleRotationButtonClick}
           className="z-10 absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-no-repeat bg-center bg-solingen-grey opacity-80"
-          style={{ backgroundImage: 'url("/images/svg/rotate.svg")', backgroundSize: '60%' }}
+          style={{
+            backgroundImage: 'url("/images/svg/rotate.svg")',
+            backgroundSize: '60%'
+          }}
         ></button>
       )}
     </div>

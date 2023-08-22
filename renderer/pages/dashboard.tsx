@@ -2,6 +2,8 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../utils/dexie'
+import Header from '../common/layouts/grid/Header'
+import Footer from '../common/layouts/grid/Footer'
 
 const Dashboard = () => {
   const screen = useLiveQuery(async () => {
@@ -28,9 +30,25 @@ const Dashboard = () => {
       )
     } else {
       if (screen.layoutType?.name === 'GRID') {
-        return <Grid></Grid>
+        if (screen.showHeaderAndFooter) {
+          return (
+            <div className="w-[100vw] h-[100vh] grid grid-rows-base">
+              <Header />
+              <div className="h-full">
+                <Grid />
+              </div>
+              <Footer />
+            </div>
+          )
+        } else {
+          return <Grid />
+        }
       } else if (screen.layoutType?.name === 'DIASHOW') {
-        return <Diashow></Diashow>
+        return (
+          <div className="w-[100vw] h-[100vh]">
+            <Diashow></Diashow>
+          </div>
+        )
       } else {
         return <div className="text-8xl text-center">{screen.name}</div>
       }

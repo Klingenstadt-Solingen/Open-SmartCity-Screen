@@ -15,7 +15,7 @@ export default function PressReleasePanel(props: Props): React.JSX.Element {
         {props.pressRelease.title}
       </div>
       <div
-        className="bg-white text-base text-left py-4 px-10 h-[46vh]"
+        className="bg-white text-xl text-left py-4 px-10 h-[46vh]"
         dangerouslySetInnerHTML={{ __html: props.pressRelease.content }}
       ></div>
     </>

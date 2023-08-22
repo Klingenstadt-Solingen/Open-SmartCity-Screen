@@ -15,7 +15,6 @@ interface Image {
 
 interface Props {
   ImageGroup: Image[]
-  dimensionImageTile: string
   setCenter: (panel: React.JSX.Element) => void | undefined
   isOpen: boolean | undefined
   dimensionForPdf: { docCptSize: string; pdfScale: number }
@@ -32,7 +31,7 @@ export default function ImageTile(props: Props): React.JSX.Element {
       autoplay={{
         disableOnInteraction: false
       }}
-      className={`"${props.dimensionImageTile} bg-solingen-blue"`}
+      className="w-full h-full"
     >
       {props.ImageGroup.map((image) => (
         <SwiperSlide key={image.id} data-swiper-autoplay={image.duration}>

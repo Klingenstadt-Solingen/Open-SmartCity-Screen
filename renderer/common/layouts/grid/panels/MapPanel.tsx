@@ -26,7 +26,7 @@ export default function MapPanel(): React.JSX.Element {
           center={[location.latitude, location.longitude]}
           zoom={16}
           scrollWheelZoom={true}
-          style={{ height: '100%', width: '100%' }}
+          className="w-full h-full"
           attributionControl={false}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
