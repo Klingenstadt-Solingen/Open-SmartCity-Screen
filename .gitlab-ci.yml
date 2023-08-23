@@ -1,4 +1,4 @@
-image: node:18-alpine
+image: node:18.17.1-bookworm
 
 stages:
   - check
@@ -6,10 +6,10 @@ stages:
 
 check:
   stage: check
-  image: node:18-alpine
+  image: node:18.17.1-bookworm
   script:
-    - yarn install --frozen-lockfile
-    - yarn lint
+    - apt update && apt install libpangocairo-1.0-0 -y && apt autoclean && apt autoremove -y && rm -rf /var/lib/apt/lists/*
+    - yarn install --frozen-lockfile && yarn lint
   tags:
     - docker
 
@@ -24,10 +24,11 @@ build:latest:
       - dist/
   tags:
     - docker
-  only:
-    refs:
-      - development
-      - master
+  # only:
+  #   refs:
+  #     - development
+  #     - master
+  when: manual
 
 build:tag:
   stage: build
