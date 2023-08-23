@@ -12,7 +12,7 @@ interface Props {
 export default function POITile(props: Props): React.JSX.Element {
   return (
     <div className="h-full w-full p-6 overflow-hidden">
-      <div className="bg-[#f2f2f2] p-6 rounded-lg text-solingen-blue w-full h-full flex flex-col overflow-hidden">
+      <div className="bg-solingen-grey p-6 rounded-lg text-solingen-blue w-full h-full flex flex-col overflow-hidden">
         <div className="ml-4 text-left tracking-wide text-6xl font-bold mb-11">
           Häufig
           <br />

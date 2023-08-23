@@ -45,3 +45,10 @@ div#__next > div {
     transform: translateX(calc(-200%));
   }
 }
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

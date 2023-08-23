@@ -1,6 +1,11 @@
 module.exports = {
   content: ['./renderer/pages/**/*.{js,ts,jsx,tsx}', './renderer/common/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      sm: '1px',
+      md: '1600px',
+      lg: '1920px'
+    },
     extend: {
       fontSize: {
         '6xl': ['4.3rem', '1.2']

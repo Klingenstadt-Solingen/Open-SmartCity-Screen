@@ -15,7 +15,6 @@ const tiles: Tile[] = [
   },
   {
     type: { name: 'WEATHER' }
-    // type: { name: 'DIASHOW' }
   }
 ]
 
