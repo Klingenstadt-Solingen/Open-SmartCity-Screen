@@ -33,7 +33,7 @@ export default function PressReleaseTile(props: Props): React.JSX.Element {
               <div className="text-lg pl-[6px] ml-8 mr-12 font-thin border-l-2 border-solingen-yellow text-black">
                 {new Intl.DateTimeFormat('de-DE').format(pressRelease.date)}
               </div>
-              <div className="mx-12 sm:text-lg my-2 md:text-xl lg:text-2xl text-solingen-blue line-clamp">
+              <div className="mx-12 sm:text-lg my-2 md:text-xl lg:text-2xl text-solingen-blue line-clamp-3">
                 {pressRelease.title}
               </div>
               <div

@@ -46,9 +46,14 @@ div#__next > div {
   }
 }
 
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.days {
+  line-height: 30px;
+}
+
+.month {
+  line-height: 22px;
+}
+
+.pressRelease > p {
+  margin-bottom: 14px;
 }

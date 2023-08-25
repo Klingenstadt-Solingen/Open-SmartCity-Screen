@@ -1,5 +1,6 @@
 import React from 'react'
 import { PressRelease } from '../../../../models/press-release'
+import dayjs from 'dayjs'
 
 interface Props {
   pressRelease: PressRelease
@@ -8,14 +9,27 @@ interface Props {
 export default function PressReleasePanel(props: Props): React.JSX.Element {
   return (
     <>
-      <div className="text-solingen-yellow text-xl font-bold text-left py-4 px-10 bg-solingen-blue h-[5vh]">
-        {new Intl.DateTimeFormat('de-DE').format(props.pressRelease.date)}
-      </div>
-      <div className="text-white text-2xl font-bold text-left py-4 px-10 bg-solingen-blue h-[5vh]">
-        {props.pressRelease.title}
+      <div className="text-solingen-blue text-5xl font-bold text-left py-4 mt-12 px-14 h-[5vh] flex w-full justify-between items-center">
+        <span>{props.pressRelease.title}</span>
+        <div className="flex justify-self-end">
+          <div className="flex flex-col">
+            <span className="text-[24px] font-black days">
+              {dayjs(props.pressRelease.date).format('DD')}
+            </span>
+            <span className="text-[24px] font-black month">
+              {dayjs(props.pressRelease.date).format('MMM')}.
+            </span>
+          </div>
+          <div>
+            <span className="text-[54px] text-solingen-yellow font-black">
+              {'’'}
+              {dayjs(props.pressRelease.date).format('YY')}
+            </span>
+          </div>
+        </div>
       </div>
       <div
-        className="bg-white text-xl text-left py-4 px-10 h-[46vh]"
+        className="text-2xl text-left mt-8 px-14 h-[55vh] overflow-y-scroll pressRelease"
         dangerouslySetInnerHTML={{ __html: props.pressRelease.content }}
       ></div>
     </>
