@@ -1,24 +1,14 @@
 import React, { useState } from 'react'
 import BaseTile from './tiles/BaseTile'
 import BasePanel from './panels/BasePanel'
-import { Tile } from '../../../models/tile'
-
-const tiles: Tile[] = [
-  {
-    type: { name: 'MAP' }
-  },
-  {
-    type: { name: 'PRESSRELEASES' }
-  },
-  {
-    type: { name: 'POI' }
-  },
-  {
-    type: { name: 'WEATHER' }
-  }
-]
+import { useLiveQuery } from 'dexie-react-hooks'
+import { db } from '../../../utils/dexie'
 
 export default function Grid() {
+  const tiles = useLiveQuery(async () => {
+    return await db.tiles.limit(4).sortBy('order')
+  })
+
   const [centerPanel, setCenterPanel] = useState(<></>)
 
   const boxOrder = [
@@ -48,32 +38,34 @@ export default function Grid() {
     else setOrderStatus(orderStatus + 1)
   }
 
-  return (
-    <div
-      className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-[row-gap] duration-solingen-speed"
-      style={isOpen ? { rowGap: '65%' } : { rowGap: '0' }}
-      onClick={handleOutsideClick}
-    >
-      {tiles.map((tile, index) => (
-        <BaseTile
-          key={index}
-          type={tile.type}
-          isOpen={isOpen}
-          position={boxOrder[orderStatus][index]}
-          setCenter={setCenter}
-        ></BaseTile>
-      ))}
-      <BasePanel isOpen={isOpen}>{centerPanel}</BasePanel>
-      {!isOpen && (
-        <button
-          onClick={handleRotationButtonClick}
-          className="z-10 absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-no-repeat bg-center bg-solingen-grey opacity-80"
-          style={{
-            backgroundImage: 'url("/images/svg/rotate.svg")',
-            backgroundSize: '60%'
-          }}
-        ></button>
-      )}
-    </div>
-  )
+  if (typeof tiles !== 'undefined' && tiles.length) {
+    return (
+      <div
+        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-[row-gap] duration-solingen-speed"
+        style={isOpen ? { rowGap: '65%' } : { rowGap: '0' }}
+        onClick={handleOutsideClick}
+      >
+        {tiles.map((tile, index) => (
+          <BaseTile
+            key={index}
+            tile={tile}
+            isOpen={isOpen}
+            position={boxOrder[orderStatus][index]}
+            setCenter={setCenter}
+          ></BaseTile>
+        ))}
+        <BasePanel isOpen={isOpen}>{centerPanel}</BasePanel>
+        {!isOpen && (
+          <button
+            onClick={handleRotationButtonClick}
+            className="z-10 absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-no-repeat bg-center bg-solingen-grey opacity-80"
+            style={{
+              backgroundImage: 'url("/images/svg/rotate.svg")',
+              backgroundSize: '60%'
+            }}
+          ></button>
+        )}
+      </div>
+    )
+  }
 }

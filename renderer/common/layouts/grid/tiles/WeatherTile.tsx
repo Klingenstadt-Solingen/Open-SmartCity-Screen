@@ -44,7 +44,8 @@ export default function MapTile(props: Props): React.JSX.Element {
           </div>
 
           <div className="text-black font-thin text-lg mt-2">
-            aktualisiert am {new Intl.DateTimeFormat('de-DE').format(weather.dateObserved)}
+            aktualisiert am{' '}
+            {new Intl.DateTimeFormat('de-DE').format(new Date(weather.dateObserved?.iso))}
           </div>
 
           <button

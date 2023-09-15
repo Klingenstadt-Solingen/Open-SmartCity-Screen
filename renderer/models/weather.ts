@@ -1,6 +1,8 @@
 import { GeoPoint } from 'parse'
+import { Base } from './base'
 
-export interface Weather {
+export interface Weather extends Base {
+  objectId?: string
   values:
     | {
         windrichtung: Measurement
@@ -26,7 +28,7 @@ export interface Weather {
     | Record<string, never>
   geopoint: GeoPoint
   shortName: string
-  dateObserved: Date
+  dateObserved: { iso: string }
 }
 
 interface Measurement {

@@ -59,7 +59,7 @@ export default function WeatherPanel(props: { weather: Weather }): React.JSX.Ele
           </div>
           <div className="text-2xl">
             aktualisiert am <br />
-            {new Intl.DateTimeFormat('de-DE').format(props.weather?.dateObserved)}
+            {new Intl.DateTimeFormat('de-DE').format(new Date(props.weather?.dateObserved.iso))}
           </div>
         </div>
       </div>

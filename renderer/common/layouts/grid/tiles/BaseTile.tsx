@@ -3,20 +3,20 @@ import PressReleaseTile from './PressReleaseTile'
 import MapTile from './MapTile'
 import POITile from './POITile'
 import WeatherTile from './WeatherTile'
-import { TileType } from '../../../../models/tile'
+import { Tile } from '../../../../models/tile'
 import ImageTile from '../../diashow/tiles/ImageTile'
-import { imagesInfo } from '../../../../models/imagesInfo'
+
 interface Props {
   isOpen: boolean
   position: number
   setCenter: (panel: React.JSX.Element) => void
-  type: TileType
+  tile: Tile
 }
 
 export default function BaseTile(props: Props): React.JSX.Element {
   let tile: React.JSX.Element
 
-  switch (props.type.name) {
+  switch (props.tile.tileType.name) {
     case 'MAP':
       tile = <MapTile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
       break
@@ -38,17 +38,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
       )
       break
     case 'DIASHOW':
-      tile = (
-        <ImageTile
-          ImageGroup={imagesInfo}
-          setCenter={props.setCenter}
-          isOpen={props.isOpen}
-          dimensionForPdf={{
-            docCptSize: 'w-[50vw]',
-            pdfScale: 0.6
-          }}
-        />
-      )
+      tile = <ImageTile />
       break
   }
 

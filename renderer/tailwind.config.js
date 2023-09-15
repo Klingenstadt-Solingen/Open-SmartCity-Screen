@@ -19,7 +19,10 @@ module.exports = {
         'solingen-speed': '600ms'
       },
       gridTemplateRows: {
-        base: '6.5% 90% 3.5%'
+        header: '6.5% 93.5%',
+        footer: '96.5% 3.5%',
+        headerFooter: '6.5% 90% 3.5%',
+        full: '100vh'
       }
     }
   },

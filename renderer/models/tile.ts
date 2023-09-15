@@ -1,5 +1,8 @@
-export interface Tile {
-  type: TileType
+import { Base } from './base'
+
+export interface Tile extends Base {
+  tileType: { name: string }
+  order: number
 }
 
 export interface TileType {

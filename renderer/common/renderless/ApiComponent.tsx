@@ -2,44 +2,48 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 
-import Parse, { Query, GeoPoint, LiveQuerySubscription } from 'parse'
+import Parse, { Query, LiveQuerySubscription } from 'parse'
 import { db } from '../../utils/dexie'
 import { PressRelease } from '../../models/press-release'
 import { IndexableType, Table } from 'dexie'
 import { v4 as uuidv4 } from 'uuid'
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator'
 
-import { Screen } from '../../models/screen'
+import { DiashowConfig, GridConfig, LayoutConfig, Screen } from '../../models/screen'
 import { Weather } from '../../models/weather'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { DiashowObject } from '../../models/diashowObject'
+import { Tile } from '../../models/tile'
 
 export default function ApiComponent(props: PropsWithChildren): React.JSX.Element {
-  //maximum number of entries in each IndexedDB Table
-  const maxCachedItems = 20
-
   const screen = useLiveQuery(() => {
     return db.screen.toCollection().first()
   })
 
+  const layoutConfig = useLiveQuery(() => {
+    return db.layoutConfig.toCollection().first()
+  })
+
+  const diashowConfig = useLiveQuery(() => {
+    return db.diashowConfig.toCollection().first()
+  })
+
+  const gridConfig = useLiveQuery(() => {
+    return db.gridConfig.toCollection().first()
+  })
+
   //reference to subscriptions has to be saved in a state in order to cancel them later.
   const [weatherSubscription, setWeatherSubscription] = useState<LiveQuerySubscription>()
+  const [layoutConfigSubscription, setLayoutConfigSubscription] = useState<LiveQuerySubscription>()
+  const [gridConfigSubscription, setGridConfigSubscription] = useState<LiveQuerySubscription>()
+  const [diashowConfigSubscription, setDiashowConfigSubscription] =
+    useState<LiveQuerySubscription>()
+  const [diashowObjectsSubscription, setDiashowObjectsSubscription] =
+    useState<LiveQuerySubscription>()
+  const [tilesSubscription, setTilesSubscription] = useState<LiveQuerySubscription>()
 
-  //Base Queries
-  const weatherQuery: Query<Parse.Object<Weather>> = new Query<Parse.Object<Weather>>(
-    'WeatherObserved'
-  )
-    //ignore broken sensorStations
-    .notEqualTo('values', {})
-    .limit(1)
-  const screenQuery: Query<Parse.Object<Screen>> = new Query<Parse.Object<Screen>>('SteleScreen')
-    .include('layoutType')
-    .include('state')
-    .limit(1)
-  const pressReleaseQuery: Query<Parse.Object<PressRelease>> = new Query<
-    Parse.Object<PressRelease>
-  >('PressRelease')
-    .descending('date')
-    .limit(10)
+  const [gridConfigDirty, setGridConfigDirty] = useState<boolean>(false)
+  const [diashowConfigDirty, setDiashowConfigDirty] = useState<boolean>(false)
 
   /**
    * @returns appID from localStorage or creates new one if none is found
@@ -70,49 +74,21 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     query: Query<Parse.Object<T>>,
     table: Table<T, IndexableType>,
     options?: {
-      onCreate?: (created: Parse.Object<T>) => void
-      onEnter?: (entered: Parse.Object<T>) => void
-      onUpdate?: (updated: Parse.Object<T>) => void
-      onDelete?: (deleted: Parse.Object<T>) => void
+      initQuery?: Parse.Query
     }
   ) {
     const subscription = await query.subscribe()
-    subscription.on('create', (created: Parse.Object<T>) => {
-      if (options?.onCreate) {
-        options.onCreate(created)
-      } else {
-        onlyStickIfYouCanFit(table, created).catch((reason) => {
-          console.warn(reason, 'refetching...')
-          initTableWithQuery(query, table)
-        })
-      }
+    subscription.on('create', () => {
+      initTableWithQuery(options?.initQuery || query, table)
     })
-    subscription.on('enter', (entered: Parse.Object<T>) => {
-      if (options?.onEnter) {
-        options.onEnter(entered)
-      } else {
-        onlyStickIfYouCanFit(table, entered).catch((reason) => {
-          console.warn(reason, 'refetching...')
-          initTableWithQuery(query, table)
-        })
-      }
+    subscription.on('enter', () => {
+      initTableWithQuery(options?.initQuery || query, table)
     })
-    subscription.on('update', (updated: Parse.Object<T>) => {
-      if (options?.onUpdate) {
-        options.onUpdate(updated)
-      } else {
-        onlyStickIfYouCanFit(table, updated).catch((reason) => {
-          console.warn(reason, 'refetching...')
-          initTableWithQuery(query, table)
-        })
-      }
+    subscription.on('update', () => {
+      initTableWithQuery(options?.initQuery || query, table)
     })
-    subscription.on('delete', (deleted: Parse.Object<T>) => {
-      if (options?.onDelete) {
-        options.onDelete(deleted)
-      } else {
-        table.delete(deleted.id)
-      }
+    subscription.on('delete', () => {
+      initTableWithQuery(options?.initQuery || query, table)
     })
     subscription.on('open', () => {
       console.log(query.className, 'websocket connection established')
@@ -128,55 +104,31 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     query: Query<Parse.Object<T>>,
     table: Table<T, IndexableType>
   ): Promise<IndexableType> {
-    return new Promise<IndexableType>((resolve, reject) => {
-      query
-        .find()
-        .then((results) => {
-          if (results.length) {
-            table.clear()
-            table
-              .bulkAdd(
-                results.map((res) => {
-                  return mapToIndexedDB<T>(res.attributes)
-                }),
-                results.map((res) => {
-                  return res.id
-                })
-              )
-              .then((a) => resolve(a))
-              .catch((reason) => reject(reason))
-          } else {
-            reject('No results found for ' + query.className)
-          }
-        })
-        .catch((reason) => reject(reason))
-    })
-  }
-
-  //Some ParseObject Types need to be mapped to JSON before saving to IndexedDB
-  function mapToIndexedDB<T>(obj: T): T {
-    Object.keys(obj).forEach((key) => {
-      if (obj[key] instanceof GeoPoint || obj[key] instanceof Parse.Object) {
-        obj = { ...obj, [key]: obj[key].toJSON() }
-      }
-    })
-    return obj
-  }
-
-  //Inserts Object into Table if Table maxCacheLimit isn't exceeded. Otherwise rejects Promise.
-  async function onlyStickIfYouCanFit<T>(
-    table: Table<T, IndexableType>,
-    object: Parse.Object<T>
-  ): Promise<IndexableType> {
-    return new Promise((resolve, reject) => {
-      table.count().then((count) => {
-        if (count < maxCachedItems) {
-          table.put(mapToIndexedDB<T>(object.attributes), object.id).then((savedObjectKey) => {
-            resolve(savedObjectKey)
+    if (typeof table !== 'undefined' && typeof query !== 'undefined') {
+      return new Promise<IndexableType>((resolve, reject) => {
+        query
+          .find()
+          .then((results) => {
+            if (results.length) {
+              table.clear()
+              table
+                .bulkAdd(
+                  results.map((res) => {
+                    return res.toJSON() as unknown as T
+                  }),
+                  results.map((res) => {
+                    return res.id
+                  })
+                )
+                .then((a) => resolve(a))
+                .catch((reason) => reject(reason))
+            } else {
+              reject('No results found for ' + query.className)
+            }
           })
-        } else reject('Max Cache Limit exceeded')
+          .catch((reason) => reject(reason))
       })
-    })
+    }
   }
 
   //Creates new Screen in Parse with given AppId
@@ -204,7 +156,13 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
     Parse.initialize('dashboard')
     Parse.serverURL = 'https://parse-be.hosting.nedeco.mobi/parse'
-    screenQuery.equalTo('uuid', appId)
+
+    const screenQuery: Query<Parse.Object<Screen>> = new Query<Parse.Object<Screen>>('SteleScreen')
+      .limit(1)
+      .equalTo('uuid', appId)
+      //only use include with never changing constants like state and layout type
+      .include('state')
+      .include('layoutType')
     initTableWithQuery<Screen>(screenQuery, db.screen).catch((error) => {
       console.warn(error, '\nTrying to create a new Screen with id', appId)
       createNewScreen(appId)
@@ -214,37 +172,139 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         })
         .catch((error) => console.error(error))
     })
-    subscribeTableToQuery<Screen>(screenQuery, db.screen, {
-      onCreate: () => {
-        initTableWithQuery<Screen>(screenQuery, db.screen)
-      },
-      onEnter: () => {
-        initTableWithQuery<Screen>(screenQuery, db.screen)
-      },
-      onUpdate: () => {
-        initTableWithQuery<Screen>(screenQuery, db.screen)
-      }
-    })
-    initTableWithQuery<PressRelease>(pressReleaseQuery, db.pressReleases).catch((error) =>
-      console.error(error)
-    )
-    subscribeTableToQuery<PressRelease>(pressReleaseQuery, db.pressReleases)
+    subscribeTableToQuery<Screen>(screenQuery, db.screen)
   }, [])
 
   //Update WeatherQuery if ScreenLocation Changes
   useEffect(() => {
-    if (typeof screen !== 'undefined') {
-      if (typeof weatherSubscription !== 'undefined') {
-        weatherSubscription.unsubscribe()
-      }
-      weatherQuery.near('geopoint', screen.location)
-      initTableWithQuery(weatherQuery, db.weather).then((a) =>
-        subscribeTableToQuery(weatherQuery.equalTo('objectId', a), db.weather).then((sub) =>
-          setWeatherSubscription(sub)
-        )
+    if (typeof screen?.location !== 'undefined') {
+      const weatherQuery: Query<Parse.Object<Weather>> = new Query<Parse.Object<Weather>>(
+        'WeatherObserved'
       )
+        //ignore broken sensorStations
+        .notEqualTo('values', {})
+        .limit(1)
+        .near('geopoint', screen.location)
+      initTableWithQuery(weatherQuery, db.weather).then((a) => {
+        if (typeof weatherSubscription !== 'undefined') {
+          weatherSubscription.unsubscribe()
+        }
+        subscribeTableToQuery(weatherQuery.equalTo('objectId', a as string), db.weather).then(
+          (sub) => setWeatherSubscription(sub)
+        )
+      })
     }
-  }, [screen?.location])
+  }, [screen?.location?.latitude, screen?.location?.longitude])
+
+  useEffect(() => {
+    if (typeof screen?.layoutConfig.objectId !== 'undefined') {
+      const layoutConfigQuery: Query<Parse.Object<LayoutConfig>> = new Query<
+        Parse.Object<LayoutConfig>
+      >('SteleLayoutConfig').equalTo('objectId', screen.layoutConfig.objectId)
+      initTableWithQuery(layoutConfigQuery, db.layoutConfig).then(() => {
+        if (typeof layoutConfigSubscription !== 'undefined') {
+          layoutConfigSubscription.unsubscribe()
+        }
+        subscribeTableToQuery(layoutConfigQuery, db.layoutConfig).then((sub) =>
+          setLayoutConfigSubscription(sub)
+        )
+      })
+    }
+  }, [screen?.layoutConfig?.objectId])
+
+  useEffect(() => {
+    if (typeof layoutConfig?.gridConfig?.objectId !== 'undefined') {
+      setGridConfigDirty(true)
+      const gridConfigQuery: Query<Parse.Object<GridConfig>> = new Query<Parse.Object<GridConfig>>(
+        'SteleGridConfig'
+      ).equalTo('objectId', layoutConfig.gridConfig.objectId)
+
+      initTableWithQuery(gridConfigQuery, db.gridConfig).then(() => {
+        if (typeof gridConfigSubscription !== 'undefined') {
+          gridConfigSubscription.unsubscribe()
+        }
+        subscribeTableToQuery(gridConfigQuery, db.gridConfig)
+          .then((sub) => {
+            setGridConfigSubscription(sub)
+          })
+          .finally(() => setGridConfigDirty(false))
+      })
+    }
+  }, [layoutConfig?.gridConfig?.objectId])
+
+  useEffect(() => {
+    if (typeof layoutConfig?.diashowConfig?.objectId !== 'undefined') {
+      setDiashowConfigDirty(true)
+      const diashowConfigQuery: Query<Parse.Object<DiashowConfig>> = new Query<
+        Parse.Object<DiashowConfig>
+      >('SteleDiashowConfig').equalTo('objectId', layoutConfig.diashowConfig.objectId)
+      initTableWithQuery(diashowConfigQuery, db.diashowConfig).then(() => {
+        if (typeof diashowConfigSubscription !== 'undefined') {
+          diashowConfigSubscription.unsubscribe()
+        }
+        subscribeTableToQuery(diashowConfigQuery, db.diashowConfig)
+          .then((sub) => {
+            setDiashowConfigSubscription(sub)
+          })
+          .finally(() => setDiashowConfigDirty(false))
+      })
+    }
+  }, [layoutConfig?.diashowConfig?.objectId])
+
+  useEffect(() => {
+    if (typeof diashowConfig?.diashowObjects !== 'undefined') {
+      new Query<Parse.Object<DiashowConfig>>('SteleDiashowConfig')
+        .get(diashowConfig.objectId)
+        .then((dC) => {
+          initTableWithQuery(
+            dC.attributes.diashowObjects.query().includeAll(),
+            db.diashowObjects
+          ).then(() => {
+            if (!diashowConfigDirty) {
+              if (typeof diashowObjectsSubscription !== 'undefined') {
+                diashowObjectsSubscription.unsubscribe()
+              }
+              subscribeTableToQuery(
+                new Query<Parse.Object<DiashowObject>>('SteleDiashowObject'),
+                db.diashowObjects,
+                {
+                  initQuery: dC.attributes.diashowObjects.query().includeAll()
+                }
+              ).then((sub) => {
+                setDiashowObjectsSubscription(sub)
+              })
+            }
+          })
+        })
+    }
+  }, [diashowConfig?.diashowObjects])
+
+  useEffect(() => {
+    if (typeof gridConfig?.tiles !== 'undefined') {
+      new Query<Parse.Object<GridConfig>>('SteleGridConfig').get(gridConfig.objectId).then((gC) => {
+        initTableWithQuery(gC.attributes.tiles.query().includeAll(), db.tiles).then(() => {
+          if (!gridConfigDirty) {
+            if (typeof tilesSubscription !== 'undefined') {
+              tilesSubscription.unsubscribe()
+            }
+            subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTile'), db.tiles, {
+              initQuery: gC.attributes.tiles.query().includeAll()
+            }).then((sub) => {
+              setTilesSubscription(sub)
+            })
+          }
+        })
+      })
+    }
+  }, [gridConfig?.tiles])
+
+  useEffect(() => {
+    const pressReleaseQuery = new Query<Parse.Object<PressRelease>>('PressRelease')
+      .descending('date')
+      .limit(10)
+    initTableWithQuery(pressReleaseQuery, db.pressReleases)
+    subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
+  }, [])
 
   return <>{props.children}</>
 }

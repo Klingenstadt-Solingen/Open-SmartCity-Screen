@@ -5,9 +5,14 @@ import { db } from '../utils/dexie'
 import Header from '../common/layouts/grid/Header'
 import Footer from '../common/layouts/grid/Footer'
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const Dashboard = () => {
   const screen = useLiveQuery(async () => {
     return await db.screen.toCollection().first()
+  })
+
+  const layoutConfig = useLiveQuery(async () => {
+    return await db.layoutConfig.toCollection().first()
   })
 
   //Prevent any Serverside Rendering
@@ -22,36 +27,39 @@ const Dashboard = () => {
   if (typeof screen === 'undefined') {
     return <div className="text-8xl">No Screen Defined</div>
   } else {
-    if (screen.state?.name === 'INACTIVE') {
+    if (screen.state?.name === 'INACTIVE' || typeof layoutConfig === 'undefined') {
       return (
         <div className="text-8xl text-center flex h-[100vh] items-center justify-center">
           {screen.name}
         </div>
       )
     } else {
-      if (screen.layoutType?.name === 'GRID') {
-        if (screen.showHeaderAndFooter) {
-          return (
-            <div className="w-[100vw] h-[100vh] grid grid-rows-base">
+      return (
+        <div
+          className={
+            layoutConfig.showHeader
+              ? layoutConfig.showFooter
+                ? 'w-[100vw] h-[100vh] grid grid-rows-headerFooter'
+                : 'w-[100vw] h-[100vh] grid grid-rows-header'
+              : layoutConfig.showFooter
+              ? 'w-[100vw] h-[100vh] grid grid-rows-footer'
+              : 'w-[100vw] h-[100vh] grid grid-rows-full'
+          }
+        >
+          {layoutConfig.showHeader && (
+            <div>
               <Header />
-              <div className="h-full">
-                <Grid />
-              </div>
-              <Footer />
             </div>
-          )
-        } else {
-          return <Grid />
-        }
-      } else if (screen.layoutType?.name === 'DIASHOW') {
-        return (
-          <div className="w-[100vw] h-[100vh]">
-            <Diashow></Diashow>
-          </div>
-        )
-      } else {
-        return <div className="text-8xl text-center">{screen.name}</div>
-      }
+          )}
+          {screen.layoutType.name === 'DIASHOW' && <Diashow />}
+          {screen.layoutType.name === 'GRID' && (
+            <div className="h-full">
+              <Grid />
+            </div>
+          )}
+          {layoutConfig.showFooter && <Footer />}
+        </div>
+      )
     }
   }
 }
