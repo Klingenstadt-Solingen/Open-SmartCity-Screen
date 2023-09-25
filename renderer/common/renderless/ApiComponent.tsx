@@ -102,14 +102,15 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   //fetches ParseQueryData via HTTP and and replaces current IndexedDB Data with response if response has content
   function initTableWithQuery<T>(
     query: Query<Parse.Object<T>>,
-    table: Table<T, IndexableType>
+    table: Table<T, IndexableType>,
+    canBeEmtpy = false
   ): Promise<IndexableType> {
     if (typeof table !== 'undefined' && typeof query !== 'undefined') {
       return new Promise<IndexableType>((resolve, reject) => {
         query
           .find()
           .then((results) => {
-            if (results.length) {
+            if (results.length || canBeEmtpy) {
               table.clear()
               table
                 .bulkAdd(
@@ -258,7 +259,8 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         .then((dC) => {
           initTableWithQuery(
             dC.attributes.diashowObjects.query().includeAll(),
-            db.diashowObjects
+            db.diashowObjects,
+            true
           ).then(() => {
             if (!diashowConfigDirty) {
               if (typeof diashowObjectsSubscription !== 'undefined') {
