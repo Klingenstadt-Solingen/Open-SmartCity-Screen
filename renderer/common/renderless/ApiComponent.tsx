@@ -15,6 +15,9 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { DiashowObject } from '../../models/diashowObject'
 import { Tile } from '../../models/tile'
 
+import fs, { unlink } from 'fs'
+import { downloadPath, downloadDir } from '../../utils/constants'
+
 export default function ApiComponent(props: PropsWithChildren): React.JSX.Element {
   const screen = useLiveQuery(() => {
     return db.screen.toCollection().first()
@@ -32,6 +35,12 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     return db.gridConfig.toCollection().first()
   })
 
+  const diashowObjects = useLiveQuery(() => {
+    return db.diashowObjects.toArray()
+  })
+
+  const filesInDownload = getAllDFileInfos(downloadPath + downloadDir)
+
   //reference to subscriptions has to be saved in a state in order to cancel them later.
   const [weatherSubscription, setWeatherSubscription] = useState<LiveQuerySubscription>()
   const [layoutConfigSubscription, setLayoutConfigSubscription] = useState<LiveQuerySubscription>()
@@ -44,6 +53,26 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
   const [gridConfigDirty, setGridConfigDirty] = useState<boolean>(false)
   const [diashowConfigDirty, setDiashowConfigDirty] = useState<boolean>(false)
+
+  function getAllDFileInfos(filePath: string) {
+    let allFileNames = []
+    let allFilePaths = []
+    const alleFileInfos = { filename: allFileNames, filepath: allFilePaths }
+    if (fs.existsSync(filePath)) {
+      const files = fs.readdirSync(filePath)
+      files.forEach((file) => {
+        const currentFilePath = `${filePath}${file}`
+        if (fs.lstatSync(currentFilePath).isDirectory()) {
+          allFileNames = allFileNames.concat(getAllDFileInfos(currentFilePath))
+          allFilePaths = allFilePaths.concat(getAllDFileInfos(currentFilePath))
+        } else {
+          allFileNames.push(file)
+          allFilePaths.push(currentFilePath)
+        }
+      })
+    }
+    return alleFileInfos
+  }
 
   /**
    * @returns appID from localStorage or creates new one if none is found
@@ -307,6 +336,28 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     initTableWithQuery(pressReleaseQuery, db.pressReleases)
     subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
   }, [])
+
+  useEffect(() => {
+    Promise.all(
+      filesInDownload.filename.map((name, index) => {
+        return new Promise<string>((resolve, reject) => {
+          if (!diashowObjects?.map((dO) => dO.file.name)?.includes(name)) {
+            unlink(filesInDownload.filepath[index], (err) => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve(name)
+              }
+            })
+          } else {
+            resolve('File not found')
+          }
+        })
+      })
+    )
+      .then()
+      .catch((err) => console.error(err))
+  }, [diashowObjects])
 
   return <>{props.children}</>
 }

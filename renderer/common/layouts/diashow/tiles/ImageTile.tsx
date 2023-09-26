@@ -12,9 +12,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css'
 
 import fs from 'fs'
 import https from 'https'
-
-const downloadDir = '/downloads/'
-const downloadPath = './renderer/public'
+import { downloadPath, downloadDir } from '../../../../utils/constants'
 
 function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
   return new Promise((resolve, reject) => {
