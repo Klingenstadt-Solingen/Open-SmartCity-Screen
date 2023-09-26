@@ -29,8 +29,17 @@ const Dashboard = () => {
   } else {
     if (screen.state?.name === 'INACTIVE' || typeof layoutConfig === 'undefined') {
       return (
-        <div className="text-8xl text-center flex h-[100vh] items-center justify-center">
-          {screen.name}
+        <div className="text-center w-full h-[100vh] items-center justify-center bg-solingen-blue flex flex-col flex-nowrap">
+          <img
+            className="w-[200px] mb-[3vh]"
+            src="/images/button_menschsolingen_175px_2_0e8ecd94f8.png"
+          />
+          <div className="text-4xl w-full text-solingen-yellow leading-relaxed">
+            Diese Stele wird gerade konfiguriert.
+            <br />
+            Kommen Sie gerne später wieder!
+          </div>
+          <div className="text-4xl w-full text-white absolute bottom-20">{screen.name}</div>
         </div>
       )
     } else {
