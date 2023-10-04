@@ -1,0 +1,13 @@
+diff --git a/node_modules/ol/style/Icon.js b/node_modules/ol/style/Icon.js
+index feea520..0c8d0ce 100644
+--- a/node_modules/ol/style/Icon.js
++++ b/node_modules/ol/style/Icon.js
+@@ -183,7 +183,7 @@ class Icon extends ImageStyle {
+     if ((src === undefined || src.length === 0) && image) {
+       src = /** @type {HTMLImageElement} */ (image).src || getUid(image);
+     }
+-    assert(src !== undefined && src.length > 0, 6); // A defined and non-empty `src` or `image` must be provided
++    //assert(src !== undefined && src.length > 0, 6); // A defined and non-empty `src` or `image` must be provided
+ 
+     // `width` or `height` cannot be provided together with `scale`
+     assert(

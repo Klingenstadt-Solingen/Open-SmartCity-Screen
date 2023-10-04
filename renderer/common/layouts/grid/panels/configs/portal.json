@@ -1,0 +1,23 @@
+{
+  "target": "map-div-id",
+  "epsg": "EPSG:25832",
+  "extent": [300000.0, 5660000.0, 440000.0, 5750000.0],
+  "options": [
+    { "resolution": 105.8333333, "scale": 400000, "zoomLevel": 0 },
+    { "resolution": 52.91666666, "scale": 200000, "zoomLevel": 1 },
+    { "resolution": 26.45833333, "scale": 100000, "zoomLevel": 2 },
+    { "resolution": 15.875, "scale": 60000, "zoomLevel": 3 },
+    { "resolution": 10.58333333, "scale": 40000, "zoomLevel": 4 },
+    { "resolution": 5.291666666, "scale": 20000, "zoomLevel": 5 },
+    { "resolution": 2.645833333, "scale": 10000, "zoomLevel": 6 },
+    { "resolution": 1.322916666, "scale": 5000, "zoomLevel": 7 },
+    { "resolution": 0.661458333, "scale": 2500, "zoomLevel": 8 },
+    { "resolution": 0.264583333, "scale": 1000, "zoomLevel": 9 },
+    { "resolution": 0.132291667, "scale": 500, "zoomLevel": 10 },
+    { "resolution": 0.066145833, "scale": 250, "zoomLevel": 11 },
+    { "resolution": 0.0264583333, "scale": 100, "zoomLevel": 12 }
+  ],
+  "startResolution": 9,
+  "startCenter": [365900, 5670066],
+  "units": "m"
+}

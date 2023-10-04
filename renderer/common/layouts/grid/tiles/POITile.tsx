@@ -24,33 +24,33 @@ export default function POITile(props: Props): React.JSX.Element {
         >
           <button
             className="text-3xl bg-solingen-blue rounded-xl h-[30%] p-5 flex flex-col justify-between"
-            onClick={() => props.setCenter(<MapPanel></MapPanel>)}
+            onClick={() => props.setCenter(<MapPanel preSelected={'Freifunk'}></MapPanel>)}
           >
             <div
-              className="w-full h-full max-w-[55%] max-h-[55%] bg-contain bg-no-repeat"
+              className="w-full h-full max-w-[60%] max-h-[60%] bg-contain bg-no-repeat"
               style={{ backgroundImage: 'url("/images/svg/wifi.svg")' }}
             ></div>
             <div className="w-full text-right">Freifunk WLAN</div>
           </button>
           <button
             className="text-3xl bg-solingen-blue rounded-xl h-[30%] p-5 flex flex-col justify-between"
-            onClick={() => props.setCenter(<MapPanel></MapPanel>)}
+            onClick={() => props.setCenter(<MapPanel preSelected={'Übernachtung'}></MapPanel>)}
           >
             <div
-              className="w-full h-full max-w-[55%] max-h-[55%] bg-contain bg-no-repeat"
-              style={{ backgroundImage: 'url("/images/svg/food.svg")' }}
+              className="w-full h-full max-w-[60%] max-h-[60%] bg-contain bg-no-repeat"
+              style={{ backgroundImage: 'url("/images/svg/bed.svg")' }}
             ></div>
-            <div className="w-full text-right">Restaurants in Solingen</div>
+            <div className="w-full text-right">Schlafen in Solingen</div>
           </button>
           <button
             className="text-3xl bg-solingen-blue rounded-xl h-[30%] p-5 flex flex-col justify-between"
-            onClick={() => props.setCenter(<MapPanel></MapPanel>)}
+            onClick={() => props.setCenter(<MapPanel preSelected={'Freizeit'}></MapPanel>)}
           >
             <div
-              className="w-full h-full max-w-[55%] max-h-[55%] bg-contain bg-no-repeat "
-              style={{ backgroundImage: 'url("/images/svg/hello_world.svg")' }}
+              className="w-full h-full max-w-[70%] max-h-[70%] bg-contain bg-no-repeat "
+              style={{ backgroundImage: 'url("/images/svg/amusement.svg")' }}
             ></div>
-            <div className="w-full text-right">Hallo Welt</div>
+            <div className="w-full text-right">Freizeitaktivitäten</div>
           </button>
         </div>
       </div>

@@ -19,6 +19,8 @@ import fs, { unlink } from 'fs'
 import { downloadPath, downloadDir, hourInMilliseconds } from '../../utils/constants'
 
 import EventEmitter from 'events'
+import { PoiCategory } from '../../models/poi-category'
+import { POI } from '../../models/poi'
 
 EventEmitter.defaultMaxListeners = 20
 
@@ -233,6 +235,22 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     subscribeTableToQuery<Screen>(screenQuery, db.screen)
   }, [])
 
+  useEffect(() => {
+    const pressReleaseQuery = new Query<Parse.Object<PressRelease>>('PressRelease')
+      .descending('date')
+      .limit(10)
+    initTableWithQuery(pressReleaseQuery, db.pressReleases)
+    subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
+
+    const poiCategoryQuery = new Query<Parse.Object<PoiCategory>>('POICategory')
+    initTableWithQuery(poiCategoryQuery, db.poiCategories)
+    subscribeTableToQuery(poiCategoryQuery, db.poiCategories)
+
+    const poiQuery = new Query<Parse.Object<POI>>('POI').limit(1000)
+    initTableWithQuery(poiQuery, db.pois)
+    subscribeTableToQuery(poiQuery, db.pois)
+  }, [])
+
   //Update WeatherQuery if ScreenLocation Changes
   useEffect(() => {
     if (typeof screen?.location !== 'undefined') {
@@ -356,14 +374,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       })
     }
   }, [gridConfig?.tiles])
-
-  useEffect(() => {
-    const pressReleaseQuery = new Query<Parse.Object<PressRelease>>('PressRelease')
-      .descending('date')
-      .limit(10)
-    initTableWithQuery(pressReleaseQuery, db.pressReleases)
-    subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
-  }, [])
 
   useEffect(() => {
     Promise.all(

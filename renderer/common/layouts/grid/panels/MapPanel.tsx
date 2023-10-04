@@ -1,39 +1,167 @@
-import React from 'react'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import React, { useEffect, useState } from 'react'
+
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../../../utils/dexie'
 
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon.src,
-  iconRetinaUrl: markerIcon2x.src,
-  shadowUrl: markerShadow.src
-})
+import * as mpapi from '@masterportal/masterportalapi'
+import mapsAPI from '@masterportal/masterportalapi/src/maps/api.js'
 
-export default function MapPanel(): React.JSX.Element {
-  const location = useLiveQuery(async () => {
-    return (await db.screen.toCollection().first()).location
+import portalConfig from './configs/portal.json'
+import services from './configs/services.json'
+import styles from './configs/style_v3.json'
+
+import { Style, Icon } from 'ol/style.js'
+import { PoiCategory } from '../../../../models/poi-category'
+import { POI } from '../../../../models/poi'
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mpapi: any
+  }
+}
+
+function styleWfs(feature) {
+  const icon = new Style({
+    image: new Icon({
+      //not possible because images are hosted with "X-Frame-Options allow-from solingen.de"
+      //src: category.symbolPath + '/' + category.symbolName + category.symbolMimetype,
+      src: '/images/symbols/' + feature.values_.symbolName + feature.values_.symbolMimetype,
+      scale: 0.5,
+      opacity: 1
+    })
   })
+
+  return [icon]
+}
+
+function mapToLayers(pois: POI[], categories: PoiCategory[]) {
+  const res = []
+  for (const category of categories) {
+    if (category.showCategory === 'true') {
+      res.push({
+        id: category.name,
+        typ: 'GeoJSON',
+        features: {
+          type: 'FeatureCollection',
+          features: pois
+            .filter((poi) => poi.poiCategory === category.sourceId)
+            .map((poi) => {
+              return {
+                type: 'Feature',
+                properties: {
+                  symbolPath: category.symbolPath,
+                  symbolName: category.symbolName,
+                  symbolMimetype: category.symbolMimetype
+                },
+                geometry: {
+                  type: 'Point',
+                  coordinates: [poi.geopoint.longitude, poi.geopoint.latitude]
+                }
+              }
+            })
+        },
+        style: styleWfs
+      })
+    }
+  }
+  return res
+}
+
+export default function MapPanel({
+  preSelected
+}: {
+  preSelected?: 'Übernachtung' | 'Freifunk' | 'Freizeit'
+}): React.JSX.Element {
+  const [first, setFirst] = useState(true)
+
+  const categories = useLiveQuery(async () => {
+    return await db.poiCategories.toArray()
+  })
+
+  const pois = useLiveQuery(async () => {
+    return await db.pois.toArray()
+  })
+
+  const [activeLayers, setActiveLayers] = useState<string[]>([])
+
+  const switchLayer = (layerName: string) => {
+    if (activeLayers.includes(layerName)) {
+      mpapi.map.removeLayer(
+        mpapi.map.getAllLayers().find((layer) => layer.values_.id === layerName)
+      )
+      setActiveLayers(activeLayers.filter((layer) => layer !== layerName))
+    } else {
+      mpapi.map.addLayer(layerName)
+      setActiveLayers([...activeLayers, layerName])
+    }
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    document.getElementById(portalConfig.target).innerHTML = ''
+
+    if (categories && pois) {
+      mpapi.map = mapsAPI.map.createMap(
+        {
+          ...portalConfig,
+          layerConf: [...services, ...mapToLayers(pois, categories)],
+          styleConf: styles
+        },
+        '2D'
+      )
+      mpapi.map.addLayer('base')
+      if (first && preSelected) {
+        switchLayer(preSelected)
+        setFirst(false)
+      }
+    } else {
+      mpapi.map = mapsAPI.map.createMap(
+        {
+          ...portalConfig,
+          layerConf: [...services],
+          layers: null
+        },
+        '2D'
+      )
+      mpapi.map.addLayer('base')
+    }
+  }, [categories, pois])
 
   return (
     <>
-      {location && (
-        <MapContainer
-          center={[location.latitude, location.longitude]}
-          zoom={16}
-          scrollWheelZoom={true}
-          className="w-full h-full"
-          attributionControl={false}
-        >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={[location.latitude, location.longitude]}>
-            <Popup>Solingen Zentrum</Popup>
-          </Marker>
-        </MapContainer>
+      <div className="h-full" id="map-div-id"></div>
+      {categories && (
+        <div className="absolute bg-solingen-blue bg-opacity-90 h-40 bottom-0 w-full text-white">
+          <div className="h-full flex justify-around items-center">
+            {categories.map((category, index) => {
+              if (category.showCategory === 'true') {
+                return (
+                  <div
+                    key={index}
+                    className="h-full flex-col flex items-center justify-center gap-2"
+                    onClick={() => {
+                      switchLayer(category.name)
+                    }}
+                  >
+                    <img
+                      draggable="false"
+                      className={
+                        activeLayers.includes(category.name)
+                          ? 'rounded-full bg-solingen-yellow transition-colors w-24 h-24'
+                          : 'rounded-full bg-white transition-colors w-24 h-24'
+                      }
+                      src={category.iconPath + '/' + category.iconName + category.iconMimetype}
+                    ></img>
+                    <div className="text-2xl">
+                      {category.mapTitle} <span className="text-solingen-yellow">{'>'}</span>
+                    </div>
+                  </div>
+                )
+              }
+            })}
+          </div>
+        </div>
       )}
     </>
   )

@@ -4,6 +4,8 @@ import { DiashowConfig, GridConfig, LayoutConfig, Screen } from '../models/scree
 import { Weather } from '../models/weather'
 import { DiashowObject } from '../models/diashowObject'
 import { Tile } from '../models/tile'
+import { PoiCategory } from '../models/poi-category'
+import { POI } from '../models/poi'
 
 export class SteleDB extends Dexie {
   pressReleases!: Table<PressRelease, string>
@@ -14,6 +16,8 @@ export class SteleDB extends Dexie {
   weather!: Table<Weather, string>
   diashowObjects!: Table<DiashowObject, string>
   tiles!: Table<Tile, string>
+  poiCategories!: Table<PoiCategory, string>
+  pois!: Table<POI, string>
 
   constructor() {
     super('steleDB')
@@ -25,7 +29,9 @@ export class SteleDB extends Dexie {
       diashowConfig: '++,name',
       weather: '++,values,shortName,geopoint',
       diashowObjects: '++,file,duration,startDate,endDate,fileType',
-      tiles: '++,name,description,order'
+      tiles: '++,name,description,order',
+      poiCategories: '++',
+      pois: '++'
     })
   }
 }

@@ -1,0 +1,1191 @@
+diff --git a/node_modules/@masterportal/masterportalapi/src/layer/terrain.js b/node_modules/@masterportal/masterportalapi/src/layer/terrain.js
+index b5f3d76..17d0295 100644
+--- a/node_modules/@masterportal/masterportalapi/src/layer/terrain.js
++++ b/node_modules/@masterportal/masterportalapi/src/layer/terrain.js
+@@ -64,4 +64,4 @@ export function get (key) {
+     return this.values[key];
+ }
+ 
+-module.exports.setVisible = setVisible;
++export { setVisible }
+diff --git a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
+index d1a432d..7b967e4 100644
+--- a/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
++++ b/node_modules/@masterportal/masterportalapi/src/maps/olcs/3dUtils/wmsRasterSynchronizer.js
+@@ -1,387 +1,410 @@
+ /**
+  * @module olcs.WMSRasterSynchronizer
+  */
+-import olLayerGroup from "ol/layer/Group.js";
+-import {getUid} from "olcs/util.js";
+-import TileWMS from "ol/source/TileWMS.js";
+-import ImageWMS from "ol/source/ImageWMS.js";
+-import WMTS from "ol/source/WMTS.js";
+-import olcsAbstractSynchronizer from "olcs/AbstractSynchronizer.ts";
+-import {extentToRectangle, tileLayerToImageryLayer, updateCesiumLayerProperties} from "olcs/core.ts";
+-import {Tile, Image as ImageLayer} from "ol/layer.js";
+-import {stableSort} from "ol/array.js";
+-import {getBottomLeft, getBottomRight, getTopRight, getTopLeft} from "ol/extent.js";
+-import {transformExtent} from "ol/proj.js";
+-import StaticImageSource from "ol/source/ImageStatic";
+-import proj4 from "proj4";
++import olLayerGroup from 'ol/layer/Group.js'
++import { getUid } from 'olcs/util.js'
++import TileWMS from 'ol/source/TileWMS.js'
++import ImageWMS from 'ol/source/ImageWMS.js'
++import WMTS from 'ol/source/WMTS.js'
++import olcsAbstractSynchronizer from 'olcs/AbstractSynchronizer.js'
++import {
++  extentToRectangle,
++  tileLayerToImageryLayer,
++  updateCesiumLayerProperties
++} from 'olcs/core.js'
++import { Tile, Image as ImageLayer } from 'ol/layer.js'
++import { stableSort } from 'ol/array.js'
++import { getBottomLeft, getBottomRight, getTopRight, getTopLeft } from 'ol/extent.js'
++import { transformExtent } from 'ol/proj.js'
++import StaticImageSource from 'ol/source/ImageStatic'
++import proj4 from 'proj4'
+ 
+ /**
+  * Represents a WMSRasterSynchronizer.
+  */
+ class WMSRasterSynchronizer extends olcsAbstractSynchronizer {
++  /**
++   * This object takes care of one-directional synchronization of
++   * Openlayers WMS raster layers to the given Cesium globe. This Synchronizer
++   * assumes that the given WMS supports EPSG Code 4326 (WGS84)
++   * @param {!ol.Map} map -
++   * @param {!Cesium.Scene} scene -
++   * @constructor
++   * @extends {olcs.AbstractSynchronizer.<Cesium.ImageryLayer>}
++   * @api
++   * @struct
++   */
++  constructor(map, scene) {
++    super(map, scene)
+     /**
+-     * This object takes care of one-directional synchronization of
+-     * Openlayers WMS raster layers to the given Cesium globe. This Synchronizer
+-     * assumes that the given WMS supports EPSG Code 4326 (WGS84)
+-     * @param {!ol.Map} map -
+-     * @param {!Cesium.Scene} scene -
+-     * @constructor
+-     * @extends {olcs.AbstractSynchronizer.<Cesium.ImageryLayer>}
+-     * @api
+-     * @struct
++     * @type {!Cesium.ImageryLayerCollection}
++     * @private
+      */
+-    constructor (map, scene) {
+-        super(map, scene);
+-        /**
+-         * @type {!Cesium.ImageryLayerCollection}
+-         * @private
+-         */
+-        this.cesiumLayers = scene.imageryLayers;
+-
+-        /**
+-         * @type {!Cesium.ImageryLayerCollection}
+-         * @private
+-         */
+-        this.ourLayers = new Cesium.ImageryLayerCollection();
+-    }
+-
++    this.cesiumLayers = scene.imageryLayers
+ 
+     /**
+-     * @inheritDoc
++     * @type {!Cesium.ImageryLayerCollection}
++     * @private
+      */
+-    addCesiumObject (object) {
+-        this.cesiumLayers.add(object);
+-        this.ourLayers.add(object);
++    this.ourLayers = new Cesium.ImageryLayerCollection()
++  }
++
++  /**
++   * @inheritDoc
++   */
++  addCesiumObject(object) {
++    this.cesiumLayers.add(object)
++    this.ourLayers.add(object)
++  }
++
++  /**
++   * @inheritDoc
++   */
++  destroyCesiumObject(object) {
++    object.destroy()
++  }
++
++  /**
++   * @inheritDoc
++   */
++  removeSingleCesiumObject(object, destroy) {
++    this.cesiumLayers.remove(object, destroy)
++    this.ourLayers.remove(object, false)
++  }
++
++  /**
++   * @inheritDoc
++   */
++  removeAllCesiumObjects(destroy) {
++    for (let i = 0; i < this.ourLayers.length; ++i) {
++      this.cesiumLayers.remove(this.ourLayers.get(i), destroy)
+     }
+-
+-
+-    /**
+-     * @inheritDoc
+-     */
+-    destroyCesiumObject (object) {
+-        object.destroy();
++    this.ourLayers.removeAll(false)
++  }
++
++  /**
++   * Creates an array of Cesium.ImageryLayer.
++   * May be overriden by child classes to implement custom behavior.
++   * The default implementation handles tiled imageries in EPSG:4326 or
++   * EPSG:3859.
++   * @param {module:ol/layer/Base~BaseLayer } olLayer The raster layer.
++   * @param {module:ol/proj} viewProj Projection of the view.
++   * @return {?Array.<!Cesium.ImageryLayer>} Array or null if not possible.
++   * (or supported)
++   * @protected
++   */
++  convertLayerToCesiumImageries(olLayer, viewProj) {
++    const layerOptions = {
++      show: false
+     }
++    let source = {},
++      cesiumLayer = {},
++      provider = null
+ 
+-
+-    /**
+-     * @inheritDoc
+-     */
+-    removeSingleCesiumObject (object, destroy) {
+-        this.cesiumLayers.remove(object, destroy);
+-        this.ourLayers.remove(object, false);
++    if (!(olLayer instanceof Tile) && !(olLayer instanceof ImageLayer)) {
++      return null
+     }
+ 
+-
+-    /**
+-     * @inheritDoc
+-     */
+-    removeAllCesiumObjects (destroy) {
+-        for (let i = 0; i < this.ourLayers.length; ++i) {
+-            this.cesiumLayers.remove(this.ourLayers.get(i), destroy);
+-        }
+-        this.ourLayers.removeAll(false);
++    source = olLayer.getSource()
++
++    if (source instanceof TileWMS) {
++      provider = this.createProviderForTileWMS(source, viewProj, olLayer)
++    } else if (source instanceof ImageWMS) {
++      return [this.createImageryLayerForImageWMS(olLayer, viewProj)]
++    } else if (source instanceof StaticImageSource) {
++      provider = this.createProviderForStaticImageSource(source)
++    } else if (source instanceof WMTS) {
++      if (typeof source.getUrls !== 'function' || !Array.isArray(source.getUrls())) {
++        return null
++      }
++      provider = new Cesium.WebMapTileServiceImageryProvider({
++        url: source.getUrls()[0],
++        format: source.getFormat(),
++        layer: source.getLayer(),
++        style: source.getStyle(),
++        tileMatrixSetID: source.getMatrixSet(),
++        tileMatrixLabels: source.getTileGrid().getMatrixIds(),
++        credit: source.getAttributions()
++      })
++    } else {
++      console.warn('Sources other than TileImage are currently not supported.')
++      return null
+     }
+ 
+-
+-    /**
+-     * Creates an array of Cesium.ImageryLayer.
+-     * May be overriden by child classes to implement custom behavior.
+-     * The default implementation handles tiled imageries in EPSG:4326 or
+-     * EPSG:3859.
+-     * @param {module:ol/layer/Base~BaseLayer } olLayer The raster layer.
+-     * @param {module:ol/proj} viewProj Projection of the view.
+-     * @return {?Array.<!Cesium.ImageryLayer>} Array or null if not possible.
+-     * (or supported)
+-     * @protected
+-     */
+-    convertLayerToCesiumImageries (olLayer, viewProj) {
+-        const layerOptions = {
+-            "show": false
+-        };
+-        let source = {},
+-            cesiumLayer = {},
+-            provider = null;
+-
+-        if (!(olLayer instanceof Tile) && !(olLayer instanceof ImageLayer)) {
+-            return null;
+-        }
+-
+-        source = olLayer.getSource();
+-
+-        if (source instanceof TileWMS) {
+-            provider = this.createProviderForTileWMS(source, viewProj, olLayer);
+-        }
+-        else if (source instanceof ImageWMS) {
+-            return [this.createImageryLayerForImageWMS(olLayer, viewProj)];
+-        }
+-        else if (source instanceof StaticImageSource) {
+-            provider = this.createProviderForStaticImageSource(source);
+-        }
+-        else if (source instanceof WMTS) {
+-            if (typeof source.getUrls !== "function" || !Array.isArray(source.getUrls())) {
+-                return null;
+-            }
+-            provider = new Cesium.WebMapTileServiceImageryProvider({
+-                url: source.getUrls()[0],
+-                format: source.getFormat(),
+-                layer: source.getLayer(),
+-                style: source.getStyle(),
+-                tileMatrixSetID: source.getMatrixSet(),
+-                tileMatrixLabels: source.getTileGrid().getMatrixIds(),
+-                credit: source.getAttributions()
+-            });
+-        }
+-        else {
+-            console.warn("Sources other than TileImage are currently not supported.");
+-            return null;
+-        }
+-
+-        cesiumLayer = new Cesium.ImageryLayer(provider, layerOptions);
+-
+-        return cesiumLayer ? [cesiumLayer] : null;
++    cesiumLayer = new Cesium.ImageryLayer(provider, layerOptions)
++
++    return cesiumLayer ? [cesiumLayer] : null
++  }
++
++  /**
++   * Creates an Cesium.WebMapServiceImageryProvider for RasterLayer of the type TileWMS.
++   * @param {module:ol/source/TileWMS} source The raster layer source.
++   * @param {module:ol/proj} viewProj Projection of the view.
++   * @param {module:ol/layer/Base~BaseLayer } olLayer The raster layer.
++   * @returns {WebMapServiceImageryProvider} The imagery provider.
++   */
++  createProviderForTileWMS(source, viewProj, olLayer) {
++    const params = source.getParams(),
++      options = {
++        url: source.getUrls()[0],
++        parameters: params,
++        layers: params.LAYERS,
++        show: false
++      },
++      tileGrid = source.getTileGrid()
++
++    if (tileGrid) {
++      const ext = olLayer.getExtent()
++
++      if (ext && viewProj) {
++        options.rectangle = extentToRectangle(ext, viewProj)
++        const minMax = this.getMinMaxLevelFromTileGrid(tileGrid, ext, viewProj)
++
++        options.tileWidth = tileGrid.getTileSize(0)[0]
++        options.tileHeight = tileGrid.getTileSize(0)[1]
++        options.minimumLevel = minMax[0]
++        options.maximumLevel = minMax[1]
++      }
+     }
+ 
+-    /**
+-     * Creates an Cesium.WebMapServiceImageryProvider for RasterLayer of the type TileWMS.
+-     * @param {module:ol/source/TileWMS} source The raster layer source.
+-     * @param {module:ol/proj} viewProj Projection of the view.
+-     * @param {module:ol/layer/Base~BaseLayer } olLayer The raster layer.
+-     * @returns {WebMapServiceImageryProvider} The imagery provider.
+-     */
+-    createProviderForTileWMS (source, viewProj, olLayer) {
+-        const params = source.getParams(),
+-            options = {
+-                "url": source.getUrls()[0],
+-                "parameters": params,
+-                "layers": params.LAYERS,
+-                "show": false
+-            },
+-            tileGrid = source.getTileGrid();
+-
+-        if (tileGrid) {
+-            const ext = olLayer.getExtent();
+-
+-            if (ext && viewProj) {
+-                options.rectangle = extentToRectangle(ext, viewProj);
+-                const minMax = this.getMinMaxLevelFromTileGrid(tileGrid, ext, viewProj);
+-
+-                options.tileWidth = tileGrid.getTileSize(0)[0];
+-                options.tileHeight = tileGrid.getTileSize(0)[1];
+-                options.minimumLevel = minMax[0];
+-                options.maximumLevel = minMax[1];
+-            }
+-        }
+-
+-        return new Cesium.WebMapServiceImageryProvider(options);
++    return new Cesium.WebMapServiceImageryProvider(options)
++  }
++
++  /**
++   * Creates an Cesium.ImageryLayer for RasterLayer of the type ImageWMS.
++   * @param {module:ol/layer/Base~BaseLayer } olLayer The raster layer.
++   * @param {module:ol/proj} viewProj Projection of the view.
++   * @returns {Cesium.ImageryLayer} The imagery layer.
++   */
++  createImageryLayerForImageWMS(olLayer, viewProj) {
++    return tileLayerToImageryLayer(this.map, olLayer, viewProj)
++  }
++
++  /**
++   * Creates an Cesium.SingleTileImageryProvider for RasterLayer of the type StaticImageSource.
++   * @param {module:ol/source/ImageStatic} source The raster layer source.
++   * @returns {SingleTileImageryProvider} The imagery provider.
++   */
++  createProviderForStaticImageSource(source) {
++    const extent = source.getImageExtent(),
++      options = {
++        url: source.getUrl(),
++        show: false
++      },
++      bottomLeftCorner = proj4(
++        source.getProjection().getCode(),
++        'EPSG:4326',
++        getBottomLeft(extent)
++      ),
++      topRightCorner = proj4(source.getProjection().getCode(), 'EPSG:4326', getTopRight(extent))
++
++    options.rectangle = Cesium.Rectangle.fromDegrees(
++      bottomLeftCorner[0],
++      bottomLeftCorner[1],
++      topRightCorner[0],
++      topRightCorner[1]
++    )
++
++    return new Cesium.SingleTileImageryProvider(options)
++  }
++
++  /**
++   *
++   * @param {ol.Extent} extent -
++   * @param {ol.ProjectionLike} projection -
++   * @return {Array.<Cesium.Cartographic>} -
++   * @private
++   */
++  getExtentPoints(extent, projection) {
++    const wgs84Extent = transformExtent(extent, projection, 'EPSG:4326'),
++      olCoords = [
++        getBottomLeft(wgs84Extent),
++        getBottomRight(wgs84Extent),
++        getTopRight(wgs84Extent),
++        getTopLeft(wgs84Extent)
++      ]
++
++    return olCoords.map((coord) => Cesium.Cartographic.fromDegrees(coord[0], coord[1]))
++  }
++  /**
++   *
++   * @param {ol.tilegrid.TileGrid} tilegrid -
++   * @param {ol.Extent} extent -
++   * @param {ol.ProjectionLike} projection -
++   * @return {Array.<Number>} -
++   */
++  getMinMaxLevelFromTileGrid(tilegrid, extent, projection) {
++    const olCoords = [
++        getBottomLeft(extent),
++        getBottomRight(extent),
++        getTopRight(extent),
++        getTopLeft(extent)
++      ],
++      resolution = tilegrid.getResolutions().slice(-1).pop(),
++      tileCoordsLocal = olCoords.map((position) =>
++        tilegrid.getTileCoordForCoordAndResolution(position, resolution)
++      ),
++      distanceLocalX = Math.abs(tileCoordsLocal[0][1] - tileCoordsLocal[1][1]),
++      distanceLocalY = Math.abs(tileCoordsLocal[0][2] - tileCoordsLocal[3][2]),
++      extentCoords = this.getExtentPoints(extent, projection),
++      tilingScheme = new Cesium.GeographicTilingScheme({})
++    let minLevel = 0,
++      maxLevel = 20
++
++    while (minLevel < maxLevel) {
++      /* eslint-disable no-loop-func */
++
++      const tileCoords = extentCoords.map((position) =>
++          tilingScheme.positionToTileXY(position, minLevel)
++        ),
++        distances = []
++      /* eslint-enable  no-loop-func */
++
++      distances.push(Math.abs(tileCoords[0].x - tileCoords[1].x))
++      distances.push(Math.abs(tileCoords[0].y - tileCoords[3].y))
++      if (distances[0] > 1 || distances[1] > 1) {
++        minLevel--
++        break
++      }
++      minLevel++
+     }
+-
+-    /**
+-     * Creates an Cesium.ImageryLayer for RasterLayer of the type ImageWMS.
+-     * @param {module:ol/layer/Base~BaseLayer } olLayer The raster layer.
+-     * @param {module:ol/proj} viewProj Projection of the view.
+-     * @returns {Cesium.ImageryLayer} The imagery layer.
+-     */
+-    createImageryLayerForImageWMS (olLayer, viewProj) {
+-        return tileLayerToImageryLayer(this.map, olLayer, viewProj);
+-    }
+-
+-    /**
+-     * Creates an Cesium.SingleTileImageryProvider for RasterLayer of the type StaticImageSource.
+-     * @param {module:ol/source/ImageStatic} source The raster layer source.
+-     * @returns {SingleTileImageryProvider} The imagery provider.
+-     */
+-    createProviderForStaticImageSource (source) {
+-        const extent = source.getImageExtent(),
+-            options = {
+-                "url": source.getUrl(),
+-                "show": false
+-            },
+-            bottomLeftCorner = proj4(source.getProjection().getCode(), "EPSG:4326", getBottomLeft(extent)),
+-            topRightCorner = proj4(source.getProjection().getCode(), "EPSG:4326", getTopRight(extent));
+-
+-        options.rectangle = Cesium.Rectangle.fromDegrees(bottomLeftCorner[0], bottomLeftCorner[1], topRightCorner[0], topRightCorner[1]);
+-
+-        return new Cesium.SingleTileImageryProvider(options);
+-    }
+-
+-    /**
+-     *
+-     * @param {ol.Extent} extent -
+-     * @param {ol.ProjectionLike} projection -
+-     * @return {Array.<Cesium.Cartographic>} -
+-     * @private
+-     */
+-    getExtentPoints (extent, projection) {
+-        const wgs84Extent = transformExtent(extent, projection, "EPSG:4326"),
+-            olCoords = [
+-                getBottomLeft(wgs84Extent),
+-                getBottomRight(wgs84Extent),
+-                getTopRight(wgs84Extent),
+-                getTopLeft(wgs84Extent)
+-            ];
+-
+-        return olCoords.map(coord => Cesium.Cartographic.fromDegrees(coord[0], coord[1]));
++    while (maxLevel > minLevel) {
++      /* eslint-disable no-loop-func */
++
++      const tileCoords = extentCoords.map((position) =>
++          tilingScheme.positionToTileXY(position, maxLevel)
++        ),
++        distances = []
++      /* eslint-enable  no-loop-func */
++
++      distances.push(Math.abs(tileCoords[0].x - tileCoords[1].x))
++      distances.push(Math.abs(tileCoords[0].y - tileCoords[3].y))
++      if (distances[0] < distanceLocalX || distances[1] < distanceLocalY) {
++        maxLevel++
++        break
++      }
++      maxLevel--
+     }
+-    /**
+-     *
+-     * @param {ol.tilegrid.TileGrid} tilegrid -
+-     * @param {ol.Extent} extent -
+-     * @param {ol.ProjectionLike} projection -
+-     * @return {Array.<Number>} -
+-     */
+-    getMinMaxLevelFromTileGrid (tilegrid, extent, projection) {
+-        const olCoords = [
+-                getBottomLeft(extent),
+-                getBottomRight(extent),
+-                getTopRight(extent),
+-                getTopLeft(extent)
+-            ],
+-            resolution = tilegrid.getResolutions().slice(-1).pop(),
+-            tileCoordsLocal = olCoords.map(position => tilegrid.getTileCoordForCoordAndResolution(position, resolution)),
+-            distanceLocalX = Math.abs(tileCoordsLocal[0][1] - tileCoordsLocal[1][1]),
+-            distanceLocalY = Math.abs(tileCoordsLocal[0][2] - tileCoordsLocal[3][2]),
+-            extentCoords = this.getExtentPoints(extent, projection),
+-            tilingScheme = new Cesium.GeographicTilingScheme({});
+-        let minLevel = 0,
+-            maxLevel = 20;
+-
+-        while (minLevel < maxLevel) {
+-            /* eslint-disable no-loop-func */
+-
+-            const tileCoords = extentCoords.map(position => tilingScheme.positionToTileXY(position, minLevel)),
+-                distances = [];
+-            /* eslint-enable  no-loop-func */
+-
+-            distances.push(Math.abs(tileCoords[0].x - tileCoords[1].x));
+-            distances.push(Math.abs(tileCoords[0].y - tileCoords[3].y));
+-            if (distances[0] > 1 || distances[1] > 1) {
+-                minLevel--;
+-                break;
+-            }
+-            minLevel++;
+-        }
+-        while (maxLevel > minLevel) {
+-            /* eslint-disable no-loop-func */
+-
+-            const tileCoords = extentCoords.map(position => tilingScheme.positionToTileXY(position, maxLevel)),
+-                distances = [];
+-            /* eslint-enable  no-loop-func */
+-
+-            distances.push(Math.abs(tileCoords[0].x - tileCoords[1].x));
+-            distances.push(Math.abs(tileCoords[0].y - tileCoords[3].y));
+-            if (distances[0] < distanceLocalX || distances[1] < distanceLocalY) {
+-                maxLevel++;
+-                break;
++    return [minLevel, maxLevel]
++  }
++
++  /**
++   * @inheritDoc
++   */
++  createSingleLayerCounterparts(olLayerWithParents) {
++    const olLayer = olLayerWithParents.layer,
++      uid = getUid(olLayer).toString(),
++      viewProj = this.view.getProjection(),
++      cesiumObjects = this.convertLayerToCesiumImageries(olLayer, viewProj)
++
++    if (cesiumObjects) {
++      const listenKeyArray = []
++
++      ;[olLayerWithParents.layer].concat(olLayerWithParents.parents).forEach((olLayerItem) => {
++        listenKeyArray.push(
++          olLayerItem.on(['change:opacity', 'change:visible'], () => {
++            // the compiler does not seem to be able to infer this
++            /* eslint-disable no-console */
++
++            console.assert(cesiumObjects)
++            /* eslint-enable no-console */
++            for (let i = 0; i < cesiumObjects.length; ++i) {
++              updateCesiumLayerProperties(olLayerWithParents, cesiumObjects[i])
+             }
+-            maxLevel--;
+-        }
+-        return [minLevel, maxLevel];
+-    }
+-
+-    /**
+-     * @inheritDoc
+-     */
+-    createSingleLayerCounterparts (olLayerWithParents) {
+-        const olLayer = olLayerWithParents.layer,
+-            uid = getUid(olLayer).toString(),
+-            viewProj = this.view.getProjection(),
+-            cesiumObjects = this.convertLayerToCesiumImageries(olLayer, viewProj);
+-
+-        if (cesiumObjects) {
+-            const listenKeyArray = [];
+-
+-            [olLayerWithParents.layer].concat(olLayerWithParents.parents).forEach((olLayerItem) => {
+-                listenKeyArray.push(olLayerItem.on(["change:opacity", "change:visible"], () => {
+-                // the compiler does not seem to be able to infer this
+-                    /* eslint-disable no-console */
+-
+-                    console.assert(cesiumObjects);
+-                    /* eslint-enable no-console */
+-                    for (let i = 0; i < cesiumObjects.length; ++i) {
+-                        updateCesiumLayerProperties(olLayerWithParents, cesiumObjects[i]);
+-                    }
+-                }));
+-            });
+-
++          })
++        )
++      })
++
++      for (let i = 0; i < cesiumObjects.length; ++i) {
++        updateCesiumLayerProperties(olLayerWithParents, cesiumObjects[i])
++      }
++
++      // there is no way to modify Cesium layer extent,
++      // we have to recreate when OpenLayers layer extent changes:
++      listenKeyArray.push(
++        olLayer.on(
++          'change:extent',
++          function () {
+             for (let i = 0; i < cesiumObjects.length; ++i) {
+-                updateCesiumLayerProperties(olLayerWithParents, cesiumObjects[i]);
++              this.cesiumLayers.remove(cesiumObjects[i], true) // destroy
++              this.ourLayers.remove(cesiumObjects[i], false)
+             }
++            delete this.layerMap[getUid(olLayer)] // invalidate the map entry
++            this.synchronize()
++          },
++          this
++        )
++      )
++
++      listenKeyArray.push(
++        olLayer.on(
++          'change',
++          function () {
++            // when the source changes, re-add the layer to force update
++            for (let i = 0; i < cesiumObjects.length; ++i) {
++              const position = this.cesiumLayers.indexOf(cesiumObjects[i])
+ 
+-            // there is no way to modify Cesium layer extent,
+-            // we have to recreate when OpenLayers layer extent changes:
+-            listenKeyArray.push(olLayer.on("change:extent", function () {
+-                for (let i = 0; i < cesiumObjects.length; ++i) {
+-                    this.cesiumLayers.remove(cesiumObjects[i], true); // destroy
+-                    this.ourLayers.remove(cesiumObjects[i], false);
+-                }
+-                delete this.layerMap[getUid(olLayer)]; // invalidate the map entry
+-                this.synchronize();
+-            }, this));
+-
+-            listenKeyArray.push(olLayer.on("change", function () {
+-                // when the source changes, re-add the layer to force update
+-                for (let i = 0; i < cesiumObjects.length; ++i) {
+-                    const position = this.cesiumLayers.indexOf(cesiumObjects[i]);
+-
+-                    if (position >= 0) {
+-                        this.cesiumLayers.remove(cesiumObjects[i], false);
+-                        this.cesiumLayers.add(cesiumObjects[i], position);
+-                    }
+-                }
+-            }.bind(this)));
+-
+-            this.olLayerListenKeys[uid].push(...listenKeyArray);
+-        }
++              if (position >= 0) {
++                this.cesiumLayers.remove(cesiumObjects[i], false)
++                this.cesiumLayers.add(cesiumObjects[i], position)
++              }
++            }
++          }.bind(this)
++        )
++      )
+ 
+-        return Array.isArray(cesiumObjects) ? cesiumObjects : null;
++      this.olLayerListenKeys[uid].push(...listenKeyArray)
+     }
+ 
+-    /**
+-     * Order counterparts using the same algorithm as the Openlayers renderer:
+-     * z-index then original sequence order.
+-     * @override
+-     * @protected
+-     */
+-    orderLayers () {
+-        const layers = [],
+-            zIndices = {},
+-            queue = [this.mapLayerGroup];
++    return Array.isArray(cesiumObjects) ? cesiumObjects : null
++  }
+ 
+-        while (queue.length > 0) {
+-            const olLayer = queue.splice(0, 1)[0];
++  /**
++   * Order counterparts using the same algorithm as the Openlayers renderer:
++   * z-index then original sequence order.
++   * @override
++   * @protected
++   */
++  orderLayers() {
++    const layers = [],
++      zIndices = {},
++      queue = [this.mapLayerGroup]
+ 
+-            layers.push(olLayer);
+-            zIndices[getUid(olLayer)] = olLayer.getZIndex();
++    while (queue.length > 0) {
++      const olLayer = queue.splice(0, 1)[0]
+ 
+-            if (olLayer instanceof olLayerGroup) {
+-                const sublayers = olLayer.getLayers();
++      layers.push(olLayer)
++      zIndices[getUid(olLayer)] = olLayer.getZIndex()
+ 
+-                if (sublayers) {
+-                    // Prepend queue with sublayers in order
+-                    queue.unshift(...sublayers.getArray());
+-                }
+-            }
+-        }
+-
+-        stableSort(layers, (layer1, layer2) => zIndices[getUid(layer1)] - zIndices[getUid(layer2)]);
++      if (olLayer instanceof olLayerGroup) {
++        const sublayers = olLayer.getLayers()
+ 
+-        layers.forEach(function (olLayer) {
+-            const olLayerId = getUid(olLayer).toString(),
+-                cesiumObjects = this.layerMap[olLayerId];
+-
+-            if (cesiumObjects) {
+-                cesiumObjects.forEach(this.raiseToTop, this);
+-            }
+-        }, this);
++        if (sublayers) {
++          // Prepend queue with sublayers in order
++          queue.unshift(...sublayers.getArray())
++        }
++      }
+     }
+ 
+-    /**
+-     * @param {Cesium.ImageryLayer} counterpart -
+-     * @returns {void}
+-     */
+-    raiseToTop (counterpart) {
+-        this.cesiumLayers.raiseToTop(counterpart);
+-    }
++    stableSort(layers, (layer1, layer2) => zIndices[getUid(layer1)] - zIndices[getUid(layer2)])
++
++    layers.forEach(function (olLayer) {
++      const olLayerId = getUid(olLayer).toString(),
++        cesiumObjects = this.layerMap[olLayerId]
++
++      if (cesiumObjects) {
++        cesiumObjects.forEach(this.raiseToTop, this)
++      }
++    }, this)
++  }
++
++  /**
++   * @param {Cesium.ImageryLayer} counterpart -
++   * @returns {void}
++   */
++  raiseToTop(counterpart) {
++    this.cesiumLayers.raiseToTop(counterpart)
++  }
+ }
+ 
+-export default WMSRasterSynchronizer;
++export default WMSRasterSynchronizer
+diff --git a/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js b/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js
+index f9da144..883cb6d 100644
+--- a/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js
++++ b/node_modules/@masterportal/masterportalapi/src/maps/olcs/olcsMap.js
+@@ -1,12 +1,12 @@
+-import OLCesium from "olcs/OLCesium.ts";
+-import {transform, get} from "ol/proj.js";
+-import VectorSynchronizer from "olcs/VectorSynchronizer.ts";
++import OLCesium from 'olcs/OLCesium.js'
++import { transform, get } from 'ol/proj.js'
++import VectorSynchronizer from 'olcs/VectorSynchronizer.js'
+ 
+-import FixedOverlaySynchronizer from "./3dUtils/fixedOverlaySynchronizer.js";
+-import WMSRasterSynchronizer from "./3dUtils/wmsRasterSynchronizer.js";
+-import defaults from "../../defaults";
++import FixedOverlaySynchronizer from './3dUtils/fixedOverlaySynchronizer.js'
++import WMSRasterSynchronizer from './3dUtils/wmsRasterSynchronizer.js'
++import defaults from '../../defaults'
+ 
+-let mapIdCounter = 0;
++let mapIdCounter = 0
+ 
+ /**
+  * Recursive function.
+@@ -15,21 +15,20 @@ let mapIdCounter = 0;
+  * @param {Object} params Optional configuration parameters.
+  * @returns {void}
+  */
+-export function setCesiumSceneParams (scene, params) {
+-    Object.keys(params).forEach(paramKey => {
+-        const paramValue = params[paramKey];
+-
+-        if (typeof paramValue === "object") {
+-            Object.keys(paramValue).forEach(paramSubKey => {
+-                if (paramSubKey !== "heading" && paramSubKey !== "tilt" && paramSubKey !== "altitude") {
+-                    setCesiumSceneParams(scene[paramKey], paramValue);
+-                }
+-            });
++export function setCesiumSceneParams(scene, params) {
++  Object.keys(params).forEach((paramKey) => {
++    const paramValue = params[paramKey]
++
++    if (typeof paramValue === 'object') {
++      Object.keys(paramValue).forEach((paramSubKey) => {
++        if (paramSubKey !== 'heading' && paramSubKey !== 'tilt' && paramSubKey !== 'altitude') {
++          setCesiumSceneParams(scene[paramKey], paramValue)
+         }
+-        else {
+-            scene[paramKey] = paramValue;
+-        }
+-    });
++      })
++    } else {
++      scene[paramKey] = paramValue
++    }
++  })
+ }
+ /**
+  * Sets the camera parameters either from config or from an trigger.
+@@ -38,63 +37,59 @@ export function setCesiumSceneParams (scene, params) {
+  * @param {Cesium} cesium cesium.
+  * @returns {void}
+  */
+-export function setCameraParameter (params, map3D, cesium) {
+-    let camera,
++export function setCameraParameter(params, map3D, cesium) {
++  let camera, destination, orientation, heading
++
++  if (params && map3D) {
++    if (typeof params.heading !== 'undefined') {
++      heading = parseFloat(params.heading)
++    } else if (typeof params.camera?.heading !== 'undefined') {
++      heading = parseFloat(params.camera?.heading)
++    }
++    // if the cameraPosition is given, directly set the cesium camera position, otherwise use olcesium Camera
++    if (params.cameraPosition) {
++      camera = map3D.getCesiumScene().camera
++      destination = cesium.Cartesian3.fromDegrees(
++        params.cameraPosition[0],
++        params.cameraPosition[1],
++        params.cameraPosition[2]
++      )
++      orientation = {
++        heading: cesium.Math.toRadians(heading),
++        pitch: cesium.Math.toRadians(parseFloat(params.pitch)),
++        roll: cesium.Math.toRadians(parseFloat(params.roll))
++      }
++
++      camera.setView({
+         destination,
+-        orientation,
+-        heading;
+-
+-    if (params && map3D) {
+-        if (typeof params.heading !== "undefined") {
+-            heading = parseFloat(params.heading);
+-        }
+-        else if (typeof params.camera?.heading !== "undefined") {
+-            heading = parseFloat(params.camera?.heading);
+-        }
+-        // if the cameraPosition is given, directly set the cesium camera position, otherwise use olcesium Camera
+-        if (params.cameraPosition) {
+-            camera = map3D.getCesiumScene().camera;
+-            destination = cesium.Cartesian3.fromDegrees(params.cameraPosition[0], params.cameraPosition[1], params.cameraPosition[2]);
+-            orientation = {
+-                heading: cesium.Math.toRadians(heading),
+-                pitch: cesium.Math.toRadians(parseFloat(params.pitch)),
+-                roll: cesium.Math.toRadians(parseFloat(params.roll))
+-            };
+-
+-            camera.setView({
+-                destination,
+-                orientation
+-            });
+-        }
+-        else {
+-            let tilt,
+-                altitude;
+-
+-            if (typeof params.tilt !== "undefined") {
+-                tilt = parseFloat(params.tilt);
+-            }
+-            else if (typeof params.camera?.tilt !== "undefined") {
+-                tilt = parseFloat(params.camera?.tilt);
+-            }
+-            if (typeof params.altitude !== "undefined") {
+-                altitude = parseFloat(params.altitude);
+-            }
+-            else if (typeof params.camera?.altitude !== "undefined") {
+-                altitude = parseFloat(params.camera?.altitude);
+-            }
+-            camera = map3D.getCamera();
+-
+-            if (tilt) {
+-                camera.setTilt(tilt);
+-            }
+-            if (heading) {
+-                camera.setHeading(heading);
+-            }
+-            if (altitude) {
+-                camera.setAltitude(altitude);
+-            }
+-        }
++        orientation
++      })
++    } else {
++      let tilt, altitude
++
++      if (typeof params.tilt !== 'undefined') {
++        tilt = parseFloat(params.tilt)
++      } else if (typeof params.camera?.tilt !== 'undefined') {
++        tilt = parseFloat(params.camera?.tilt)
++      }
++      if (typeof params.altitude !== 'undefined') {
++        altitude = parseFloat(params.altitude)
++      } else if (typeof params.camera?.altitude !== 'undefined') {
++        altitude = parseFloat(params.camera?.altitude)
++      }
++      camera = map3D.getCamera()
++
++      if (tilt) {
++        camera.setTilt(tilt)
++      }
++      if (heading) {
++        camera.setHeading(heading)
++      }
++      if (altitude) {
++        camera.setAltitude(altitude)
++      }
+     }
++  }
+ }
+ 
+ /**
+@@ -104,26 +99,30 @@ export function setCameraParameter (params, map3D, cesium) {
+  * @param {Cesium.JulianDate} [settings.shadowTime] The shadow time in julian date format if undefined olcs default is Cesium.JulianDate.now().
+  * @returns {module:OLCesium} the 3d-map
+  */
+-export function createMap (settings) {
+-    const map3D = new OLCesium({
+-        map: settings.map2D,
+-        time: settings?.shadowTime,
+-        stopOpenLayersEventsPropagation: true,
+-        createSynchronizers: (olMap, scene) => {
+-            return [new WMSRasterSynchronizer(olMap, scene), new VectorSynchronizer(olMap, scene), new FixedOverlaySynchronizer(olMap, scene)];
+-        }
+-    });
++export function createMap(settings) {
++  const map3D = new OLCesium({
++    map: settings.map2D,
++    time: settings?.shadowTime,
++    stopOpenLayersEventsPropagation: true,
++    createSynchronizers: (olMap, scene) => {
++      return [
++        new WMSRasterSynchronizer(olMap, scene),
++        new VectorSynchronizer(olMap, scene),
++        new FixedOverlaySynchronizer(olMap, scene)
++      ]
++    }
++  })
+ 
+-    map3D.id = `map3D_${mapIdCounter++}`;
+-    map3D.mapMode = "3D";
++  map3D.id = `map3D_${mapIdCounter++}`
++  map3D.mapMode = '3D'
+ 
+-    setCesiumSceneParams(map3D.getCesiumScene(), defaults.sceneOptions);
+-    if (settings?.cesiumParameter) {
+-        setCesiumSceneParams(map3D.getCesiumScene(), settings.cesiumParameter);
+-        setCameraParameter(settings.cesiumParameter, map3D, Cesium);
+-    }
++  setCesiumSceneParams(map3D.getCesiumScene(), defaults.sceneOptions)
++  if (settings?.cesiumParameter) {
++    setCesiumSceneParams(map3D.getCesiumScene(), settings.cesiumParameter)
++    setCameraParameter(settings.cesiumParameter, map3D, Cesium)
++  }
+ 
+-    return map3D;
++  return map3D
+ }
+ 
+ /**
+@@ -131,65 +130,76 @@ export function createMap (settings) {
+  * @param {Event} event The cesium event.
+  * @returns {Function} Returns the callbackfunction with click informations.
+  */
+-function reactTo3DClickEvent (event) {
+-    const scene = this.scene,
+-        ray = scene.camera.getPickRay(event.position),
+-        cartesian = scene.globe.pick(ray, scene),
+-        mapProjection = this.map3D.getOlView().getProjection();
+-    let height,
+-        coords,
+-        cartographic,
+-        distance,
+-        resolution,
+-        transformedCoords,
+-        transformedPickedPosition,
+-        pickedPositionCartesian,
+-        cartographicPickedPosition,
+-        clickObject;
+-
+-    if (cartesian) {
+-        if (document.querySelector(".nav li")?.classList.contains("open")) {
+-            document.querySelector(".nav li").classList.remove("open");
+-        }
+-        cartographic = scene.globe.ellipsoid.cartesianToCartographic(cartesian);
+-        coords = [Cesium.Math.toDegrees(cartographic.longitude), Cesium.Math.toDegrees(cartographic.latitude)];
+-        height = scene.globe.getHeight(cartographic);
+-        if (height) {
+-            coords = coords.concat([height]);
+-        }
+-
+-        distance = Cesium.Cartesian3.distance(cartesian, scene.camera.position);
+-        resolution = this.map3D.getCamera().calcResolutionForDistance(distance, cartographic.latitude);
+-        transformedCoords = transform(coords, get("EPSG:4326"), mapProjection);
+-        transformedPickedPosition = null;
+-
+-        if (scene.pickPositionSupported) {
+-            const pickedObject = scene.pick(event.position);
+-
+-            pickedPositionCartesian = scene.pickPosition(event.position);
+-
+-            if (!pickedPositionCartesian && pickedObject?.primitive instanceof window.Cesium.Billboard) {
+-                pickedPositionCartesian = pickedObject.primitive?.position;
+-            }
++function reactTo3DClickEvent(event) {
++  const scene = this.scene,
++    ray = scene.camera.getPickRay(event.position),
++    cartesian = scene.globe.pick(ray, scene),
++    mapProjection = this.map3D.getOlView().getProjection()
++  let height,
++    coords,
++    cartographic,
++    distance,
++    resolution,
++    transformedCoords,
++    transformedPickedPosition,
++    pickedPositionCartesian,
++    cartographicPickedPosition,
++    clickObject
++
++  if (cartesian) {
++    if (document.querySelector('.nav li')?.classList.contains('open')) {
++      document.querySelector('.nav li').classList.remove('open')
++    }
++    cartographic = scene.globe.ellipsoid.cartesianToCartographic(cartesian)
++    coords = [
++      Cesium.Math.toDegrees(cartographic.longitude),
++      Cesium.Math.toDegrees(cartographic.latitude)
++    ]
++    height = scene.globe.getHeight(cartographic)
++    if (height) {
++      coords = coords.concat([height])
++    }
+ 
+-            if (pickedPositionCartesian) {
+-                cartographicPickedPosition = scene.globe.ellipsoid.cartesianToCartographic(pickedPositionCartesian);
+-                transformedPickedPosition = transform([Cesium.Math.toDegrees(cartographicPickedPosition.longitude), Cesium.Math.toDegrees(cartographicPickedPosition.latitude)], get("EPSG:4326"), mapProjection);
+-                transformedPickedPosition.push(cartographicPickedPosition.height);
+-            }
+-        }
+-        clickObject = {
+-            map3D: this,
+-            position: event.position,
+-            pickedPosition: transformedPickedPosition,
+-            coordinate: transformedCoords,
+-            latitude: coords[0],
+-            longitude: coords[1],
+-            resolution: resolution,
+-            originalEvent: event
+-        };
++    distance = Cesium.Cartesian3.distance(cartesian, scene.camera.position)
++    resolution = this.map3D.getCamera().calcResolutionForDistance(distance, cartographic.latitude)
++    transformedCoords = transform(coords, get('EPSG:4326'), mapProjection)
++    transformedPickedPosition = null
++
++    if (scene.pickPositionSupported) {
++      const pickedObject = scene.pick(event.position)
++
++      pickedPositionCartesian = scene.pickPosition(event.position)
++
++      if (!pickedPositionCartesian && pickedObject?.primitive instanceof window.Cesium.Billboard) {
++        pickedPositionCartesian = pickedObject.primitive?.position
++      }
++
++      if (pickedPositionCartesian) {
++        cartographicPickedPosition =
++          scene.globe.ellipsoid.cartesianToCartographic(pickedPositionCartesian)
++        transformedPickedPosition = transform(
++          [
++            Cesium.Math.toDegrees(cartographicPickedPosition.longitude),
++            Cesium.Math.toDegrees(cartographicPickedPosition.latitude)
++          ],
++          get('EPSG:4326'),
++          mapProjection
++        )
++        transformedPickedPosition.push(cartographicPickedPosition.height)
++      }
++    }
++    clickObject = {
++      map3D: this,
++      position: event.position,
++      pickedPosition: transformedPickedPosition,
++      coordinate: transformedCoords,
++      latitude: coords[0],
++      longitude: coords[1],
++      resolution: resolution,
++      originalEvent: event
+     }
+-    return this.callback(clickObject);
++  }
++  return this.callback(clickObject)
+ }
+ 
+ /**
+@@ -197,13 +207,16 @@ function reactTo3DClickEvent (event) {
+  * @param {Object} map3DObject Contains the scene, 3D map and a callback function.
+  * @returns {void}
+  */
+-export function handle3DEvents (map3DObject) {
+-    let eventHandler;
+-
+-    if (Cesium) {
+-        eventHandler = new Cesium.ScreenSpaceEventHandler(map3DObject.scene.canvas);
+-        eventHandler.setInputAction(reactTo3DClickEvent.bind(map3DObject), Cesium.ScreenSpaceEventType.LEFT_CLICK);
+-    }
++export function handle3DEvents(map3DObject) {
++  let eventHandler
++
++  if (Cesium) {
++    eventHandler = new Cesium.ScreenSpaceEventHandler(map3DObject.scene.canvas)
++    eventHandler.setInputAction(
++      reactTo3DClickEvent.bind(map3DObject),
++      Cesium.ScreenSpaceEventType.LEFT_CLICK
++    )
++  }
+ }
+ 
+ /**
+@@ -213,17 +226,25 @@ export function handle3DEvents (map3DObject) {
+  * @param {Object} config optional configuration parameters.
+  * @returns {Cesium.scene.camera} Cesium camera.
+  */
+-export function prepareCamera (scene, urlParams, config) {
+-    const camera = scene.camera;
+-    let cameraParameter = Object.prototype.hasOwnProperty.call(config, "cameraParameter") ? config.cameraParameter : {};
+-
+-    cameraParameter = urlParams?.altitude ? Object.assign(cameraParameter || {}, {altitude: urlParams?.altitude}) : cameraParameter;
+-    cameraParameter = urlParams?.heading ? Object.assign(cameraParameter || {}, {heading: urlParams?.heading}) : cameraParameter;
+-    cameraParameter = urlParams?.tilt ? Object.assign(cameraParameter || {}, {tilt: urlParams?.tilt}) : cameraParameter;
+-
+-    if (Object.keys(cameraParameter).length > 0) {
+-        setCesiumSceneParams(scene, {camera: cameraParameter});
+-    }
+-
+-    return camera;
++export function prepareCamera(scene, urlParams, config) {
++  const camera = scene.camera
++  let cameraParameter = Object.prototype.hasOwnProperty.call(config, 'cameraParameter')
++    ? config.cameraParameter
++    : {}
++
++  cameraParameter = urlParams?.altitude
++    ? Object.assign(cameraParameter || {}, { altitude: urlParams?.altitude })
++    : cameraParameter
++  cameraParameter = urlParams?.heading
++    ? Object.assign(cameraParameter || {}, { heading: urlParams?.heading })
++    : cameraParameter
++  cameraParameter = urlParams?.tilt
++    ? Object.assign(cameraParameter || {}, { tilt: urlParams?.tilt })
++    : cameraParameter
++
++  if (Object.keys(cameraParameter).length > 0) {
++    setCesiumSceneParams(scene, { camera: cameraParameter })
++  }
++
++  return camera
+ }
