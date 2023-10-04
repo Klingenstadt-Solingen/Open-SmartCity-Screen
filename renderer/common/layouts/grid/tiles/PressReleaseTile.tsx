@@ -11,6 +11,11 @@ interface Props {
   setCenter: setCenter
 }
 
+/////// ForTest
+
+//import Parse from 'parse'
+//Parse.LiveQuery.emit('error', 'this is a TEST_ERROR')
+
 export default function PressReleaseTile(props: Props): React.JSX.Element {
   const pressReleases = useLiveQuery(async () => {
     return await db.pressReleases.limit(8).reverse().toArray()

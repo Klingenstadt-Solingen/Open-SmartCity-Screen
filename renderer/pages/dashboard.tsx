@@ -5,8 +5,11 @@ import { db } from '../utils/dexie'
 import Header from '../common/layouts/grid/Header'
 import Footer from '../common/layouts/grid/Footer'
 
+interface Props {
+  isParseOnline: boolean
+}
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const Dashboard = () => {
+const Dashboard = ({ isParseOnline }: Props) => {
   const screen = useLiveQuery(async () => {
     return await db.screen.toCollection().first()
   })
@@ -46,27 +49,29 @@ const Dashboard = () => {
       return (
         <div
           className={
-            layoutConfig.showHeader
-              ? layoutConfig.showFooter
-                ? 'w-[100vw] h-[100vh] grid grid-rows-headerFooter'
-                : 'w-[100vw] h-[100vh] grid grid-rows-header'
-              : layoutConfig.showFooter
-              ? 'w-[100vw] h-[100vh] grid grid-rows-footer'
-              : 'w-[100vw] h-[100vh] grid grid-rows-full'
+            isParseOnline
+              ? layoutConfig.showHeader
+                ? layoutConfig.showFooter
+                  ? 'w-[100vw] h-[100vh] grid grid-rows-headerFooter'
+                  : 'w-[100vw] h-[100vh] grid grid-rows-header'
+                : layoutConfig.showFooter
+                ? 'w-[100vw] h-[100vh] grid grid-rows-footer'
+                : 'w-[100vw] h-[100vh] grid grid-rows-full'
+              : 'w-[100vw] h-[100vh] grid grid-rows-footer'
           }
         >
-          {layoutConfig.showHeader && (
+          {layoutConfig.showHeader && isParseOnline && (
             <div>
               <Header />
             </div>
           )}
-          {screen.layoutType.name === 'DIASHOW' && <Diashow />}
-          {screen.layoutType.name === 'GRID' && (
+          {(screen.layoutType.name === 'DIASHOW' || !isParseOnline) && <Diashow />}
+          {screen.layoutType.name === 'GRID' && isParseOnline && (
             <div className="h-full">
               <Grid />
             </div>
           )}
-          {layoutConfig.showFooter && <Footer />}
+          {(layoutConfig.showFooter || !isParseOnline) && <Footer isOnline={isParseOnline} />}
         </div>
       )
     }

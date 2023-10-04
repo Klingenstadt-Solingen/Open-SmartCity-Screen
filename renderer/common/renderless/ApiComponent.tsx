@@ -16,7 +16,11 @@ import { DiashowObject } from '../../models/diashowObject'
 import { Tile } from '../../models/tile'
 
 import fs, { unlink } from 'fs'
-import { downloadPath, downloadDir } from '../../utils/constants'
+import { downloadPath, downloadDir, hourInMilliseconds } from '../../utils/constants'
+
+import EventEmitter from 'events'
+
+EventEmitter.defaultMaxListeners = 20
 
 export default function ApiComponent(props: PropsWithChildren): React.JSX.Element {
   const screen = useLiveQuery(() => {
@@ -40,6 +44,8 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   })
 
   const filesInDownload = getAllDFileInfos(downloadPath + downloadDir)
+
+  const [isParseOnline, setIsParseOnline] = useState<boolean>(true)
 
   //reference to subscriptions has to be saved in a state in order to cancel them later.
   const [weatherSubscription, setWeatherSubscription] = useState<LiveQuerySubscription>()
@@ -127,6 +133,28 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     })
     return subscription
   }
+
+  let timerFor24H: ReturnType<typeof setTimeout>
+
+  Parse.LiveQuery.on('open', () => {
+    clearTimeout(timerFor24H)
+    setIsParseOnline(true)
+    console.warn('opened')
+  })
+
+  Parse.LiveQuery.on('close', () => {
+    console.warn('closed')
+    timerFor24H = setTimeout(() => {
+      setIsParseOnline(false)
+    }, hourInMilliseconds)
+  })
+
+  Parse.LiveQuery.on('error', (error) => {
+    console.warn('got error: ', error)
+    timerFor24H = setTimeout(() => {
+      setIsParseOnline(false)
+    }, hourInMilliseconds)
+  })
 
   //fetches ParseQueryData via HTTP and and replaces current IndexedDB Data with response if response has content
   function initTableWithQuery<T>(
@@ -359,5 +387,13 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .catch((err) => console.error(err))
   }, [diashowObjects])
 
-  return <>{props.children}</>
+  return (
+    <>
+      {React.Children.map(props.children, (child: React.JSX.Element) => {
+        return React.cloneElement(child, {
+          isParseOnline: isParseOnline
+        })
+      })}
+    </>
+  )
 }
