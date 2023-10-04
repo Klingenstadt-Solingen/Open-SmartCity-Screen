@@ -7,13 +7,43 @@ interface Props {
   isOpen: boolean
   tilePos: number
   setCenter: setCenter
+  accessabilityCode: number
 }
 
 export default function POITile(props: Props): React.JSX.Element {
+  let cssForTitle: React.CSSProperties = {}
+  if (props.isOpen) {
+    if (props.tilePos < 3) {
+      switch (props.accessabilityCode) {
+        case 0:
+          cssForTitle = {}
+          break
+        case 1:
+          cssForTitle = { opacity: 0 }
+          break
+        case 2:
+          cssForTitle = { position: 'absolute', bottom: '4.4rem', marginBottom: '0' }
+          break
+      }
+    } else {
+      switch (props.accessabilityCode) {
+        case 0:
+          cssForTitle = {}
+          break
+        case 1:
+          cssForTitle = {}
+          break
+        case 2:
+          cssForTitle = { opacity: 0 }
+          break
+      }
+    }
+  }
+
   return (
     <div className="h-full w-full p-6 overflow-hidden">
       <div className="bg-solingen-grey p-6 rounded-lg text-solingen-blue w-full h-full flex flex-col overflow-hidden">
-        <div className="ml-4 text-left tracking-wide text-6xl font-bold mb-11">
+        <div className="ml-4 text-left tracking-wide text-6xl font-bold mb-11" style={cssForTitle}>
           Häufig
           <br />
           gesucht.

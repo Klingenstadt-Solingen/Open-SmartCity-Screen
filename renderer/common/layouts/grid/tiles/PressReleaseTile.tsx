@@ -9,14 +9,39 @@ interface Props {
   isOpen: boolean
   tilePos: number
   setCenter: setCenter
+  accessabilityCode: number
 }
 
-/////// ForTest
-
-//import Parse from 'parse'
-//Parse.LiveQuery.emit('error', 'this is a TEST_ERROR')
-
 export default function PressReleaseTile(props: Props): React.JSX.Element {
+  let cssForTitle: React.CSSProperties = {}
+  if (props.isOpen) {
+    if (props.tilePos < 3) {
+      switch (props.accessabilityCode) {
+        case 0:
+          cssForTitle = {}
+          break
+        case 1:
+          cssForTitle = { opacity: 0 }
+          break
+        case 2:
+          cssForTitle = { position: 'absolute', bottom: '4.4rem', marginBottom: '0' }
+          break
+      }
+    } else {
+      switch (props.accessabilityCode) {
+        case 0:
+          cssForTitle = {}
+          break
+        case 1:
+          cssForTitle = {}
+          break
+        case 2:
+          cssForTitle = { opacity: 0 }
+          break
+      }
+    }
+  }
+
   const pressReleases = useLiveQuery(async () => {
     return await db.pressReleases.limit(8).reverse().toArray()
   })
@@ -24,7 +49,10 @@ export default function PressReleaseTile(props: Props): React.JSX.Element {
   if (typeof pressReleases !== 'undefined') {
     return (
       <div className="w-full h-full pt-12 overflow-hidden flex flex-col">
-        <div className="px-12 text-6xl text-left font-bold mb-8 tracking-wide text-solingen-blue whitespace-nowrap">
+        <div
+          className="px-12 text-6xl text-left font-bold mb-8 tracking-wide text-solingen-blue whitespace-nowrap"
+          style={cssForTitle}
+        >
           Neues aus
           <br />
           Solingen.

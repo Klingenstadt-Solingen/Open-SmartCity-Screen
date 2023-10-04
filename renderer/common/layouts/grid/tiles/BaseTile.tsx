@@ -11,6 +11,7 @@ interface Props {
   position: number
   setCenter: (panel: React.JSX.Element) => void
   tile: Tile
+  accessabilityCode: number
 }
 
 export default function BaseTile(props: Props): React.JSX.Element {
@@ -18,7 +19,14 @@ export default function BaseTile(props: Props): React.JSX.Element {
 
   switch (props.tile.tileType.name) {
     case 'MAP':
-      tile = <MapTile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
+      tile = (
+        <MapTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          tilePos={props.position}
+          accessabilityCode={props.accessabilityCode}
+        />
+      )
       break
     case 'PRESSRELEASES':
       tile = (
@@ -26,15 +34,28 @@ export default function BaseTile(props: Props): React.JSX.Element {
           setCenter={props.setCenter}
           isOpen={props.isOpen}
           tilePos={props.position}
+          accessabilityCode={props.accessabilityCode}
         />
       )
       break
     case 'POI':
-      tile = <POITile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
+      tile = (
+        <POITile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          tilePos={props.position}
+          accessabilityCode={props.accessabilityCode}
+        />
+      )
       break
     case 'WEATHER':
       tile = (
-        <WeatherTile setCenter={props.setCenter} isOpen={props.isOpen} tilePos={props.position} />
+        <WeatherTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          tilePos={props.position}
+          accessabilityCode={props.accessabilityCode}
+        />
       )
       break
     case 'DIASHOW':

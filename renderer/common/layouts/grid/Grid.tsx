@@ -4,9 +4,17 @@ import BasePanel from './panels/BasePanel'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../../utils/dexie'
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Grid() {
   const tiles = useLiveQuery(async () => {
     return await db.tiles.limit(4).sortBy('order')
+  })
+  const isShowHeader = useLiveQuery(async () => {
+    return (await db.layoutConfig.toCollection().first()).showHeader
+  })
+
+  const isShowFooter = useLiveQuery(async () => {
+    return (await db.layoutConfig.toCollection().first()).showFooter
   })
 
   const [centerPanel, setCenterPanel] = useState(<></>)
@@ -19,6 +27,8 @@ export default function Grid() {
   ]
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  //accessabilityCode: 0-> middle, 1-> top, 2-> bottom
+  const [accessabilityCode, setAccessabilityCode] = useState<number>(0)
   const [orderStatus, setOrderStatus] = useState<number>(0)
 
   function setCenter(panel: React.JSX.Element): void {
@@ -29,7 +39,10 @@ export default function Grid() {
   }
 
   function handleOutsideClick(): void {
-    if (isOpen) setIsOpen(false)
+    if (isOpen) {
+      setIsOpen(false)
+      setAccessabilityCode(0)
+    }
   }
 
   function handleRotationButtonClick(event: React.FormEvent): void {
@@ -38,11 +51,74 @@ export default function Grid() {
     else setOrderStatus(orderStatus + 1)
   }
 
+  function handleToUpButtonClick(event: React.FormEvent): void {
+    event.stopPropagation()
+    setAccessabilityCode(1)
+  }
+  function handleToDownButtonClick(event: React.FormEvent): void {
+    event.stopPropagation()
+    setAccessabilityCode(2)
+  }
+
+  let baseTileContainerCss: React.CSSProperties = {}
+  const baseTileContainerCss_tmp: React.CSSProperties = {
+    rowGap: '47%',
+    height: '138vh',
+    maxHeight: '138vh'
+  }
+  if (isOpen) {
+    switch (accessabilityCode) {
+      case 0:
+        baseTileContainerCss = { rowGap: '65%' }
+        break
+      case 1:
+        if (isShowHeader) {
+          if (isShowFooter) {
+            baseTileContainerCss = { ...baseTileContainerCss_tmp, marginTop: '-35vh' }
+          } else {
+            baseTileContainerCss = {
+              ...baseTileContainerCss_tmp,
+              marginTop: '-36vh'
+            }
+          }
+        } else {
+          baseTileContainerCss = {
+            ...baseTileContainerCss_tmp,
+            marginTop: '-30vh'
+          }
+        }
+
+        break
+      case 2:
+        if (isShowHeader) {
+          if (isShowFooter) {
+            baseTileContainerCss = {
+              ...baseTileContainerCss_tmp,
+              marginTop: '-17vh'
+            }
+          } else {
+            baseTileContainerCss = {
+              ...baseTileContainerCss_tmp,
+              marginTop: '-15vh'
+            }
+          }
+        } else {
+          baseTileContainerCss = {
+            ...baseTileContainerCss_tmp,
+            marginTop: '-9vh'
+          }
+        }
+        break
+    }
+  } else {
+    baseTileContainerCss = { rowGap: '0' }
+  }
+
   if (typeof tiles !== 'undefined' && tiles.length) {
     return (
       <div
-        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-[row-gap] duration-solingen-speed"
-        style={isOpen ? { rowGap: '65%' } : { rowGap: '0' }}
+        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-all duration-solingen-speed bg-white"
+        style={baseTileContainerCss}
         onClick={handleOutsideClick}
       >
         {tiles.map((tile, index) => (
@@ -52,10 +128,32 @@ export default function Grid() {
             isOpen={isOpen}
             position={boxOrder[orderStatus][index]}
             setCenter={setCenter}
+            accessabilityCode={accessabilityCode}
           ></BaseTile>
         ))}
-        <BasePanel isOpen={isOpen}>{centerPanel}</BasePanel>
-        {!isOpen && (
+        <BasePanel isOpen={isOpen} accessabilityCode={accessabilityCode}>
+          {centerPanel}
+        </BasePanel>
+        {isOpen ? (
+          <>
+            <button
+              onClick={handleToUpButtonClick}
+              className="z-10 absolute left-[48.5vw] top-[8rem] w-[3rem] h-[3rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
+              style={{
+                backgroundImage: 'url("/images/svg/arrow-up.svg")',
+                backgroundSize: '60%'
+              }}
+            ></button>
+            <button
+              onClick={handleToDownButtonClick}
+              className="z-10 absolute left-[48.5vw] bottom-[8rem] w-[3rem] h-[3rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
+              style={{
+                backgroundImage: 'url("/images/svg/arrow-down.svg")',
+                backgroundSize: '60%'
+              }}
+            ></button>
+          </>
+        ) : (
           <button
             onClick={handleRotationButtonClick}
             className="z-10 absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-no-repeat bg-center bg-solingen-grey opacity-80"

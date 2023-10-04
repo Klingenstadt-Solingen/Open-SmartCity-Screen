@@ -9,9 +9,39 @@ interface Props {
   isOpen: boolean
   tilePos: number
   setCenter: setCenter
+  accessabilityCode: number
 }
 
-export default function MapTile(props: Props): React.JSX.Element {
+export default function WeatherTile(props: Props): React.JSX.Element {
+  let cssForTitle: React.CSSProperties = {}
+  if (props.isOpen) {
+    if (props.tilePos < 3) {
+      switch (props.accessabilityCode) {
+        case 0:
+          cssForTitle = {}
+          break
+        case 1:
+          cssForTitle = { opacity: 0 }
+          break
+        case 2:
+          cssForTitle = { position: 'absolute', bottom: '4.4rem', marginBottom: '0' }
+          break
+      }
+    } else {
+      switch (props.accessabilityCode) {
+        case 0:
+          cssForTitle = {}
+          break
+        case 1:
+          cssForTitle = {}
+          break
+        case 2:
+          cssForTitle = { opacity: 0 }
+          break
+      }
+    }
+  }
+
   const weather = useLiveQuery(async () => {
     return await db.weather.toCollection().first()
   })
@@ -20,7 +50,7 @@ export default function MapTile(props: Props): React.JSX.Element {
   } else {
     return (
       <div className="w-full p-12 bg-solingen-yellow text-solingen-blue h-full overflow-hidden">
-        <div className="text-left text-6xl font-bold tracking-wide">
+        <div className="text-left text-6xl font-bold tracking-wide" style={cssForTitle}>
           Aktuelles
           <br />
           Wetter.

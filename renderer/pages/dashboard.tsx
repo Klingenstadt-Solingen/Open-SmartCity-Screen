@@ -49,15 +49,13 @@ const Dashboard = ({ isParseOnline }: Props) => {
       return (
         <div
           className={
-            isParseOnline
-              ? layoutConfig.showHeader
-                ? layoutConfig.showFooter
-                  ? 'w-[100vw] h-[100vh] grid grid-rows-headerFooter'
-                  : 'w-[100vw] h-[100vh] grid grid-rows-header'
-                : layoutConfig.showFooter
-                ? 'w-[100vw] h-[100vh] grid grid-rows-footer'
-                : 'w-[100vw] h-[100vh] grid grid-rows-full'
-              : 'w-[100vw] h-[100vh] grid grid-rows-footer'
+            layoutConfig.showHeader
+              ? layoutConfig.showFooter
+                ? 'w-[100vw] h-[100vh] grid grid-rows-headerFooter bg-solingen-blue'
+                : 'w-[100vw] h-[100vh] grid grid-rows-header bg-solingen-blue'
+              : layoutConfig.showFooter
+              ? 'w-[100vw] h-[100vh] grid grid-rows-footer bg-solingen-blue'
+              : 'w-[100vw] h-[100vh] grid grid-rows-full bg-solingen-blue'
           }
         >
           {layoutConfig.showHeader && isParseOnline && (

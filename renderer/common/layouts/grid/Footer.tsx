@@ -18,7 +18,7 @@ export default function Footer({ isOnline }: Props): React.JSX.Element {
       'Wetter: ' + weather.values.lufttemperatur.value + weather.values.lufttemperatur.unit
     ]
     return (
-      <div className="text-3xl font-normal w-[100vw] border-t-2 border-solingen-blue flex items-center">
+      <div className="text-3xl font-normal w-[100vw] border-t-2 border-solingen-blue flex items-center bg-solingen-grey z-0">
         <p className="w-full whitespace-nowrap flex gap-1">
           <span
             className="inline-block w-full"
