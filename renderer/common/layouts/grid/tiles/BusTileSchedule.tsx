@@ -80,33 +80,32 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
   }, [screen?.location])
 
   return (
-    <div className="flex sm:flex-col md:flex-row flex-wrap md:items-center pl-12 w-full h-full bg-solingen-blue whitespace-nowrap overflow-hidden">
-      <div className="text-solingen-yellow font-bold text-3xl text-left w-full my-10">
-        {nearestBusStopName} Aushangfahrplan:
+    <div className="w-full h-full bg-solingen-blue">
+      <div className="pt-20 pb-20 flex flex-col gap-5 flex-wrap w-full h-full whitespace-nowrap overflow-hidden">
+        {busServingList.map((item, index) => {
+          if (index < 10)
+            return (
+              <button
+                key={index}
+                className="mb-5 mx-10 bg-solingen-grey text-black font-extrabold text-2xl p-4 h-25 rounded-lg"
+                onClick={() => {
+                  getPDF(nearestBusStopId, item.mode.diva.line)
+                    .then((res) => {
+                      props.setCenter(<ImagePanel imgAlt="" imgSrc={res} fileType=""></ImagePanel>)
+                    })
+                    .catch((err) => {
+                      console.log(err)
+                      alert('Keine PDF-Daten!')
+                    })
+                }}
+              >
+                {item.mode.number} nach
+                <br />
+                {item.mode.destination}
+              </button>
+            )
+        })}
       </div>
-      {busServingList.map((item, index) => {
-        if (index < 10)
-          return (
-            <button
-              key={index}
-              className="mb-5 mr-5 bg-solingen-grey text-black font-extrabold text-2xl p-4 h-25 rounded-lg"
-              onClick={() => {
-                getPDF(nearestBusStopId, item.mode.diva.line)
-                  .then((res) => {
-                    props.setCenter(<ImagePanel imgAlt="" imgSrc={res} fileType=""></ImagePanel>)
-                  })
-                  .catch((err) => {
-                    console.log(err)
-                    alert('Keine PDF-Daten!')
-                  })
-              }}
-            >
-              {item.mode.number} nach
-              <br />
-              {item.mode.destination}
-            </button>
-          )
-      })}
     </div>
   )
 }

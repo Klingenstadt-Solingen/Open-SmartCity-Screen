@@ -138,7 +138,7 @@ export default function Grid() {
           <>
             <button
               onClick={handleToUpButtonClick}
-              className="z-10 absolute left-[48.5vw] top-[8rem] w-[3rem] h-[3rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
+              className="z-10 absolute left-[48.5vw] top-[8rem] w-[8rem] h-[8rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
               style={{
                 backgroundImage: 'url("/images/svg/arrow-up.svg")',
                 backgroundSize: '60%'
@@ -146,7 +146,7 @@ export default function Grid() {
             ></button>
             <button
               onClick={handleToDownButtonClick}
-              className="z-10 absolute left-[48.5vw] bottom-[8rem] w-[3rem] h-[3rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
+              className="z-10 absolute left-[48.5vw] bottom-[8rem] w-[8rem] h-[8rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
               style={{
                 backgroundImage: 'url("/images/svg/arrow-down.svg")',
                 backgroundSize: '60%'

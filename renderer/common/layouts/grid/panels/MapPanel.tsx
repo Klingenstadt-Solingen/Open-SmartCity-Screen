@@ -27,7 +27,7 @@ function styleWfs(feature) {
       //not possible because images are hosted with "X-Frame-Options allow-from solingen.de"
       //src: category.symbolPath + '/' + category.symbolName + category.symbolMimetype,
       src: '/images/symbols/' + feature.values_.symbolName + feature.values_.symbolMimetype,
-      scale: 0.5,
+      scale: 0.8,
       opacity: 1
     })
   })
