@@ -6,5 +6,13 @@ export interface Tile extends Base {
 }
 
 export interface TileType {
-  name: 'MAP' | 'POI' | 'PRESSRELEASES' | 'WEATHER' | 'DIASHOW'
+  name:
+    | 'MAP'
+    | 'POI'
+    | 'PRESSRELEASES'
+    | 'WEATHER'
+    | 'DIASHOW'
+    | 'BUS_DEPARTURE'
+    | 'BUS_SCHEDULE'
+    | 'BOB'
 }

@@ -17,7 +17,7 @@
     { "resolution": 0.066145833, "scale": 250, "zoomLevel": 11 },
     { "resolution": 0.0264583333, "scale": 100, "zoomLevel": 12 }
   ],
-  "startResolution": 9,
+  "startResolution": 5.291666666,
   "startCenter": [365900, 5670066],
   "units": "m"
 }

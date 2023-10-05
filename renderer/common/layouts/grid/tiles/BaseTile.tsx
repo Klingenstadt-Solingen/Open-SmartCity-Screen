@@ -5,6 +5,9 @@ import POITile from './POITile'
 import WeatherTile from './WeatherTile'
 import { Tile } from '../../../../models/tile'
 import ImageTile from '../../diashow/tiles/ImageTile'
+import BusTileDeparture from './BusTileDeparture'
+import BusTileSchedule from './BusTileSchedule'
+import BobTile from './BobTile'
 
 interface Props {
   isOpen: boolean
@@ -58,8 +61,17 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
+    case 'BUSDEPARTURE':
+      tile = <BusTileDeparture />
+      break
+    case 'BUSSCHEDULE':
+      tile = <BusTileSchedule setCenter={props.setCenter} />
+      break
     case 'DIASHOW':
       tile = <ImageTile />
+      break
+    case 'BOB':
+      tile = <BobTile />
       break
   }
 
