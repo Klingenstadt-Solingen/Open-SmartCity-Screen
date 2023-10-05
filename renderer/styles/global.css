@@ -57,3 +57,11 @@ div#__next > div {
 .pressRelease > p {
   margin-bottom: 14px;
 }
+
+.react-pdf__Page {
+  background-color: #004373 !important;
+}
+
+.react-pdf__Document {
+  background-color: #004373 !important;
+}

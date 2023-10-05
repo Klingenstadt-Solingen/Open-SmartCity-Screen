@@ -1,54 +1,55 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Document, Page } from 'react-pdf'
 
 interface Props {
   imgSrc: string
-  imgAlt: string
   fileType: string
+  pdfCanvasWidth: number | undefined
+  pdfCanvasHeight: number | undefined
 }
-export default function WeatherPanel({ imgSrc, imgAlt, fileType }: Props): React.JSX.Element {
-  const [pdfIsReady, setPdfIsready] = useState<boolean>(false)
-  const [panelIsLoading, setPanelIsLoading] = useState<boolean>(true)
+export default function ImagePanel(props: Props): React.JSX.Element {
+  const [mediaContainerW, setMediaContainerW] = useState<number>(0)
+  const [mediaContainerH, setMediaContainerH] = useState<number>(0)
+
+  const mediaContainerRef = useRef(null)
 
   useEffect(() => {
-    const timer = setTimeout(() => setPanelIsLoading(false), 600)
-    return () => clearTimeout(timer)
-  }, [panelIsLoading])
-
-  function onPageRenderSuccess(): void {
-    setPdfIsready(!pdfIsReady)
-  }
+    if (
+      (props.fileType.toLowerCase() === 'pdf' && mediaContainerRef.current?.offsetWidth > 0) ||
+      mediaContainerRef.current?.offsetHeight > 0
+    ) {
+      setMediaContainerW(mediaContainerRef.current?.offsetWidth)
+      setMediaContainerH(mediaContainerRef.current?.offsetHeight)
+    }
+  }, [])
 
   return (
     <>
-      {!panelIsLoading && (
-        <div className="tracking-wide w-full h-[59vh] bg-white flex flex-wrap flex-row box-border overflow-hidden">
-          {fileType.toLowerCase() !== 'pdf' ? (
-            <img className="w-full h-full" src={imgSrc} alt={imgAlt}></img>
-          ) : (
-            <center>
-              <div
-                style={{ backgroundImage: 'url("/images/loading.gif")' }}
-                className={
-                  !pdfIsReady
-                    ? 'absolute z-20 w-full h-[56vh] bg-no-repeat bg-center bg-contain'
-                    : 'hidden'
-                }
-              ></div>
-
-              <Document loading={''} className="w-[100vw]" file={imgSrc}>
-                <Page
-                  loading={''}
-                  renderTextLayer={false}
-                  scale={1}
-                  onRenderSuccess={onPageRenderSuccess}
-                  pageNumber={1}
-                />
-              </Document>
-            </center>
-          )}
-        </div>
-      )}
+      <div
+        ref={mediaContainerRef}
+        className="w-full h-full flex items-center justify-center overflow-hidden bg-solingen-blue"
+      >
+        {props.fileType.toLowerCase() !== 'pdf' ? (
+          <img className="w-full h-full object-contain" src={props.imgSrc}></img>
+        ) : (
+          <Document loading={''} file={props.imgSrc}>
+            <Page
+              renderTextLayer={false}
+              pageNumber={1}
+              width={
+                props.pdfCanvasWidth < props.pdfCanvasHeight
+                  ? (props.pdfCanvasWidth * mediaContainerH) / props.pdfCanvasHeight
+                  : 0
+              }
+              height={
+                props.pdfCanvasWidth > props.pdfCanvasHeight
+                  ? (mediaContainerW * props.pdfCanvasHeight) / props.pdfCanvasWidth
+                  : 0
+              }
+            />
+          </Document>
+        )}
+      </div>
     </>
   )
 }

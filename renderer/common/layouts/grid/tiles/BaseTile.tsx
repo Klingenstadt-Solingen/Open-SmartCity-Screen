@@ -68,7 +68,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
       tile = <BusTileSchedule setCenter={props.setCenter} />
       break
     case 'DIASHOW':
-      tile = <ImageTile />
+      tile = <ImageTile layoutDiashow={false} setCenter={props.setCenter} isOpen={props.isOpen} />
       break
     case 'BOB':
       tile = <BobTile />

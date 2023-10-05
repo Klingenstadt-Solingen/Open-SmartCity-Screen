@@ -12,6 +12,7 @@ export default function BasePanel(props: PropsWithChildren<Props>): React.JSX.El
   const isShowHeader = useLiveQuery(async () => {
     return (await db.layoutConfig.toCollection().first()).showHeader
   })
+
   const isShowFooter = useLiveQuery(async () => {
     return (await db.layoutConfig.toCollection().first()).showFooter
   })

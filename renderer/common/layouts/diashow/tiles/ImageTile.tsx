@@ -6,9 +6,7 @@ import { Mousewheel, Autoplay } from 'swiper/modules'
 import { db } from '../../../../utils/dexie'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { DiashowObject } from '../../../../models/diashowObject'
-import { Document, Page, pdfjs } from 'react-pdf'
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
-import 'react-pdf/dist/Page/AnnotationLayer.css'
+import MediaContainer from './MediaContainer'
 
 import fs from 'fs'
 import https from 'https'
@@ -16,6 +14,9 @@ import { downloadPath, downloadDir } from '../../../../utils/constants'
 
 function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
   return new Promise((resolve, reject) => {
+    if (!fs.existsSync(downloadPath + downloadDir)) {
+      fs.mkdirSync(downloadPath + downloadDir)
+    }
     Promise.all(
       diashowObjects.map((diashowObject) => {
         return new Promise<void>((resolveOne, rejectOne) => {
@@ -48,14 +49,18 @@ function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> 
   })
 }
 
-export default function ImageTile(): React.JSX.Element {
+interface Props {
+  setCenter: (panel: React.JSX.Element) => void | undefined
+  isOpen: boolean | undefined
+  layoutDiashow: boolean
+}
+
+export default function ImageTile(props: Props): React.JSX.Element {
   const diashowObjects = useLiveQuery(async () => {
     return await db.diashowObjects.toArray()
   })
 
   const [isLoading, setIsLoading] = useState(true)
-
-  pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
 
   useEffect(() => {
     setIsLoading(true)
@@ -69,6 +74,8 @@ export default function ImageTile(): React.JSX.Element {
   if (!isLoading && typeof diashowObjects !== 'undefined' && diashowObjects.length) {
     return (
       <Swiper
+        className="w-full h-full bg-solingen-blue"
+        watchSlidesProgress={true}
         direction={'vertical'}
         loop={true}
         speed={2000}
@@ -77,25 +84,23 @@ export default function ImageTile(): React.JSX.Element {
         autoplay={{
           disableOnInteraction: false
         }}
-        className="w-full h-full"
       >
         {diashowObjects.map((diashowObject, index) => {
           return (
-            <SwiperSlide key={index} data-swiper-autoplay={diashowObject.duration * 1000 || 2000}>
-              {diashowObject.file.name.endsWith('.pdf') && (
-                <Document file={downloadDir + diashowObject.file.name}>
-                  <Page
-                    height={600}
-                    width={350}
-                    className="w-20"
-                    renderTextLayer={false}
-                    pageNumber={1}
-                  />
-                </Document>
-              )}
-              {!diashowObject.file.name.endsWith('.pdf') && (
-                <img src={downloadDir + diashowObject.file.name}></img>
-              )}
+            <SwiperSlide
+              key={index}
+              data-swiper-autoplay={
+                diashowObject.file.name.toLocaleLowerCase().endsWith('.mp4')
+                  ? 10
+                  : diashowObject.duration * 1000
+              }
+            >
+              <MediaContainer
+                srcInfo={downloadDir + diashowObject.file.name}
+                setCenter={props.setCenter}
+                isOpen={props.isOpen}
+                layoutDiashow={props.layoutDiashow}
+              ></MediaContainer>
             </SwiperSlide>
           )
         })}

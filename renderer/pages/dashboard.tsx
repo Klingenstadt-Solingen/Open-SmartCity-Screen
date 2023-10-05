@@ -63,7 +63,11 @@ const Dashboard = ({ isParseOnline }: Props) => {
               <Header />
             </div>
           )}
-          {(screen.layoutType.name === 'DIASHOW' || !isParseOnline) && <Diashow />}
+          {(screen.layoutType.name === 'DIASHOW' || !isParseOnline) && (
+            <div className="w-[100vw]">
+              <Diashow />
+            </div>
+          )}
           {screen.layoutType.name === 'GRID' && isParseOnline && (
             <div className="h-full">
               <Grid />
