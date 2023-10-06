@@ -4,7 +4,7 @@
     "name": "SPW2 Light",
     "url": "https://geodaten.metropoleruhr.de/spw2",
     "typ": "WMS",
-    "layers": "spw2_extralight_grundriss",
+    "layers": "spw2_extralight",
     "format": "image/png",
     "version": "1.3.0",
     "singleTile": false,

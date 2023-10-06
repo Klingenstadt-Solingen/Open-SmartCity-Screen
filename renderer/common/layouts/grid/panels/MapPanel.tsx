@@ -27,7 +27,7 @@ function styleWfs(feature) {
       //not possible because images are hosted with "X-Frame-Options allow-from solingen.de"
       //src: category.symbolPath + '/' + category.symbolName + category.symbolMimetype,
       src: '/images/symbols/' + feature.values_.symbolName + feature.values_.symbolMimetype,
-      scale: 0.8,
+      scale: 0.7,
       opacity: 1
     })
   })
@@ -132,14 +132,14 @@ export default function MapPanel({
     <>
       <div className="h-full" id="map-div-id"></div>
       {categories && (
-        <div className="absolute bg-solingen-blue bg-opacity-90 h-40 bottom-0 w-full text-white">
+        <div className="absolute bg-solingen-blue bg-opacity-90 h-56 bottom-0 w-full text-white">
           <div className="h-full flex justify-around items-center">
             {categories.map((category, index) => {
               if (category.showCategory === 'true') {
                 return (
                   <div
                     key={index}
-                    className="h-full flex-col flex items-center justify-center gap-2"
+                    className="h-full flex-col flex items-center flex-grow-0 flex-shrink-0 justify-center"
                     onClick={() => {
                       switchLayer(category.name)
                     }}
@@ -148,13 +148,16 @@ export default function MapPanel({
                       draggable="false"
                       className={
                         activeLayers.includes(category.name)
-                          ? 'rounded-full bg-solingen-yellow transition-colors w-24 h-24'
-                          : 'rounded-full bg-white transition-colors w-24 h-24'
+                          ? 'rounded-full bg-solingen-yellow transition-colors w-1/3'
+                          : 'rounded-full bg-white transition-colors w-1/3'
                       }
                       src={category.iconPath + '/' + category.iconName + category.iconMimetype}
                     ></img>
-                    <div className="text-2xl">
-                      {category.mapTitle} <span className="text-solingen-yellow">{'>'}</span>
+                    <div>
+                      <div className="text-xl inline-block">
+                        {category.mapTitle}&nbsp;
+                        <span className="text-solingen-yellow inline-block">{'>'}</span>
+                      </div>
                     </div>
                   </div>
                 )

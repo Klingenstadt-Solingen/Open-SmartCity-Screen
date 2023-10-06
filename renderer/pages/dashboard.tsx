@@ -32,7 +32,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
   } else {
     if (screen.state?.name === 'INACTIVE' || typeof layoutConfig === 'undefined') {
       return (
-        <div className="text-center w-full h-[100vh] items-center justify-center bg-solingen-blue flex flex-col flex-nowrap">
+        <div className="text-center w-full h-screen items-center justify-center bg-solingen-blue flex flex-col flex-nowrap">
           <img
             className="w-[200px] mb-[3vh]"
             src="/images/button_menschsolingen_175px_2_0e8ecd94f8.png"
@@ -51,25 +51,27 @@ const Dashboard = ({ isParseOnline }: Props) => {
           className={
             layoutConfig.showHeader
               ? layoutConfig.showFooter
-                ? 'w-[100vw] h-[100vh] grid grid-rows-headerFooter bg-solingen-blue'
-                : 'w-[100vw] h-[100vh] grid grid-rows-header bg-solingen-blue'
+                ? 'w-screen h-screen grid grid-rows-headerFooter bg-solingen-blue'
+                : 'w-screen h-screen grid grid-rows-header bg-solingen-blue'
               : layoutConfig.showFooter
-              ? 'w-[100vw] h-[100vh] grid grid-rows-footer bg-solingen-blue'
-              : 'w-[100vw] h-[100vh] grid grid-rows-full bg-solingen-blue'
+              ? 'w-screen h-screen grid grid-rows-footer bg-solingen-blue'
+              : 'w-screen h-screen grid grid-rows-full bg-solingen-blue'
           }
         >
-          {layoutConfig.showHeader && isParseOnline && (
+          {layoutConfig.showHeader && (
             <div>
               <Header />
             </div>
           )}
-          {(screen.layoutType.name === 'DIASHOW' || !isParseOnline) && (
-            <div className="w-[100vw]">
+          {(screen.layoutType?.name === 'DIASHOW' ||
+            !isParseOnline ||
+            screen.layoutType === undefined) && (
+            <div className="h-full w-screen">
               <Diashow />
             </div>
           )}
-          {screen.layoutType.name === 'GRID' && isParseOnline && (
-            <div className="h-full">
+          {screen.layoutType?.name === 'GRID' && isParseOnline && (
+            <div className="h-full w-screen">
               <Grid />
             </div>
           )}

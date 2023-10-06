@@ -13,11 +13,10 @@ export default function Header(): React.JSX.Element {
       <div className="text-6xl text-center text-solingen-yellow font-bold bg-solingen-blue border-gray-400 border-b py-5">
         <img
           src="/images/busstop.png"
-          height="200rem"
-          width="200rem"
+          width="7%"
           className="absolute z-50 shadow-2xl rounded-full m-0 ml-20"
         ></img>
-        Bushaltestelle {name}
+        {name}
       </div>
     )
   }

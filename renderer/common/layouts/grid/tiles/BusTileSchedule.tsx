@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function BusTileDeparture(props: Props): React.JSX.Element {
-  const [nearestBusStopName, setNearestBusStopName] = useState<string>('')
+  // const [nearestBusStopName, setNearestBusStopName] = useState<string>('')
   const [nearestBusStopId, setNearestBusStopId] = useState<string>('')
   const [busServingList, setBusServingList] = useState([])
 
@@ -27,7 +27,7 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
   Parse.masterKey = 'enrTPQGtJX8QqnPjre7hjSfnrwtbQZ2b'
 
   let nearestBusStopId_tmp = ''
-  let nearestBusStopName_tmp = ''
+  // let nearestBusStopName_tmp = ''
 
   async function getBusInfos(lat: number, lon: number) {
     completeVrrInfos = await Parse.Cloud.run(
@@ -38,10 +38,10 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
 
     if (completeVrrInfos[''].itdOdvAssignedStops instanceof Array) {
       nearestBusStopId_tmp = completeVrrInfos[''].itdOdvAssignedStops[0].stopID
-      nearestBusStopName_tmp = completeVrrInfos[''].itdOdvAssignedStops[0].name
+      // nearestBusStopName_tmp = completeVrrInfos[''].itdOdvAssignedStops[0].name
     } else if (completeVrrInfos[''].itdOdvAssignedStops instanceof Object) {
       nearestBusStopId_tmp = completeVrrInfos[''].itdOdvAssignedStops.stopID
-      nearestBusStopName_tmp = completeVrrInfos[''].itdOdvAssignedStops.name
+      // nearestBusStopName_tmp = completeVrrInfos[''].itdOdvAssignedStops.name
     }
 
     if (
@@ -70,7 +70,7 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
       .then((res) => {
         if (res instanceof Array && res[0] instanceof Object) {
           setBusServingList(res)
-          setNearestBusStopName(nearestBusStopName_tmp)
+          // setNearestBusStopName(nearestBusStopName_tmp)
           setNearestBusStopId(nearestBusStopId_tmp)
         }
       })
@@ -90,8 +90,15 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
                 className="mb-5 mx-10 bg-solingen-grey text-black font-extrabold text-2xl p-4 h-25 rounded-lg"
                 onClick={() => {
                   getPDF(nearestBusStopId, item.mode.diva.line)
-                    .then((res) => {
-                      props.setCenter(<ImagePanel imgAlt="" imgSrc={res} fileType=""></ImagePanel>)
+                    .then(() => {
+                      props.setCenter(
+                        <ImagePanel
+                          pdfCanvasHeight={100}
+                          pdfCanvasWidth={100}
+                          imgSrc="/images/fahrplan.png"
+                          fileType=""
+                        ></ImagePanel>
+                      )
                     })
                     .catch((err) => {
                       console.log(err)

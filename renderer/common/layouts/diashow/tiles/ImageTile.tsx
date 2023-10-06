@@ -50,9 +50,9 @@ function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> 
 }
 
 interface Props {
-  setCenter: (panel: React.JSX.Element) => void | undefined
-  isOpen: boolean | undefined
-  layoutDiashow: boolean
+  setCenter?: (panel: React.JSX.Element) => void | undefined
+  isOpen?: boolean | undefined
+  layoutDiashow?: boolean
 }
 
 export default function ImageTile(props: Props): React.JSX.Element {
