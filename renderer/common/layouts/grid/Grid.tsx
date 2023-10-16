@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseTile from './tiles/BaseTile'
 import BasePanel from './panels/BasePanel'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -7,7 +7,7 @@ import { db } from '../../../utils/dexie'
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Grid() {
   const tiles = useLiveQuery(async () => {
-    return await db.tiles.limit(4).sortBy('order')
+    return await db.tiles.limit(4).toArray()
   })
   const isShowHeader = useLiveQuery(async () => {
     return (await db.layoutConfig.toCollection().first()).showHeader
@@ -30,6 +30,23 @@ export default function Grid() {
   //accessabilityCode: 0-> middle, 1-> top, 2-> bottom
   const [accessabilityCode, setAccessabilityCode] = useState<number>(0)
   const [orderStatus, setOrderStatus] = useState<number>(0)
+
+  function inactivityTime() {
+    let time
+    window.onload = resetTimer
+    // DOM Events
+    document.onmousemove = resetTimer
+    document.onkeydown = resetTimer
+
+    function resetTimer() {
+      clearTimeout(time)
+      time = setTimeout(() => setIsOpen(false), 300000)
+    }
+  }
+
+  useEffect(() => {
+    inactivityTime()
+  }, [])
 
   function setCenter(panel: React.JSX.Element): void {
     if (!isOpen) {
@@ -87,7 +104,6 @@ export default function Grid() {
             marginTop: '-30vh'
           }
         }
-
         break
       case 2:
         if (isShowHeader) {
@@ -121,37 +137,46 @@ export default function Grid() {
         style={baseTileContainerCss}
         onClick={handleOutsideClick}
       >
-        {tiles.map((tile, index) => (
-          <BaseTile
-            key={index}
-            tile={tile}
-            isOpen={isOpen}
-            position={boxOrder[orderStatus][index]}
-            setCenter={setCenter}
-            accessabilityCode={accessabilityCode}
-          ></BaseTile>
-        ))}
+        {tiles
+          .sort((a, b) => {
+            return a.position - b.position
+          })
+          .map((tile, index) => (
+            <BaseTile
+              key={index}
+              tile={tile}
+              isOpen={isOpen}
+              position={boxOrder[orderStatus][index]}
+              setCenter={setCenter}
+              accessabilityCode={accessabilityCode}
+            ></BaseTile>
+          ))}
         <BasePanel isOpen={isOpen} accessabilityCode={accessabilityCode}>
           {centerPanel}
         </BasePanel>
         {isOpen ? (
           <>
-            <button
-              onClick={handleToUpButtonClick}
-              className="z-10 absolute left-[48.5vw] top-[8rem] w-[8rem] h-[8rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
-              style={{
-                backgroundImage: 'url("/images/svg/arrow-up.svg")',
-                backgroundSize: '60%'
-              }}
-            ></button>
-            <button
-              onClick={handleToDownButtonClick}
-              className="z-10 absolute left-[48.5vw] bottom-[8rem] w-[8rem] h-[8rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 animate-bounce border-solingen-blue border-2"
-              style={{
-                backgroundImage: 'url("/images/svg/arrow-down.svg")',
-                backgroundSize: '60%'
-              }}
-            ></button>
+            <div className="absolute w-screen flex justify-center top-[8rem]">
+              <button
+                onClick={handleToUpButtonClick}
+                className="z-10 w-[7rem] h-[7rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey opacity-80 border-solingen-blue border-2"
+                style={{
+                  backgroundImage: 'url("/images/svg/arrow-up.svg")',
+                  backgroundSize: '60%'
+                }}
+              ></button>
+            </div>
+
+            <div className="absolute w-screen flex justify-center bottom-[8rem]">
+              <button
+                onClick={handleToDownButtonClick}
+                className="z-10 w-[8rem] h-[8rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 border-solingen-blue border-2"
+                style={{
+                  backgroundImage: 'url("/images/svg/arrow-down.svg")',
+                  backgroundSize: '60%'
+                }}
+              ></button>
+            </div>
           </>
         ) : (
           <button

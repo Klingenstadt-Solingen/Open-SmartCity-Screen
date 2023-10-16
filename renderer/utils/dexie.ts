@@ -1,18 +1,21 @@
 import Dexie, { Table } from 'dexie'
 import { PressRelease } from '../models/press-release'
-import { DiashowConfig, GridConfig, LayoutConfig, Screen } from '../models/screen'
+import { Screen } from '../models/screen'
 import { Weather } from '../models/weather'
 import { DiashowObject } from '../models/diashowObject'
 import { Tile } from '../models/tile'
 import { PoiCategory } from '../models/poi-category'
 import { POI } from '../models/poi'
+import { Diashow } from '../models/diashow'
+import { Grid } from '../models/grid'
+import { Layout } from '../models/layout'
 
 export class SteleDB extends Dexie {
   pressReleases!: Table<PressRelease, string>
   screen!: Table<Screen, string>
-  layoutConfig!: Table<LayoutConfig, string>
-  gridConfig!: Table<GridConfig, string>
-  diashowConfig!: Table<DiashowConfig, string>
+  layoutConfig!: Table<Layout, string>
+  gridConfig!: Table<Grid, string>
+  diashowConfig!: Table<Diashow, string>
   weather!: Table<Weather, string>
   diashowObjects!: Table<DiashowObject, string>
   tiles!: Table<Tile, string>
@@ -29,7 +32,7 @@ export class SteleDB extends Dexie {
       diashowConfig: '++,name',
       weather: '++,values,shortName,geopoint',
       diashowObjects: '++,file,duration,startDate,endDate,fileType',
-      tiles: '++,name,description,order',
+      tiles: '++',
       poiCategories: '++',
       pois: '++'
     })

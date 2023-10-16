@@ -1,3 +1,4 @@
 export interface Base {
-  id: string
+  id?: string
+  objectId?: string
 }

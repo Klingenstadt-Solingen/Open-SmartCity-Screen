@@ -1,8 +1,8 @@
 import { Base } from './base'
 
 export interface Tile extends Base {
-  tileType: { name: string }
-  order: number
+  position: 1 | 2 | 3 | 4
+  tile: { tileType: TileType }
 }
 
 export interface TileType {
@@ -12,7 +12,7 @@ export interface TileType {
     | 'PRESSRELEASES'
     | 'WEATHER'
     | 'DIASHOW'
-    | 'BUS_DEPARTURE'
-    | 'BUS_SCHEDULE'
+    | 'BUSDEPARTURE'
+    | 'BUSSCHEDULE'
     | 'BOB'
 }

@@ -1,42 +1,21 @@
-import { GeoPoint, Relation } from 'parse'
+import { GeoPoint } from 'parse'
 import { Base } from './base'
-import { Tile } from './tile'
-import { DiashowObject } from './diashowObject'
+import { Layout } from './layout'
 
 export interface Screen extends Base {
   objectId?: string
   uuid: string
   name?: string
   layoutType: LayoutType
-  layoutConfig: LayoutConfig
+  layoutConfig: Layout
   state: ScreenState
   location?: GeoPoint
 }
 
 export interface LayoutType {
-  objectId?: string
   name: 'GRID' | 'DIASHOW'
 }
 
 export interface ScreenState {
-  objectId?: string
   name: 'ACTIVE' | 'INACTIVE'
-}
-
-export interface LayoutConfig {
-  objectId?: string
-  gridConfig?: GridConfig
-  diashowConfig?: DiashowConfig
-  showHeader?: boolean
-  showFooter?: boolean
-}
-
-export interface GridConfig {
-  objectId?: string
-  tiles: Relation<Parse.Object<Tile>>
-}
-
-export interface DiashowConfig {
-  objectId?: string
-  diashowObjects: Relation<Parse.Object<DiashowObject>>
 }

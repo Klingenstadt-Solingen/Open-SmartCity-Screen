@@ -20,7 +20,7 @@ interface Props {
 export default function BaseTile(props: Props): React.JSX.Element {
   let tile: React.JSX.Element
 
-  switch (props.tile.tileType.name) {
+  switch (props.tile.tile.tileType.name) {
     case 'MAP':
       tile = (
         <MapTile

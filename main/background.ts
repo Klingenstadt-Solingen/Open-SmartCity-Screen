@@ -14,12 +14,16 @@ if (isProd) {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width: 900,
-    height: 1600
+    width: 2160,
+    height: 3840,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   if (isProd) {
     await mainWindow.loadURL('app://./dashboard.html')
+    mainWindow.setFullScreen(true)
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/dashboard`)

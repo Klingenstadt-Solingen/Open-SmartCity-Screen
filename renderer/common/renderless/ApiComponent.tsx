@@ -9,7 +9,7 @@ import { IndexableType, Table } from 'dexie'
 import { v4 as uuidv4 } from 'uuid'
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator'
 
-import { DiashowConfig, GridConfig, LayoutConfig, Screen } from '../../models/screen'
+import { Screen } from '../../models/screen'
 import { Weather } from '../../models/weather'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { DiashowObject } from '../../models/diashowObject'
@@ -21,6 +21,9 @@ import { downloadPath, downloadDir, hourInMilliseconds } from '../../utils/const
 import EventEmitter from 'events'
 import { PoiCategory } from '../../models/poi-category'
 import { POI } from '../../models/poi'
+import { Grid } from '../../models/grid'
+import { Diashow } from '../../models/diashow'
+import { Layout } from '../../models/layout'
 
 EventEmitter.defaultMaxListeners = 20
 
@@ -273,10 +276,10 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   }, [screen?.location?.latitude, screen?.location?.longitude])
 
   useEffect(() => {
-    if (typeof screen?.layoutConfig.objectId !== 'undefined') {
-      const layoutConfigQuery: Query<Parse.Object<LayoutConfig>> = new Query<
-        Parse.Object<LayoutConfig>
-      >('SteleLayoutConfig').equalTo('objectId', screen.layoutConfig.objectId)
+    if (typeof screen?.layoutConfig?.objectId !== 'undefined') {
+      const layoutConfigQuery: Query<Parse.Object<Layout>> = new Query<Parse.Object<Layout>>(
+        'SteleLayoutConfig'
+      ).equalTo('objectId', screen.layoutConfig.objectId)
       initTableWithQuery(layoutConfigQuery, db.layoutConfig).then(() => {
         if (typeof layoutConfigSubscription !== 'undefined') {
           layoutConfigSubscription.unsubscribe()
@@ -291,7 +294,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   useEffect(() => {
     if (typeof layoutConfig?.gridConfig?.objectId !== 'undefined') {
       setGridConfigDirty(true)
-      const gridConfigQuery: Query<Parse.Object<GridConfig>> = new Query<Parse.Object<GridConfig>>(
+      const gridConfigQuery: Query<Parse.Object<Grid>> = new Query<Parse.Object<Grid>>(
         'SteleGridConfig'
       ).equalTo('objectId', layoutConfig.gridConfig.objectId)
 
@@ -311,9 +314,9 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   useEffect(() => {
     if (typeof layoutConfig?.diashowConfig?.objectId !== 'undefined') {
       setDiashowConfigDirty(true)
-      const diashowConfigQuery: Query<Parse.Object<DiashowConfig>> = new Query<
-        Parse.Object<DiashowConfig>
-      >('SteleDiashowConfig').equalTo('objectId', layoutConfig.diashowConfig.objectId)
+      const diashowConfigQuery: Query<Parse.Object<Diashow>> = new Query<Parse.Object<Diashow>>(
+        'SteleDiashowConfig'
+      ).equalTo('objectId', layoutConfig.diashowConfig.objectId)
       initTableWithQuery(diashowConfigQuery, db.diashowConfig).then(() => {
         if (typeof diashowConfigSubscription !== 'undefined') {
           diashowConfigSubscription.unsubscribe()
@@ -329,7 +332,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
   useEffect(() => {
     if (typeof diashowConfig?.diashowObjects !== 'undefined') {
-      new Query<Parse.Object<DiashowConfig>>('SteleDiashowConfig')
+      new Query<Parse.Object<Diashow>>('SteleDiashowConfig')
         .get(diashowConfig.objectId)
         .then((dC) => {
           initTableWithQuery(
@@ -358,14 +361,17 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
   useEffect(() => {
     if (typeof gridConfig?.tiles !== 'undefined') {
-      new Query<Parse.Object<GridConfig>>('SteleGridConfig').get(gridConfig.objectId).then((gC) => {
-        initTableWithQuery(gC.attributes.tiles.query().includeAll(), db.tiles).then(() => {
+      new Query<Parse.Object<Grid>>('SteleGridConfig').get(gridConfig.objectId).then((gC) => {
+        initTableWithQuery(
+          gC.attributes.tiles.query().include('tile.tileType').include('position'),
+          db.tiles
+        ).then(() => {
           if (!gridConfigDirty) {
             if (typeof tilesSubscription !== 'undefined') {
               tilesSubscription.unsubscribe()
             }
-            subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTile'), db.tiles, {
-              initQuery: gC.attributes.tiles.query().includeAll()
+            subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTilePosition'), db.tiles, {
+              initQuery: gC.attributes.tiles.query().include('tile.tileType').include('position')
             }).then((sub) => {
               setTilesSubscription(sub)
             })
