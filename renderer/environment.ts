@@ -5,5 +5,9 @@ export const environment = {
   onPrimaryColor: null,
   onSecondaryColor: null,
   backgroundColor: null,
-  backgroundColorDark: null
+  backgroundColorDark: null,
+  parseUrl: '***REMOVED***',
+  parseAppId: '***REMOVED***',
+  parseMasterKey:
+    '***REMOVED***'
 }

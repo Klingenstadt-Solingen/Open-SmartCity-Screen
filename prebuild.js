@@ -10,6 +10,10 @@ const backgroundColorDark = prompt('What is your darker background color? ')
 
 const cityName = prompt('What is your city name? ')
 
+const parseUrl = prompt('What is your Parse URL? ')
+const parseAppId = prompt('What is your Parse Application Id? ')
+const parseMasterKey = prompt('What is your Parse Master Key? ')
+
 const environment = {
   cityName: cityName,
   primaryColor: primaryColor,
@@ -17,7 +21,10 @@ const environment = {
   onPrimaryColor: onPrimaryColor,
   onSecondaryColor: onSecondaryColor,
   backgroundColor: backgroundColor,
-  backgroundColorDark: backgroundColorDark
+  backgroundColorDark: backgroundColorDark,
+  parseUrl: parseUrl,
+  parseAppId: parseAppId,
+  parseMasterKey: parseMasterKey,
 }
 
 fs.writeFileSync(

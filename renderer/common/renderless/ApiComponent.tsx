@@ -24,6 +24,7 @@ import { POI } from '../../models/poi'
 import { Grid } from '../../models/grid'
 import { Diashow } from '../../models/diashow'
 import { Layout } from '../../models/layout'
+import { environment } from '../../environment'
 
 EventEmitter.defaultMaxListeners = 20
 
@@ -217,11 +218,9 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   useEffect(() => {
     const appId = getAppId()
 
-    Parse.initialize('***REMOVED***')
-    Parse.javaScriptKey = '***REMOVED***'
-    Parse.masterKey =
-      '***REMOVED***'
-    Parse.serverURL = '***REMOVED***'
+    Parse.initialize(environment.parseAppId)
+    Parse.masterKey = environment.parseMasterKey
+    Parse.serverURL = environment.parseUrl
 
     // Parse.initialize('dashboard')
     // Parse.masterKey = 'enrTPQGtJX8QqnPjre7hjSfnrwtbQZ2b'
