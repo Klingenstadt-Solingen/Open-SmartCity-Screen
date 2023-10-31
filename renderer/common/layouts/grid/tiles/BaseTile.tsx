@@ -62,10 +62,10 @@ export default function BaseTile(props: Props): React.JSX.Element {
       )
       break
     case 'BUSDEPARTURE':
-      tile = <BusTileDeparture />
+      tile = <BusTileDeparture isOpen={props.isOpen} />
       break
     case 'BUSSCHEDULE':
-      tile = <BusTileSchedule setCenter={props.setCenter} />
+      tile = <BusTileSchedule setCenter={props.setCenter} isOpen={props.isOpen} />
       break
     case 'DIASHOW':
       tile = <ImageTile layoutDiashow={false} setCenter={props.setCenter} isOpen={props.isOpen} />
@@ -78,7 +78,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
   return (
     <div
       id={props.position.toString()}
-      className="z-10 text-center w-full h-full flex bg-white transition-[filter] duration-solingen-speed"
+      className="z-10 text-center w-full h-full flex bg-white transition-[filter] duration-app-speed"
       style={
         props.isOpen
           ? { order: props.position, filter: 'blur(1px) grayscale(25%) brightness(0.65)' }

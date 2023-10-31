@@ -76,6 +76,35 @@ export default (windowName: string, options: BrowserWindowConstructorOptions): B
   }
   win = new BrowserWindow(browserOptions)
 
+  win.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
+    callback({
+      requestHeaders: {
+        Origin: '*',
+        ...details.requestHeaders
+      }
+    })
+  })
+
+  win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    if (
+      details.responseHeaders['Access-Control-Allow-Origin'] ||
+      details.responseHeaders['access-control-allow-origin']
+    ) {
+      callback({
+        responseHeaders: {
+          ...details.responseHeaders
+        }
+      })
+    } else {
+      callback({
+        responseHeaders: {
+          'Access-Control-Allow-Origin': ['*'],
+          ...details.responseHeaders
+        }
+      })
+    }
+  })
+
   win.on('close', saveState)
 
   return win

@@ -1,8 +1,8 @@
 import { Base } from './base'
 
 export interface DiashowObject extends Base {
-  startDate: Date
-  endDate: Date
+  startDate: Date | { iso: string }
+  endDate: Date | { iso: string }
   file: file
   duration: number
   fileType: string

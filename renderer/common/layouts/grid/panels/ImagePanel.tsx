@@ -4,8 +4,8 @@ import { Document, Page } from 'react-pdf'
 interface Props {
   imgSrc: string
   fileType: string
-  pdfCanvasWidth: number | undefined
-  pdfCanvasHeight: number | undefined
+  pdfCanvasWidth?: number | undefined
+  pdfCanvasHeight?: number | undefined
 }
 export default function ImagePanel(props: Props): React.JSX.Element {
   const [mediaContainerW, setMediaContainerW] = useState<number>(0)
@@ -27,7 +27,7 @@ export default function ImagePanel(props: Props): React.JSX.Element {
     <>
       <div
         ref={mediaContainerRef}
-        className="w-full h-full flex items-center justify-center overflow-hidden bg-solingen-blue"
+        className="w-full h-full flex items-center justify-center overflow-hidden bg-primary-color"
       >
         {props.fileType.toLowerCase() !== 'pdf' ? (
           <img className="w-full h-full object-contain" src={props.imgSrc}></img>

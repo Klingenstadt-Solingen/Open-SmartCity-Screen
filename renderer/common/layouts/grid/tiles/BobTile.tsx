@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 
 export default function BobTile(): React.JSX.Element {
   return (
-    <div className="w-full h-full bg-solingen-yellow">
+    <div className="w-full h-full bg-secondary-color">
       <ReactPlayer
         url="/videos/bob.mp4"
         loop={true}

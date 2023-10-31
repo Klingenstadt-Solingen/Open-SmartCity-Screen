@@ -9,7 +9,7 @@ interface Props {
 export default function PressReleasePanel(props: Props): React.JSX.Element {
   return (
     <>
-      <div className="text-solingen-blue text-5xl font-bold text-left py-4 mt-12 px-14 h-[5vh] flex w-full justify-between items-center">
+      <div className="text-primary-color text-5xl font-bold text-left py-4 mt-12 px-14 h-[5vh] flex w-full justify-between items-center">
         <span>{props.pressRelease.title}</span>
         <div className="flex justify-self-end">
           <div className="flex flex-col">
@@ -21,7 +21,7 @@ export default function PressReleasePanel(props: Props): React.JSX.Element {
             </span>
           </div>
           <div>
-            <span className="text-[54px] text-solingen-yellow font-black">
+            <span className="text-[54px] text-secondary-color font-black">
               {'’'}
               {dayjs(new Date(props.pressRelease.date.iso)).format('YY')}
             </span>

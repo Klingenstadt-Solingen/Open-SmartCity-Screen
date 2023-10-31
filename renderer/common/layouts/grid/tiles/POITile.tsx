@@ -1,5 +1,9 @@
 import React from 'react'
 import MapPanel from '../panels/MapPanel'
+import { environment } from '../../../../environment'
+import Wifi from '../../../icons/Wifi'
+import Bed from '../../../icons/Bed'
+import Amusement from '../../../icons/Amusement'
 
 type setCenter = (panel: React.JSX.Element) => void
 
@@ -42,45 +46,38 @@ export default function POITile(props: Props): React.JSX.Element {
 
   return (
     <div className="h-full w-full p-6 overflow-hidden">
-      <div className="bg-solingen-grey p-6 rounded-lg text-solingen-blue w-full h-full flex flex-col overflow-hidden">
+      <div className="bg-background-color-dark p-6 rounded-lg text-primary-color w-full h-full flex flex-col overflow-hidden">
         <div className="ml-4 text-left tracking-wide text-6xl font-bold mb-11" style={cssForTitle}>
           Häufig
           <br />
           gesucht.
         </div>
         <div
-          className="w-full flex flex-col justify-between h-full text-white font-medium transition-opacity duration-solingen-speed"
+          className="w-full flex flex-col justify-between h-3/4 text-on-primary-color font-medium transition-opacity duration-app-speed"
           style={props.isOpen ? { opacity: 0 } : { opacity: 1 }}
         >
           <button
-            className="text-3xl bg-solingen-blue rounded-xl h-[30%] p-5 flex flex-col justify-between"
+            className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
             onClick={() => props.setCenter(<MapPanel preSelected={'Freifunk'}></MapPanel>)}
           >
-            <div
-              className="w-full h-full max-w-[60%] max-h-[60%] bg-contain bg-no-repeat"
-              style={{ backgroundImage: 'url("/images/svg/wifi.svg")' }}
-            ></div>
-            <div className="w-full text-right">Freifunk WLAN</div>
+            <Wifi height="80%" width="100"></Wifi>
+            <div className="self-end w-full text-right">Freifunk WLAN</div>
           </button>
           <button
-            className="text-3xl bg-solingen-blue rounded-xl h-[30%] p-5 flex flex-col justify-between"
+            className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
             onClick={() => props.setCenter(<MapPanel preSelected={'Übernachtung'}></MapPanel>)}
           >
-            <div
-              className="w-full h-full max-w-[60%] max-h-[60%] bg-contain bg-no-repeat"
-              style={{ backgroundImage: 'url("/images/svg/bed.svg")' }}
-            ></div>
-            <div className="w-full text-right">Schlafen in Solingen</div>
+            <Bed height="80%" width="100"></Bed>
+            <div className="self-end w-full text-right whitespace-nowrap">
+              Schlafen in {environment.cityName || 'Solingen'}
+            </div>
           </button>
           <button
-            className="text-3xl bg-solingen-blue rounded-xl h-[30%] p-5 flex flex-col justify-between"
+            className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex flex-col justify-between"
             onClick={() => props.setCenter(<MapPanel preSelected={'Freizeit'}></MapPanel>)}
           >
-            <div
-              className="w-full h-full max-w-[70%] max-h-[70%] bg-contain bg-no-repeat "
-              style={{ backgroundImage: 'url("/images/svg/amusement.svg")' }}
-            ></div>
-            <div className="w-full text-right">Freizeitaktivitäten</div>
+            <Amusement height="80%" width="100"></Amusement>
+            <div className="self-end w-full text-right">Freizeitaktivitäten</div>
           </button>
         </div>
       </div>

@@ -16,7 +16,7 @@ import { DiashowObject } from '../../models/diashowObject'
 import { Tile } from '../../models/tile'
 
 import fs, { unlink } from 'fs'
-import { downloadPath, downloadDir, hourInMilliseconds } from '../../utils/constants'
+import { downloadDir, hourInMilliseconds } from '../../utils/constants'
 
 import EventEmitter from 'events'
 import { PoiCategory } from '../../models/poi-category'
@@ -48,7 +48,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     return db.diashowObjects.toArray()
   })
 
-  const filesInDownload = getAllDFileInfos(downloadPath + downloadDir)
+  const filesInDownload = getAllDFileInfos('' + downloadDir)
 
   const [isParseOnline, setIsParseOnline] = useState<boolean>(true)
 
@@ -170,7 +170,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     if (typeof table !== 'undefined' && typeof query !== 'undefined') {
       return new Promise<IndexableType>((resolve, reject) => {
         query
-          .find()
+          .find({ useMasterKey: true })
           .then((results) => {
             if (results.length || canBeEmtpy) {
               table.clear()
@@ -205,7 +205,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     newScreen.set('name', uniqueNamesGenerator(config))
     return new Promise((resolve, reject) => {
       newScreen
-        .save()
+        .save(null, { useMasterKey: true })
         .then((result) => {
           resolve(result)
         })
@@ -217,8 +217,15 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   useEffect(() => {
     const appId = getAppId()
 
-    Parse.initialize('dashboard')
-    Parse.serverURL = 'https://parse-be.hosting.nedeco.mobi/parse'
+    Parse.initialize('***REMOVED***')
+    Parse.javaScriptKey = '***REMOVED***'
+    Parse.masterKey =
+      '***REMOVED***'
+    Parse.serverURL = '***REMOVED***'
+
+    // Parse.initialize('dashboard')
+    // Parse.masterKey = 'enrTPQGtJX8QqnPjre7hjSfnrwtbQZ2b'
+    // Parse.serverURL = 'https://parse-be.hosting.nedeco.mobi/parse'
 
     const screenQuery: Query<Parse.Object<Screen>> = new Query<Parse.Object<Screen>>('SteleScreen')
       .limit(1)
@@ -261,7 +268,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         'WeatherObserved'
       )
         //ignore broken sensorStations
-        .notEqualTo('values', {})
         .limit(1)
         .near('geopoint', screen.location)
       initTableWithQuery(weatherQuery, db.weather).then((a) => {
@@ -271,6 +277,28 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         subscribeTableToQuery(weatherQuery.equalTo('objectId', a as string), db.weather).then(
           (sub) => setWeatherSubscription(sub)
         )
+      })
+
+      Parse.Cloud.run(
+        'pt-stop-nearby',
+        { lat: screen?.location.latitude, lon: screen?.location.longitude },
+        { useMasterKey: true }
+      ).then((a) => {
+        db.stops.clear().then(() => {
+          db.stops.add(a.stops[0])
+          Parse.Cloud.run(
+            'pt-serving-lines',
+            { stopId: a.stops[0].id },
+            { useMasterKey: true }
+          ).then(
+            (b) => {
+              db.departures.clear().then(() => {
+                db.departures.bulkAdd(b)
+              })
+            },
+            (c) => console.log('pt-departure', c)
+          )
+        })
       })
     }
   }, [screen?.location?.latitude, screen?.location?.longitude])
@@ -333,7 +361,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   useEffect(() => {
     if (typeof diashowConfig?.diashowObjects !== 'undefined') {
       new Query<Parse.Object<Diashow>>('SteleDiashowConfig')
-        .get(diashowConfig.objectId)
+        .get(diashowConfig.objectId, { useMasterKey: true })
         .then((dC) => {
           initTableWithQuery(
             dC.attributes.diashowObjects.query().includeAll(),
@@ -361,23 +389,25 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
   useEffect(() => {
     if (typeof gridConfig?.tiles !== 'undefined') {
-      new Query<Parse.Object<Grid>>('SteleGridConfig').get(gridConfig.objectId).then((gC) => {
-        initTableWithQuery(
-          gC.attributes.tiles.query().include('tile.tileType').include('position'),
-          db.tiles
-        ).then(() => {
-          if (!gridConfigDirty) {
-            if (typeof tilesSubscription !== 'undefined') {
-              tilesSubscription.unsubscribe()
+      new Query<Parse.Object<Grid>>('SteleGridConfig')
+        .get(gridConfig.objectId, { useMasterKey: true })
+        .then((gC) => {
+          initTableWithQuery(
+            gC.attributes.tiles.query().include('tile.tileType').include('position'),
+            db.tiles
+          ).then(() => {
+            if (!gridConfigDirty) {
+              if (typeof tilesSubscription !== 'undefined') {
+                tilesSubscription.unsubscribe()
+              }
+              subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTilePosition'), db.tiles, {
+                initQuery: gC.attributes.tiles.query().include('tile.tileType').include('position')
+              }).then((sub) => {
+                setTilesSubscription(sub)
+              })
             }
-            subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTilePosition'), db.tiles, {
-              initQuery: gC.attributes.tiles.query().include('tile.tileType').include('position')
-            }).then((sub) => {
-              setTilesSubscription(sub)
-            })
-          }
+          })
         })
-      })
     }
   }, [gridConfig?.tiles])
 

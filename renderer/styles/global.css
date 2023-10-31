@@ -58,10 +58,16 @@ div#__next > div {
   margin-bottom: 14px;
 }
 
-.react-pdf__Page {
-  background-color: #004373 !important;
+.a td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
-.react-pdf__Document {
-  background-color: #004373 !important;
+.a {
+  z-index: -200;
+}
+
+.a td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }

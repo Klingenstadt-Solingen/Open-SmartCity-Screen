@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
+import { environment } from '../../../../environment'
+import MapIcon from '../../../icons/MapIcon'
 
 type setCenter = (panel: React.JSX.Element) => void
 
@@ -47,28 +49,27 @@ export default function MapTile(props: Props): React.JSX.Element {
   }
 
   return (
-    <div className="flex flex-col items-center text-6xl font-bold p-12 w-full h-full text-solingen-yellow bg-solingen-blue whitespace-nowrap overflow-hidden">
+    <div className="flex flex-col items-center text-6xl font-bold p-12 w-full h-full text-secondary-color bg-primary-color whitespace-nowrap overflow-hidden">
       <div className="text-left mb-20 w-full tracking-wide" style={cssForTitle}>
-        Solingen <br /> à la Carte!
+        {environment.cityName || 'Solingen'} <br /> à la Carte!
       </div>
 
       <div
         className={
-          'flex flex-col justify-center items-center transition-opacity duration-solingen-speed'
+          'flex flex-col justify-center items-center transition-opacity duration-app-speed'
         }
         style={props.isOpen ? { opacity: 0 } : { opacity: 1 }}
       >
-        <div
-          className="mx-auto mb-16 w-[12vh] h-[12vh] rounded-full bg-white bg-no-repeat bg-center"
-          style={{ backgroundImage: 'url("/images/svg/map.svg")', backgroundSize: '55%' }}
-        ></div>
-        <div className="text-4xl text-white tracking-wide mb-6 font-light whitespace-nowrap">
+        <div className="flex justify-center items-center mb-16 w-[12vh] h-[12vh] rounded-full bg-white">
+          <MapIcon width={'8vh'}></MapIcon>
+        </div>
+        <div className="text-4xl text-on-primary-color tracking-wide mb-6 font-light whitespace-nowrap">
           Interessante Orte
           <br />
-          in Solingen
+          in {environment.cityName || 'Solingen'}
         </div>
         <button
-          className="w-60 h-14 rounded-lg text-2xl bg-solingen-yellow text-solingen-blue"
+          className="w-60 h-14 rounded-lg text-2xl bg-secondary-color text-primary-color"
           onClick={() => props.setCenter(<Map></Map>)}
         >
           Jetzt entdecken

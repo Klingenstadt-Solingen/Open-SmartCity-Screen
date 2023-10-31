@@ -1,5 +1,4 @@
-export const downloadDir = '/downloads/'
-export const downloadPath = './renderer/public'
+export const downloadDir = '/download/'
 
 const offlineHours = 24
 // export const hourInMilliseconds = offlineHours * 3600 * 1000

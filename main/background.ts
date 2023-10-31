@@ -17,6 +17,7 @@ if (isProd) {
     width: 2160,
     height: 3840,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: true
     }
   })
@@ -24,10 +25,32 @@ if (isProd) {
   if (isProd) {
     await mainWindow.loadURL('app://./dashboard.html')
     mainWindow.setFullScreen(true)
+    const a = app.getPath('userData').replaceAll('\\', '/')
+    mainWindow.webContents
+      .executeJavaScript(`localStorage.setItem("path", "${a}")`, true)
+      .then((result) => {
+        console.log(result)
+      })
+    mainWindow.webContents
+      .executeJavaScript(`localStorage.setItem("mode", "prod")`, true)
+      .then((result) => {
+        console.log(result)
+      })
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/dashboard`)
     mainWindow.webContents.openDevTools()
+
+    mainWindow.webContents
+      .executeJavaScript(`localStorage.setItem("path", './renderer/public')`, true)
+      .then((result) => {
+        console.log(result)
+      })
+    mainWindow.webContents
+      .executeJavaScript(`localStorage.setItem("mode", "dev")`, true)
+      .then((result) => {
+        console.log(result)
+      })
   }
 })()
 

@@ -2,6 +2,7 @@ import React from 'react'
 import WeatherPanel from '../panels/WeatherPanel'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../../../utils/dexie'
+import Weather from '../../../icons/Weather'
 
 type setCenter = (panel: React.JSX.Element) => void
 
@@ -49,22 +50,23 @@ export default function WeatherTile(props: Props): React.JSX.Element {
     return <></>
   } else {
     return (
-      <div className="w-full p-12 bg-solingen-yellow text-solingen-blue h-full overflow-hidden">
+      <div className="w-full p-12 bg-secondary-color text-primary-color h-full overflow-hidden">
         <div className="text-left text-6xl font-bold tracking-wide" style={cssForTitle}>
           Aktuelles
           <br />
           Wetter.
         </div>
         <div
-          className="transition-opacity duration-solingen-speed"
+          className="transition-opacity duration-app-speed"
           style={props.isOpen ? { opacity: 0 } : { opacity: 1 }}
         >
-          <div className="text-left text-xl font-extralight text-black">{weather.shortName}</div>
+          <div className="text-left text-xl font-extralight text-on-secondary-color">
+            {weather.shortName}
+          </div>
 
-          <div
-            style={{ backgroundImage: 'url("/images/svg/weather.svg")', backgroundSize: '80%' }}
-            className="mx-auto mt-9 w-56 h-56 rounded-full bg-white bg-center bg-no-repeat"
-          ></div>
+          <div className="mx-auto mt-9 w-56 h-56 rounded-full bg-white flex justify-center items-center">
+            <Weather width="80%"></Weather>
+          </div>
 
           <div className="text-9xl mt-10 font-bold">
             <span>{weather.values?.lufttemperatur?.value}</span>
@@ -73,14 +75,14 @@ export default function WeatherTile(props: Props): React.JSX.Element {
             </span>
           </div>
 
-          <div className="text-black font-thin text-lg mt-2">
+          <div className="text-on-secondary-color font-thin text-lg mt-2">
             aktualisiert am{' '}
             {new Intl.DateTimeFormat('de-DE').format(new Date(weather.dateObserved?.iso))}
           </div>
 
           <button
             id="btnInWeatherTile"
-            className="w-60 h-14 rounded-lg text-2xl mt-10 bg-solingen-blue text-white"
+            className="w-60 h-14 rounded-lg text-2xl mt-10 bg-primary-color text-on-primary-color"
             onClick={() => props.setCenter(<WeatherPanel weather={weather}></WeatherPanel>)}
           >
             weitere Daten

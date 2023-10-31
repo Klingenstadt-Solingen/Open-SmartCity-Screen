@@ -43,16 +43,16 @@ const weatherInfo = [
 export default function WeatherPanel(props: { weather: Weather }): React.JSX.Element {
   return (
     <div className="tracking-wide w-full h-[56vh] bg-white flex flex-wrap flex-row p-[4vh] box-border">
-      <div className="w-full text-6xl text-solingen-blue font-bold mb-6">
+      <div className="w-full text-6xl text-primary-color font-bold mb-6">
         Wetter <span>{props.weather?.shortName}</span>
       </div>
-      <div className="bg-solingen-yellow w-[65%] h-[22vh] ml-[1%] mt-[1%] rounded-3xl flex flex-wrap flex-row">
+      <div className="bg-secondary-color w-[65%] h-[22vh] ml-[1%] mt-[1%] rounded-3xl flex flex-wrap flex-row">
         <div
           className="w-[45%] h-full bg-center bg-no-repeat"
           style={{ backgroundImage: 'url("/images/svg/temperature.svg")', backgroundSize: '60%' }}
         ></div>
-        <div className="w-[55%] h-full text-left flex flex-wrap flex-col justify-center text-solingen-blue items-left">
-          <div className="text-3xl font-bold pl-3 border-l-8 border-solingen-blue">Temperatur</div>
+        <div className="w-[55%] h-full text-left flex flex-wrap flex-col justify-center text-primary-color items-left">
+          <div className="text-3xl font-bold pl-3 border-l-8 border-primary-color">Temperatur</div>
           <div className="text-6xl font-bold my-9">
             {props.weather?.values?.lufttemperatur?.value}
             {props.weather?.values?.lufttemperatur?.unit}

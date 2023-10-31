@@ -10,22 +10,22 @@ import MediaContainer from './MediaContainer'
 
 import fs from 'fs'
 import https from 'https'
-import { downloadPath, downloadDir } from '../../../../utils/constants'
+import { downloadDir } from '../../../../utils/constants'
 
 function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync(downloadPath + downloadDir)) {
-      fs.mkdirSync(downloadPath + downloadDir)
+    if (!fs.existsSync(localStorage.getItem('path') + downloadDir)) {
+      fs.mkdirSync(localStorage.getItem('path') + downloadDir)
     }
     Promise.all(
       diashowObjects.map((diashowObject) => {
         return new Promise<void>((resolveOne, rejectOne) => {
-          if (fs.existsSync(downloadPath + downloadDir + diashowObject.file.name)) {
+          if (fs.existsSync(localStorage.getItem('path') + downloadDir + diashowObject.file.name)) {
             resolveOne()
           } else {
             const fileUrl = 'https://' + diashowObject.file.url.split('://')[1]
             const targetFile = fs.createWriteStream(
-              downloadPath + downloadDir + diashowObject.file.name
+              localStorage.getItem('path') + downloadDir + diashowObject.file.name
             )
             https.get(fileUrl, function (response) {
               response.pipe(targetFile)
@@ -74,7 +74,7 @@ export default function ImageTile(props: Props): React.JSX.Element {
   if (!isLoading && typeof diashowObjects !== 'undefined' && diashowObjects.length) {
     return (
       <Swiper
-        className="w-full h-full bg-solingen-blue"
+        className="w-full h-full bg-primary-color"
         watchSlidesProgress={true}
         direction={'vertical'}
         loop={true}
@@ -86,23 +86,35 @@ export default function ImageTile(props: Props): React.JSX.Element {
         }}
       >
         {diashowObjects.map((diashowObject, index) => {
-          return (
-            <SwiperSlide
-              key={index}
-              data-swiper-autoplay={
-                diashowObject.file.name.toLocaleLowerCase().endsWith('.mp4')
-                  ? 10
-                  : diashowObject.duration * 1000
-              }
-            >
-              <MediaContainer
-                srcInfo={downloadDir + diashowObject.file.name}
-                setCenter={props.setCenter}
-                isOpen={props.isOpen}
-                layoutDiashow={props.layoutDiashow}
-              ></MediaContainer>
-            </SwiperSlide>
-          )
+          console.log(diashowObject)
+          if (
+            new Date((diashowObject.startDate as { iso: string }).iso).getTime() <
+              new Date().getTime() &&
+            new Date((diashowObject.endDate as { iso: string }).iso).getTime() >
+              new Date().getTime()
+          ) {
+            return (
+              <SwiperSlide
+                key={index}
+                data-swiper-autoplay={
+                  diashowObject.file.name.toLocaleLowerCase().endsWith('.mp4')
+                    ? 10
+                    : diashowObject.duration * 1000
+                }
+              >
+                <MediaContainer
+                  srcInfo={
+                    localStorage.getItem('mode') === 'dev'
+                      ? downloadDir + diashowObject.file.name
+                      : localStorage.getItem('path') + downloadDir + diashowObject.file.name
+                  }
+                  setCenter={props.setCenter}
+                  isOpen={props.isOpen}
+                  layoutDiashow={props.layoutDiashow}
+                ></MediaContainer>
+              </SwiperSlide>
+            )
+          }
         })}
       </Swiper>
     )

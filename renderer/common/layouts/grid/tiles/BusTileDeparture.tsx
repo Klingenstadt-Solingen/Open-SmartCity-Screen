@@ -2,75 +2,98 @@ import React, { useState, useEffect } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../../../utils/dexie'
 import Parse from 'parse'
-import { TransportInfo } from '../../../../models/transport-info'
 
-let completeVrrInfos: Promise<TransportInfo> = null
+interface Props {
+  isOpen: boolean
+}
 
-export default function BusTileDeparture(): React.JSX.Element {
-  const [nearestBusStopName, setNearestBusStopName] = useState<string>('')
-  const [busDepartureList, setBusDepartureList] = useState([])
-
-  const screen = useLiveQuery(() => {
+export default function BusTileDeparture(props: Props): React.JSX.Element {
+  const screen = useLiveQuery(async () => {
     return db.screen.toCollection().first()
   })
 
-  Parse.initialize('***REMOVED***')
-  Parse.serverURL = 'https://parse.solingen.de/'
-  Parse.masterKey = 'enrTPQGtJX8QqnPjre7hjSfnrwtbQZ2b'
-
-  async function getBusInfos(lat: number, lon: number) {
-    let nearestBusStopId = ''
-    completeVrrInfos = await Parse.Cloud.run(
-      'vrrStt',
-      { lat: lat, lon: lon },
-      { useMasterKey: true }
-    )
-
-    if (completeVrrInfos[''].itdOdvAssignedStops instanceof Array)
-      nearestBusStopId = completeVrrInfos[''].itdOdvAssignedStops[0].stopID
-    else if (completeVrrInfos[''].itdOdvAssignedStops instanceof Object)
-      nearestBusStopId = completeVrrInfos[''].itdOdvAssignedStops.stopID
-
-    return await Parse.Cloud.run(
-      'vrrDm',
-      { stopID: nearestBusStopId, line: undefined },
-      { useMasterKey: true }
-    )
-  }
+  const [departures, setDepartures] = useState<unknown>([])
 
   useEffect(() => {
-    getBusInfos(screen?.location.latitude, screen?.location.longitude).then((res) => {
-      if (res instanceof Array && res[0] instanceof Object) setNearestBusStopName(res[0].stopName)
-      setBusDepartureList(res)
-    })
-  }, [completeVrrInfos])
+    if (typeof screen !== 'undefined') {
+      Parse.Cloud.run(
+        'mobility',
+        {
+          type: 'public-transport',
+          lat: screen.location.latitude,
+          lon: screen.location.longitude
+        },
+        { useMasterKey: true }
+      ).then((a) => {
+        setDepartures(a[0].availableOptions)
+      })
+      setInterval(() => {
+        Parse.Cloud.run(
+          'mobility',
+          {
+            type: 'public-transport',
+            lat: screen.location.latitude,
+            lon: screen.location.longitude
+          },
+          { useMasterKey: true }
+        ).then((a) => {
+          setDepartures(a[0].availableOptions)
+        })
+      }, 1000 * 30)
+    }
+  }, [screen])
 
-  return (
-    <table className="table-auto w-full font-bold tracking-wide text-black">
-      <tbody>
-        <tr>
-          <th colSpan={3} className="font-extrabold text-3xl bg-solingen-yellow text-left pl-12">
-            {nearestBusStopName}
-          </th>
-        </tr>
-        {busDepartureList.map((item, index) => {
-          if (index < 6)
-            return (
-              <tr
-                key={index}
-                className={
-                  index % 2 !== 0
-                    ? 'bg-gray-300 text-left font-normal text-2xl'
-                    : 'text-left font-normal text-2xl'
-                }
-              >
-                <td className="font-extrabold pl-12">{item.servingLine.number}</td>
-                <td>{item.servingLine.direction}</td>
-                <td>{item.countdown} Min</td>
-              </tr>
-            )
-        })}
-      </tbody>
-    </table>
-  )
+  if (typeof departures !== 'undefined' && departures.length) {
+    return (
+      <div
+        className={
+          props.isOpen
+            ? 'p-8 w-full h-full opacity-0 transition-opacity transition-app-speed'
+            : 'p-8 w-full h-full opacity-100 transition-opacity transition-app-speed'
+        }
+      >
+        {props.isOpen}
+        <table className="w-full h-full tracking-wide text-on-background-color">
+          <tbody>
+            {departures.map((item, index) => {
+              if (index < 6)
+                return (
+                  <tr key={index} className="a text-4xl">
+                    <td
+                      className={
+                        index % 2 === 0
+                          ? 'text-primary-color p-3'
+                          : 'text-primary-color bg-background-color-dark p-3'
+                      }
+                    >
+                      {item.shortName}
+                    </td>
+                    <td
+                      className={
+                        index % 2 === 0 ? 'text-left' : 'text-left bg-background-color-dark '
+                      }
+                    >
+                      {item.name}
+                    </td>
+                    <td className={index % 2 === 0 ? '' : 'bg-background-color-dark '}>
+                      {item.deparureTimeEstimated
+                        ? Math.floor(
+                            (new Date(item.deparureTimeEstimated).getTime() -
+                              new Date().getTime()) /
+                              60000
+                          )
+                        : Math.floor(
+                            (new Date(item.departureTimePlanned).getTime() - new Date().getTime()) /
+                              60000
+                          )}
+                      Min.
+                    </td>
+                  </tr>
+                )
+            })}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
 }

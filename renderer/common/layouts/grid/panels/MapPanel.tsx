@@ -8,7 +8,6 @@ import mapsAPI from '@masterportal/masterportalapi/src/maps/api.js'
 
 import portalConfig from './configs/portal.json'
 import services from './configs/services.json'
-import styles from './configs/style_v3.json'
 
 import { Style, Icon } from 'ol/style.js'
 import { PoiCategory } from '../../../../models/poi-category'
@@ -30,7 +29,7 @@ function styleWfs(feature) {
         feature.values_.symbolName +
         feature.values_.symbolMimetype,
 
-      scale: 0.7,
+      scale: 0.85,
       opacity: 1
     })
   })
@@ -108,8 +107,7 @@ export default function MapPanel({
       mpapi.map = mapsAPI.map.createMap(
         {
           ...portalConfig,
-          layerConf: [...services, ...mapToLayers(pois, categories)],
-          styleConf: styles
+          layerConf: [...services, ...mapToLayers(pois, categories)]
         },
         '2D'
       )
@@ -135,38 +133,36 @@ export default function MapPanel({
     <>
       <div className="h-full" id="map-div-id"></div>
       {categories && (
-        <div className="absolute bg-solingen-blue bg-opacity-90 bottom-0 w-full text-white py-[1%]">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)' }}>
-            {categories.map((category, index) => {
-              if (category.showCategory === 'true') {
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center justify-center text-center"
-                    onClick={() => {
-                      switchLayer(category.name)
-                    }}
-                  >
-                    <img
-                      draggable="false"
-                      className={
-                        activeLayers.includes(category.name)
-                          ? 'rounded-full bg-solingen-yellow transition-all duration-300 aspect-square mb-4'
-                          : 'rounded-full bg-white transition-all duration-300 aspect-square mb-4 opacity-70'
-                      }
-                      src={category.iconPath + '/' + category.iconName + category.iconMimetype}
-                    ></img>
-                    <div>
-                      <div className="text-xl inline-block whitespace-nowrap">
-                        {category.mapTitle}&nbsp;
-                        <span className="text-solingen-yellow">{'>'}</span>
-                      </div>
+        <div className="absolute bg-primary-color bg-opacity-90 bottom-0 w-full text-on-primary-color py-[1%] h-40 flex">
+          {categories.map((category, index) => {
+            if (category.showCategory === 'true') {
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col items-center justify-center text-center w-full"
+                  onClick={() => {
+                    switchLayer(category.name)
+                  }}
+                >
+                  <img
+                    draggable="false"
+                    className={
+                      activeLayers.includes(category.name)
+                        ? 'rounded-full bg-secondary-color transition-all duration-300 aspect-square mb-4 h-24'
+                        : 'rounded-full bg-white transition-all duration-300 aspect-square mb-4 opacity-70 h-24'
+                    }
+                    src={category.iconPath + '/' + category.iconName + category.iconMimetype}
+                  ></img>
+                  <div>
+                    <div className="text-xl inline-block whitespace-nowrap">
+                      {category.mapTitle}&nbsp;
+                      <span className="text-secondary-color">{'>'}</span>
                     </div>
                   </div>
-                )
-              }
-            })}
-          </div>
+                </div>
+              )
+            }
+          })}
         </div>
       )}
     </>

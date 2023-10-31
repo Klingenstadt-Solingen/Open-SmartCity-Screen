@@ -9,6 +9,8 @@ import { POI } from '../models/poi'
 import { Diashow } from '../models/diashow'
 import { Grid } from '../models/grid'
 import { Layout } from '../models/layout'
+import { Busstop } from '../models/busstop'
+import { Busdeparture } from '../models/busdeparture'
 
 export class SteleDB extends Dexie {
   pressReleases!: Table<PressRelease, string>
@@ -21,10 +23,12 @@ export class SteleDB extends Dexie {
   tiles!: Table<Tile, string>
   poiCategories!: Table<PoiCategory, string>
   pois!: Table<POI, string>
+  stops!: Table<Busstop, string>
+  departures!: Table<Busdeparture, string>
 
   constructor() {
     super('steleDB')
-    this.version(1).stores({
+    this.version(2).stores({
       pressReleases: '++,title,date,content',
       screen: '++,uuid,name,location',
       layoutConfig: '++,name',
@@ -34,7 +38,9 @@ export class SteleDB extends Dexie {
       diashowObjects: '++,file,duration,startDate,endDate,fileType',
       tiles: '++',
       poiCategories: '++',
-      pois: '++'
+      pois: '++',
+      stops: '++',
+      departures: '++'
     })
   }
 }

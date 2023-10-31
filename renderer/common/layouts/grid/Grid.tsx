@@ -3,6 +3,9 @@ import BaseTile from './tiles/BaseTile'
 import BasePanel from './panels/BasePanel'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../../utils/dexie'
+import ArrowUp from '../../icons/ArrowUp'
+import ArrowDown from '../../icons/ArrowDown'
+import Rotate from '../../icons/Rotate'
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Grid() {
@@ -133,7 +136,7 @@ export default function Grid() {
   if (typeof tiles !== 'undefined' && tiles.length) {
     return (
       <div
-        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-all duration-solingen-speed bg-white"
+        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-all duration-app-speed bg-white"
         style={baseTileContainerCss}
         onClick={handleOutsideClick}
       >
@@ -156,37 +159,35 @@ export default function Grid() {
         </BasePanel>
         {isOpen ? (
           <>
-            <div className="absolute w-screen flex justify-center top-[8rem]">
-              <button
-                onClick={handleToUpButtonClick}
-                className="z-10 w-[7rem] h-[7rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey opacity-80 border-solingen-blue border-2"
-                style={{
-                  backgroundImage: 'url("/images/svg/arrow-up.svg")',
-                  backgroundSize: '60%'
-                }}
-              ></button>
-            </div>
+            {accessabilityCode !== 1 && (
+              <div className="absolute w-screen flex justify-center top-[8rem]">
+                <button
+                  onClick={handleToUpButtonClick}
+                  className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-primary-color border-2"
+                >
+                  <ArrowUp height="70%" width="70%"></ArrowUp>
+                </button>
+              </div>
+            )}
 
-            <div className="absolute w-screen flex justify-center bottom-[8rem]">
-              <button
-                onClick={handleToDownButtonClick}
-                className="z-10 w-[8rem] h-[8rem] rounded-xl bg-no-repeat bg-center bg-solingen-grey  opacity-80 border-solingen-blue border-2"
-                style={{
-                  backgroundImage: 'url("/images/svg/arrow-down.svg")',
-                  backgroundSize: '60%'
-                }}
-              ></button>
-            </div>
+            {accessabilityCode !== 2 && (
+              <div className="absolute w-screen flex justify-center bottom-[8rem]">
+                <button
+                  onClick={handleToDownButtonClick}
+                  className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-primary-color border-2"
+                >
+                  <ArrowDown height="70%" width="70%"></ArrowDown>
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <button
             onClick={handleRotationButtonClick}
-            className="z-10 absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-no-repeat bg-center bg-solingen-grey opacity-80"
-            style={{
-              backgroundImage: 'url("/images/svg/rotate.svg")',
-              backgroundSize: '60%'
-            }}
-          ></button>
+            className="z-10 flex justify-center items-center absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-background-color-dark opacity-80"
+          >
+            <Rotate height="70%" width="70%"></Rotate>
+          </button>
         )}
       </div>
     )

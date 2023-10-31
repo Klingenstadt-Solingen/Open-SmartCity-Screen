@@ -32,24 +32,23 @@ export default function BasePanel(props: PropsWithChildren<Props>): React.JSX.El
   if (isShowHeader) {
     if (isShowFooter) {
       centerPanelClassName =
-        'absolute text-center w-full h-[59vh] top-[22vh] transition-all duration-solingen-speed'
+        'z-10 absolute text-center w-full h-[59vh] top-[22vh] transition-all duration-app-speed'
     } else {
       centerPanelClassName =
-        'absolute text-center w-full h-[61vh] top-[22.8vh] transition-all duration-solingen-speed'
+        'z-10 absolute text-center w-full h-[61vh] top-[22.8vh] transition-all duration-app-speed'
     }
   } else {
     if (isShowFooter) {
       centerPanelClassName =
-        'absolute text-center w-full h-[63vh] top-[16.8vh] transition-all duration-solingen-speed'
+        'z-10 absolute text-center w-full h-[63vh] top-[16.8vh] transition-all duration-app-speed'
     } else {
       centerPanelClassName =
-        'absolute text-center w-full h-[65vh] top-[17.5vh] transition-all duration-solingen-speed'
+        'z-10 absolute text-center w-full h-[65vh] top-[17.5vh] transition-all duration-app-speed'
     }
   }
 
   let centerPanelCss: React.CSSProperties = {}
   const centerPanelCss_tmp: React.CSSProperties = {
-    zIndex: 0,
     height: '65vh'
   }
 

@@ -32,17 +32,16 @@ const Dashboard = ({ isParseOnline }: Props) => {
   } else {
     if (screen.state?.name === 'INACTIVE' || typeof layoutConfig === 'undefined') {
       return (
-        <div className="text-center w-full h-screen items-center justify-center bg-solingen-blue flex flex-col flex-nowrap">
-          <img
-            className="w-[200px] mb-[3vh]"
-            src="/images/button_menschsolingen_175px_2_0e8ecd94f8.png"
-          />
-          <div className="text-4xl w-full text-solingen-yellow leading-relaxed">
+        <div className="text-center w-full h-screen items-center justify-center bg-primary-color flex flex-col flex-nowrap">
+          <img className="w-[200px] mb-[3vh]" src="/images/city-logo.png" />
+          <div className="text-4xl w-full text-secondary-color leading-relaxed">
             Diese Stele wird gerade konfiguriert.
             <br />
             Kommen Sie gerne später wieder!
           </div>
-          <div className="text-4xl w-full text-white absolute bottom-20">{screen.name}</div>
+          <div className="text-4xl w-full text-on-primary-color absolute bottom-20">
+            {screen.name}
+          </div>
         </div>
       )
     } else {
@@ -51,11 +50,11 @@ const Dashboard = ({ isParseOnline }: Props) => {
           className={
             layoutConfig.showHeader
               ? layoutConfig.showFooter
-                ? 'w-screen h-screen grid grid-rows-headerFooter bg-solingen-blue'
-                : 'w-screen h-screen grid grid-rows-header bg-solingen-blue'
+                ? 'w-screen h-screen grid grid-rows-headerFooter bg-primary-color'
+                : 'w-screen h-screen grid grid-rows-header bg-primary-color'
               : layoutConfig.showFooter
-              ? 'w-screen h-screen grid grid-rows-footer bg-solingen-blue'
-              : 'w-screen h-screen grid grid-rows-full bg-solingen-blue'
+              ? 'w-screen h-screen grid grid-rows-footer bg-primary-color'
+              : 'w-screen h-screen grid grid-rows-full bg-primary-color'
           }
         >
           {layoutConfig.showHeader && (

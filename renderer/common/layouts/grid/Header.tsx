@@ -1,22 +1,52 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { db } from '../../../utils/dexie'
+import Clock from '../../icons/Clock'
 
 export default function Header(): React.JSX.Element {
-  const name = useLiveQuery(async () => {
-    return (await db.screen.toCollection().first()).name
+  const busStop = useLiveQuery(async () => {
+    return db.stops.toCollection().first()
   })
-  if (typeof name === 'undefined') {
+
+  const [time, setTime] = useState(
+    new Date().toLocaleTimeString('de-DE', {
+      timeZone: 'Europe/Berlin',
+      hour12: false,
+      hour: 'numeric',
+      minute: 'numeric'
+    })
+  )
+
+  useEffect(() => {
+    setInterval(() => {
+      setTime(
+        new Date().toLocaleTimeString('de-DE', {
+          timeZone: 'Europe/Berlin',
+          hour12: false,
+          hour: 'numeric',
+          minute: 'numeric'
+        })
+      )
+    }, 3000)
+  })
+
+  if (typeof busStop === 'undefined') {
     return <></>
   } else {
     return (
-      <div className="text-6xl text-center text-solingen-yellow font-bold bg-solingen-blue border-gray-400 border-b py-5">
+      <div className="text-6xl text-left text-secondary-color font-bold bg-primary-color py-5">
         <img
           src="/images/busstop.png"
-          width="7%"
-          className="absolute z-50 shadow-2xl rounded-full m-0 ml-20"
+          className="absolute z-50 shadow-2xl rounded-full m-0 ml-20 w-40"
         ></img>
-        {name}
+        <span className="ml-72">{busStop.name}</span>
+        <span className="absolute text-on-primary-color font-light right-0 top-6 mr-20 flex items-center">
+          {new Intl.DateTimeFormat('de-DE').format(new Date())}
+          <div className="mx-6">
+            <Clock></Clock>
+          </div>
+          {time} Uhr
+        </span>
       </div>
     )
   }
