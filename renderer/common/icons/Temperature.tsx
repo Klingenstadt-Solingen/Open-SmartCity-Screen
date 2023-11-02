@@ -1,9 +1,15 @@
 import React from 'react'
 import { environment } from '../../environment'
 
-function Temperature({ fill = environment.primaryColor || '#004373' }: { fill?: string }) {
+function Temperature({
+  fill = environment.primaryColor || '#004373',
+  height = '100'
+}: {
+  fill?: string
+  height?: string
+}) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="180" height="280" viewBox="0 0 75.498 171">
+    <svg xmlns="http://www.w3.org/2000/svg" height={height} viewBox="0 0 75.498 171">
       <g data-name="Gruppe 457" fill="none" stroke={fill} strokeWidth="4">
         <path
           data-name="Shape 965"

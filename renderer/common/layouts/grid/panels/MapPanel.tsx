@@ -13,6 +13,9 @@ import { Style, Icon } from 'ol/style.js'
 import { PoiCategory } from '../../../../models/poi-category'
 import { POI } from '../../../../models/poi'
 
+import Overlay from 'ol/Overlay.js'
+import BubbleInfo from './BubbleInfo'
+
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,12 +52,25 @@ function mapToLayers(pois: POI[], categories: PoiCategory[]) {
           features: pois
             .filter((poi) => poi.poiCategory === category.sourceId)
             .map((poi) => {
+              let homePage: string = ''
+              let tel: string = ''
+              poi.details.forEach((detail) => {
+                if (detail.type === 'url') homePage = detail.value
+                if (detail.type === 'tel') tel = detail.value
+              })
               return {
                 type: 'Feature',
                 properties: {
                   symbolPath: category.symbolPath,
                   symbolName: category.symbolName,
-                  symbolMimetype: category.symbolMimetype
+                  symbolMimetype: category.symbolMimetype,
+                  address: poi.address,
+                  city: poi.city,
+                  district: poi.district,
+                  name: poi.name,
+                  zip: poi.zip,
+                  homePage: homePage,
+                  tel: tel
                 },
                 geometry: {
                   type: 'Point',
@@ -76,7 +92,7 @@ export default function MapPanel({
   preSelected?: 'Übernachtung' | 'Freifunk' | 'Freizeit'
 }): React.JSX.Element {
   const [first, setFirst] = useState(true)
-
+  const [information, setInformation] = useState(undefined)
   const categories = useLiveQuery(async () => {
     return await db.poiCategories.toArray()
   })
@@ -127,10 +143,33 @@ export default function MapPanel({
       )
       mpapi.map.addLayer('base')
     }
+
+    const overlay = new Overlay({})
+
+    mpapi.map.on('click', function (evt) {
+      const coordinate = evt.coordinate
+      const tmpContainer = document.getElementById('popupDiv')
+      overlay.setElement(tmpContainer)
+      overlay.setPosition(coordinate)
+      mpapi.map.addOverlay(overlay)
+
+      const feature = mpapi.map.forEachFeatureAtPixel(evt.pixel, (feature) => {
+        return feature
+      })
+      if (feature) {
+        setInformation(feature.values_)
+      } else {
+        setInformation(undefined)
+      }
+    })
   }, [categories, pois])
 
   return (
     <>
+      <div id="popupDiv" style={information ? { display: 'block' } : { display: 'none' }}>
+        <BubbleInfo information={information} />
+      </div>
+
       <div className="h-full" id="map-div-id"></div>
       {categories && (
         <div className="absolute bg-primary-color bg-opacity-90 bottom-0 w-full text-on-primary-color py-[1%] h-40 flex">
@@ -141,7 +180,7 @@ export default function MapPanel({
                   key={index}
                   className="flex flex-col items-center justify-center text-center w-full"
                   onClick={() => {
-                    switchLayer(category.name)
+                    switchLayer(category.name), setInformation(undefined)
                   }}
                 >
                   <img

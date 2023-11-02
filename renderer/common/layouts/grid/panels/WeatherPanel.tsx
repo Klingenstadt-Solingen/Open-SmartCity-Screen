@@ -1,87 +1,103 @@
 import React from 'react'
 import { Weather } from '../../../../models/weather'
-
-const weatherInfo = [
-  {
-    num: 1,
-    text_1: 'UV-Licht',
-    text_2: '0',
-    bgColor: '#9aca78',
-    fontColor: 'white',
-    borderColor: 'white',
-    bgImage: '/images/svg/UV.svg'
-  },
-  {
-    num: 2,
-    text_1: 'Niederschlag',
-    text_2: '0.01mm/h',
-    bgColor: '#5ea4ee',
-    fontColor: 'white',
-    borderColor: 'white',
-    bgImage: '/images/svg/rain.svg'
-  },
-  {
-    num: 3,
-    text_1: 'Luftfeuchtigkeit',
-    text_2: '92.6%',
-    bgColor: '#f2f2f2',
-    fontColor: '#004373',
-    borderColor: '#FFBF00',
-    bgImage: '/images/svg/moisture.svg'
-  },
-  {
-    num: 4,
-    text_1: 'Luftdruck',
-    text_2: '1025.9hpa',
-    bgColor: '#f2f2f2',
-    fontColor: '#004373',
-    borderColor: '#FFBF00',
-    bgImage: '/images/svg/airPressure.svg'
-  }
-]
+import Temperature from '../../../icons/Temperature'
+import UV from '../../../icons/UV'
+import { environment } from '../../../../environment'
+import Rain from '../../../icons/Rain'
+import Moisture from '../../../icons/Moisture'
+import AirPressure from '../../../icons/AirPressure'
 
 export default function WeatherPanel(props: { weather: Weather }): React.JSX.Element {
+  console.log(props.weather)
   return (
-    <div className="tracking-wide w-full h-[56vh] bg-white flex flex-wrap flex-row p-[4vh] box-border">
-      <div className="w-full text-6xl text-primary-color font-bold mb-6">
+    <div className="text-left w-full bg-background-color h-full grow flex flex-col p-16">
+      <div className="text-center w-full mb-36 text-6xl text-primary-color font-bold">
         Wetter <span>{props.weather?.shortName}</span>
       </div>
-      <div className="bg-secondary-color w-[65%] h-[22vh] ml-[1%] mt-[1%] rounded-3xl flex flex-wrap flex-row">
-        <div
-          className="w-[45%] h-full bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/images/svg/temperature.svg")', backgroundSize: '60%' }}
-        ></div>
-        <div className="w-[55%] h-full text-left flex flex-wrap flex-col justify-center text-primary-color items-left">
-          <div className="text-3xl font-bold pl-3 border-l-8 border-primary-color">Temperatur</div>
-          <div className="text-6xl font-bold my-9">
-            {props.weather?.values?.lufttemperatur?.value}
-            {props.weather?.values?.lufttemperatur?.unit}
+      <div className="h-full flex justify-center">
+        <div className="h-2/3 gap-8 w-4/5 grid grid-cols-3 grid-rows-2">
+          <div className="pl-[10%] rounded-3xl bg-secondary-color w-full h-full col-span-2 flex items-center">
+            <Temperature height="80%"></Temperature>
+            <div className="ml-[10%] text-4xl flex flex-col items-start gap-4 text-primary-color">
+              <span className="border-primary-color border-l-[10px] pl-4 font-bold">
+                Temperatur
+              </span>
+              <div>
+                <span className="text-6xl font-bold ">
+                  {props.weather.values?.lufttemperatur?.value}
+                </span>
+                <span className="font-thin text-6xl align-top">
+                  {props.weather.values?.lufttemperatur?.unit}
+                </span>
+              </div>
+              <span>
+                zuletzt aktualisiert am{' '}
+                {new Intl.DateTimeFormat('de-DE').format(new Date(props.weather.dateObserved?.iso))}
+              </span>
+            </div>
           </div>
-          <div className="text-2xl">
-            aktualisiert am <br />
-            {new Intl.DateTimeFormat('de-DE').format(new Date(props.weather?.dateObserved.iso))}
+          <div className="pl-[10%] w-full flex items-center rounded-3xl h-full bg-background-color-dark">
+            <UV height="50%" fill={environment.primaryColor || '#004373'}></UV>
+            <div className="ml-[10%] text-4xl flex flex-col items-start gap-4 text-primary-color">
+              <span className="border-primary-color border-l-[10px] pl-4 font-bold">UV-Licht</span>
+              <div>
+                <span className="text-5xl font-bold ">
+                  {props.weather.values?.globalstrahlung?.value}
+                </span>
+                <span className="font-thin text-5xl align-top">
+                  {props.weather.values?.globalstrahlung?.unit}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="pl-[10%] w-full flex items-center rounded-3xl h-full bg-primary-color bg-opacity-70">
+            <Rain fill={environment.onPrimaryColor || '#FFFFFF'}></Rain>
+            <div className="ml-[10%] text-4xl flex flex-col items-start gap-4 text-on-primary-color">
+              <span className="border-on-primary-color border-l-[10px] pl-4 font-bold">
+                Niederschlag
+              </span>
+              <div>
+                <span className="text-5xl font-bold ">
+                  {props.weather.values?.niederschlagsintensitaet?.value}
+                </span>
+                <span className="font-thin text-5xl align-top">
+                  {props.weather.values?.niederschlagsintensitaet?.unit}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="pl-[10%] w-full flex items-center rounded-3xl h-full bg-background-color-dark">
+            <Moisture fill={environment.primaryColor || '#004373'}></Moisture>
+            <div className="ml-[10%] text-4xl flex flex-col items-start gap-4 text-primary-color">
+              <span className="border-primary-color border-l-[10px] pl-4 font-bold">
+                Luftfeuchtigkeit
+              </span>
+              <div>
+                <span className="text-5xl font-bold ">
+                  {props.weather.values?.relative_luftfeuchte?.value}
+                </span>
+                <span className="font-thin text-5xl align-top">
+                  {props.weather.values?.relative_luftfeuchte?.unit}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="pl-[10%] w-full flex items-center rounded-3xl h-full bg-background-color-dark">
+            <AirPressure fill={environment.primaryColor || '#004373'}></AirPressure>
+            <div className="ml-[10%] text-4xl flex flex-col items-start gap-4 text-primary-color">
+              <span className="border-primary-color border-l-[10px] pl-4 font-bold">Luftdruck</span>
+              <div>
+                <span className="text-5xl font-bold ">
+                  {props.weather.values?.realtiver_luftdruck?.value}
+                </span>
+                <span className="font-thin text-5xl align-top">
+                  {props.weather.values?.realtiver_luftdruck?.unit}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {weatherInfo.map((weather) => (
-        <div
-          key={weather.num}
-          style={{ color: weather.fontColor, backgroundColor: weather.bgColor }}
-          className="w-[32%] h-[22vh] ml-[1%] mt-[1%] rounded-3xl flex flex-wrap flex-col"
-        >
-          <div
-            className="w-full h-[25%] bg-contain bg-left bg-no-repeat mt-20 ml-10"
-            style={{ backgroundImage: `url(${weather.bgImage})` }}
-          ></div>
-          <div
-            className="w-full text-left text-md font-bold my-10 ml-10 pl-5"
-            style={{ borderLeft: `8px solid ${weather.borderColor}` }}
-          >
-            {weather.text_1}
-          </div>
-          <div className="w-full text-left text-2xl font-bold ml-10">{weather.text_2}</div>
-        </div>
-      ))}
     </div>
   )
 }

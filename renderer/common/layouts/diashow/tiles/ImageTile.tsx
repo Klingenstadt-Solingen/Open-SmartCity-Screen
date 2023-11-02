@@ -86,7 +86,6 @@ export default function ImageTile(props: Props): React.JSX.Element {
         }}
       >
         {diashowObjects.map((diashowObject, index) => {
-          console.log(diashowObject)
           if (
             new Date((diashowObject.startDate as { iso: string }).iso).getTime() <
               new Date().getTime() &&

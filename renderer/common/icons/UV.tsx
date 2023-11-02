@@ -1,9 +1,15 @@
 import React from 'react'
 import { environment } from '../../environment'
 
-function UV({ fill = environment.backgroundColor || '#FFFFFF' }: { fill?: string }) {
+function UV({
+  fill = environment.backgroundColor || '#ffffff',
+  height = '100'
+}: {
+  fill?: string
+  height?: string
+}) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 61.5 61.5">
+    <svg xmlns="http://www.w3.org/2000/svg" height={height} viewBox="0 0 61.5 61.5">
       <g data-name="Weather / UV / uv-low-1">
         <g data-name="Group 124">
           <g data-name="Light 124" fill="none" stroke={fill} strokeWidth="4">

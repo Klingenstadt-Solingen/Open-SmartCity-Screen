@@ -25,32 +25,19 @@ if (isProd) {
   if (isProd) {
     await mainWindow.loadURL('app://./dashboard.html')
     mainWindow.setFullScreen(true)
-    const a = app.getPath('userData').replaceAll('\\', '/')
-    mainWindow.webContents
-      .executeJavaScript(`localStorage.setItem("path", "${a}")`, true)
-      .then((result) => {
-        console.log(result)
-      })
-    mainWindow.webContents
-      .executeJavaScript(`localStorage.setItem("mode", "prod")`, true)
-      .then((result) => {
-        console.log(result)
-      })
+    const userPath = app.getPath('userData').replaceAll('\\', '/')
+    mainWindow.webContents.executeJavaScript(`localStorage.setItem("path", "${userPath}")`, true)
+    mainWindow.webContents.executeJavaScript(`localStorage.setItem("mode", "prod")`, true)
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/dashboard`)
     mainWindow.webContents.openDevTools()
 
-    mainWindow.webContents
-      .executeJavaScript(`localStorage.setItem("path", './renderer/public')`, true)
-      .then((result) => {
-        console.log(result)
-      })
-    mainWindow.webContents
-      .executeJavaScript(`localStorage.setItem("mode", "dev")`, true)
-      .then((result) => {
-        console.log(result)
-      })
+    mainWindow.webContents.executeJavaScript(
+      `localStorage.setItem("path", './renderer/public')`,
+      true
+    )
+    mainWindow.webContents.executeJavaScript(`localStorage.setItem("mode", "dev")`, true)
   }
 })()
 

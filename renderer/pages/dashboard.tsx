@@ -28,9 +28,13 @@ const Dashboard = ({ isParseOnline }: Props) => {
   })
 
   if (typeof screen === 'undefined') {
-    return <div className="text-8xl">No Screen Defined</div>
+    return (
+      <div className="h-screen w-screen bg-primary-color flex justify-center items-center text-8xl text-on-primary-color">
+        No Screen Defined
+      </div>
+    )
   } else {
-    if (screen.state?.name === 'INACTIVE' || typeof layoutConfig === 'undefined') {
+    if (screen.state?.name !== 'ACTIVE' || typeof layoutConfig === 'undefined') {
       return (
         <div className="text-center w-full h-screen items-center justify-center bg-primary-color flex flex-col flex-nowrap">
           <img className="w-[200px] mb-[3vh]" src="/images/city-logo.png" />

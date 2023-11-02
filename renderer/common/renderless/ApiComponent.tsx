@@ -289,14 +289,11 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             'pt-serving-lines',
             { stopId: a.stops[0].id },
             { useMasterKey: true }
-          ).then(
-            (b) => {
-              db.departures.clear().then(() => {
-                db.departures.bulkAdd(b)
-              })
-            },
-            (c) => console.log('pt-departure', c)
-          )
+          ).then((b) => {
+            db.departures.clear().then(() => {
+              db.departures.bulkAdd(b)
+            })
+          })
         })
       })
     }

@@ -32,7 +32,7 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
                     onClick={() => {
                       props.setCenter(
                         <ImagePanel
-                          pdfCanvasHeight={window.innerHeight * 0.3}
+                          pdfCanvasWidth={window.innerWidth * 0.1}
                           imgSrc={'data:application/pdf;base64,' + item.sttPdf}
                           fileType="pdf"
                         ></ImagePanel>

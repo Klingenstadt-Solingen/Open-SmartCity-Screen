@@ -12,7 +12,8 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
     return db.screen.toCollection().first()
   })
 
-  const [departures, setDepartures] = useState<unknown>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [departures, setDepartures] = useState<any[]>([])
 
   useEffect(() => {
     if (typeof screen !== 'undefined') {
@@ -58,7 +59,7 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
             {departures.map((item, index) => {
               if (index < 6)
                 return (
-                  <tr key={index} className="a text-4xl">
+                  <tr key={index} className="a text-5xl">
                     <td
                       className={
                         index % 2 === 0
@@ -81,11 +82,11 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
                             (new Date(item.deparureTimeEstimated).getTime() -
                               new Date().getTime()) /
                               60000
-                          )
+                          ) + 1
                         : Math.floor(
                             (new Date(item.departureTimePlanned).getTime() - new Date().getTime()) /
                               60000
-                          )}
+                          ) + 1}
                       Min.
                     </td>
                   </tr>

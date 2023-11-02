@@ -163,7 +163,7 @@ export default function Grid() {
               <div className="absolute w-screen flex justify-center top-[8rem]">
                 <button
                   onClick={handleToUpButtonClick}
-                  className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-primary-color border-2"
+                  className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-gray-600 border shadow-md shadow-gray-600"
                 >
                   <ArrowUp height="70%" width="70%"></ArrowUp>
                 </button>
@@ -174,7 +174,7 @@ export default function Grid() {
               <div className="absolute w-screen flex justify-center bottom-[8rem]">
                 <button
                   onClick={handleToDownButtonClick}
-                  className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-primary-color border-2"
+                  className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-gray-600 border shadow-md shadow-gray-600"
                 >
                   <ArrowDown height="70%" width="70%"></ArrowDown>
                 </button>

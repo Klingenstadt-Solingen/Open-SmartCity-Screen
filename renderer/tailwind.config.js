@@ -17,6 +17,7 @@ export const theme = {
     colors: {
       'primary-color': environment.primaryColor || '#004373',
       'secondary-color': environment.secondaryColor || '#ffbf00',
+      'tertiary-color': environment.tertiaryColor || 'green',
       'on-primary-color': environment.onPrimaryColor || '#FFFFFF',
       'on-secondary-color': environment.onSecondaryColor || '#000000',
       'background-color': environment.backgroundColor || '#FFFFFF',
