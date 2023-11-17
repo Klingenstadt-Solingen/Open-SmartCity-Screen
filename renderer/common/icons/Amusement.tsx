@@ -3,8 +3,8 @@ import { environment } from '../../environment'
 
 function Amusement({
   fill = environment.secondaryColor || '#ffbf00',
-  height = '800px',
-  width = '800px'
+  height = '100',
+  width = '100'
 }: {
   fill?: string
   height?: string

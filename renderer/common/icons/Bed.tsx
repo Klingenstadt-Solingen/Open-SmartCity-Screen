@@ -3,8 +3,8 @@ import { environment } from '../../environment'
 
 function Bed({
   fill = environment.secondaryColor || '#ffbf00',
-  width = '210mm',
-  height = '169mm'
+  width = '100',
+  height = '100'
 }: {
   fill?: string
   width?: string

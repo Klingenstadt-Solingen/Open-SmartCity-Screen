@@ -1,12 +1,20 @@
 import React from 'react'
 import { environment } from '../../environment'
 
-function Moisture({ fill = environment.primaryColor || '#004373' }: { fill?: string }) {
+function Moisture({
+  fill = environment.primaryColor || '#004373',
+  height = '61',
+  width = '61'
+}: {
+  fill?: string
+  height?: string
+  width?: string
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="61.508"
-      height="61.513"
+      width={width}
+      height={height}
       viewBox="0 0 61.508 61.513"
     >
       <g data-name="Weather / Humidity / humidity-high">

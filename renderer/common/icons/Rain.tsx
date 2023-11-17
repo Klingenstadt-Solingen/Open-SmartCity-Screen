@@ -1,12 +1,20 @@
 import React from 'react'
 import { environment } from '../../environment'
 
-function Rain({ fill = environment.backgroundColor || '#FFFFFF' }: { fill?: string }) {
+function Rain({
+  fill = environment.backgroundColor || '#FFFFFF',
+  height = '45',
+  width = '61'
+}: {
+  fill?: string
+  height?: string
+  width?: string
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="61.516"
-      height="45.876"
+      width={width}
+      height={height}
       viewBox="0 0 61.516 45.876"
     >
       <g data-name="Weather / Weather / weather-cloud-1">

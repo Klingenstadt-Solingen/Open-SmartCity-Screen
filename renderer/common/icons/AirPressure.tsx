@@ -3,12 +3,12 @@ import { environment } from '../../environment'
 
 function AirPressure({
   fill = environment.secondaryColor || '#ffbf00',
-  width = 61.5,
-  height = 61.5
+  width = '61.5',
+  height = '61.5'
 }: {
   fill?: string
-  width?: number
-  height?: number
+  width?: string
+  height?: string
 }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 61.5 61.5">

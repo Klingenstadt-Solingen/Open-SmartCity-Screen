@@ -3,13 +3,15 @@ import { environment } from '../../environment'
 
 function Temperature({
   fill = environment.primaryColor || '#004373',
-  height = '100'
+  height = '100',
+  width = '100'
 }: {
   fill?: string
   height?: string
+  width?: string
 }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" height={height} viewBox="0 0 75.498 171">
+    <svg xmlns="http://www.w3.org/2000/svg" height={height} width={width} viewBox="0 0 75.498 171">
       <g data-name="Gruppe 457" fill="none" stroke={fill} strokeWidth="4">
         <path
           data-name="Shape 965"

@@ -3,20 +3,15 @@ import { environment } from '../../environment'
 
 function Wifi({
   fill = environment.secondaryColor || '#ffbf00',
-  width = '82.828',
-  height = '78.772'
+  width = '100',
+  height = '100'
 }: {
   fill?: string
   width?: string
   height?: string
 }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 82.828 78.772"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 100 100">
       <g
         id="Internet-Networks-Servers_Wifi_wifi"
         data-name="Internet-Networks-Servers / Wifi / wifi"

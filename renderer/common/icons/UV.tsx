@@ -3,13 +3,15 @@ import { environment } from '../../environment'
 
 function UV({
   fill = environment.backgroundColor || '#ffffff',
-  height = '100'
+  height = '100',
+  width = '100'
 }: {
   fill?: string
   height?: string
+  width?: string
 }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" height={height} viewBox="0 0 61.5 61.5">
+    <svg xmlns="http://www.w3.org/2000/svg" height={height} width={width} viewBox="0 0 61.5 61.5">
       <g data-name="Weather / UV / uv-low-1">
         <g data-name="Group 124">
           <g data-name="Light 124" fill="none" stroke={fill} strokeWidth="4">
