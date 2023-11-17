@@ -44,7 +44,7 @@ export default function WeatherTile(props: Props): React.JSX.Element {
   }
 
   const weather = useLiveQuery(async () => {
-    return await db.weather.toCollection().first()
+    return db.weather.toCollection().first()
   })
   if (typeof weather === 'undefined') {
     return <></>
@@ -65,11 +65,11 @@ export default function WeatherTile(props: Props): React.JSX.Element {
           </div>
 
           <div className="mx-auto mt-9 w-56 h-56 rounded-full bg-white flex justify-center items-center">
-            <Weather width="80%"></Weather>
+            <Weather width="100%" height="60%"></Weather>
           </div>
 
           <div className="text-9xl mt-10 font-bold">
-            <span>{weather.values?.lufttemperatur?.value}</span>
+            <span>{weather.values?.lufttemperatur?.value.toFixed(1)}</span>
             <span className="font-thin text-6xl align-top">
               {weather.values?.lufttemperatur?.unit}
             </span>
@@ -83,7 +83,7 @@ export default function WeatherTile(props: Props): React.JSX.Element {
           <button
             id="btnInWeatherTile"
             className="w-60 h-14 rounded-lg text-2xl mt-10 bg-primary-color text-on-primary-color"
-            onClick={() => props.setCenter(<WeatherPanel weather={weather}></WeatherPanel>)}
+            onMouseDown={() => props.setCenter(<WeatherPanel weather={weather}></WeatherPanel>)}
           >
             weitere Daten
           </button>

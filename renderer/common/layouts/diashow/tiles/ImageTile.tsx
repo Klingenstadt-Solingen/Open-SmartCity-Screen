@@ -9,8 +9,8 @@ import { DiashowObject } from '../../../../models/diashowObject'
 import MediaContainer from './MediaContainer'
 
 import fs from 'fs'
-import https from 'https'
 import { downloadDir } from '../../../../utils/constants'
+import { writeFile } from 'fs/promises'
 
 function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -19,25 +19,17 @@ function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> 
     }
     Promise.all(
       diashowObjects.map((diashowObject) => {
-        return new Promise<void>((resolveOne, rejectOne) => {
+        return new Promise<void>((resolveOne) => {
+          const fileUrl = 'https://' + diashowObject.file.url.split('://')[1]
           if (fs.existsSync(localStorage.getItem('path') + downloadDir + diashowObject.file.name)) {
             resolveOne()
           } else {
-            const fileUrl = 'https://' + diashowObject.file.url.split('://')[1]
-            const targetFile = fs.createWriteStream(
-              localStorage.getItem('path') + downloadDir + diashowObject.file.name
-            )
-            https.get(fileUrl, function (response) {
-              response.pipe(targetFile)
-
-              targetFile.on('error', function () {
-                targetFile.end()
-                rejectOne()
-              })
-              targetFile.on('finish', () => {
-                targetFile.close()
-                //dk why
-                setTimeout(() => resolveOne(), 1)
+            fetch(fileUrl).then((res) => {
+              res.arrayBuffer().then((b) => {
+                writeFile(
+                  localStorage.getItem('path') + downloadDir + diashowObject.file.name,
+                  Buffer.from(b)
+                ).then(() => resolveOne())
               })
             })
           }
@@ -57,15 +49,18 @@ interface Props {
 
 export default function ImageTile(props: Props): React.JSX.Element {
   const diashowObjects = useLiveQuery(async () => {
-    return await db.diashowObjects.toArray()
+    return db.diashowObjects.toArray()
   })
 
   const [isLoading, setIsLoading] = useState(true)
+  const [isDownloading, setIsDownloading] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
-    if (typeof diashowObjects !== 'undefined' && diashowObjects.length) {
+    if (typeof diashowObjects !== 'undefined' && diashowObjects.length && isDownloading === false) {
+      setIsDownloading(true)
       downloadDiashowObjects(diashowObjects).then(() => {
+        setIsDownloading(false)
         setIsLoading(false)
       })
     }
@@ -75,6 +70,8 @@ export default function ImageTile(props: Props): React.JSX.Element {
     return (
       <Swiper
         className="w-full h-full bg-primary-color"
+        //no idea what this is, but without you cant close panel on swiper
+        style={props.isOpen ? { pointerEvents: 'none' } : {}}
         watchSlidesProgress={true}
         direction={'vertical'}
         loop={true}

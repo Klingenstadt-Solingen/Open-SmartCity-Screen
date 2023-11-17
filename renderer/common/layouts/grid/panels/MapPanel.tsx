@@ -106,6 +106,7 @@ function mapToLayers(pois: POI[], categories: PoiCategory[]) {
   return res
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function drawLine(points: any[], color: string = environment.primaryColor || '#004373') {
   if (points?.length) {
     for (let i = 0; i < points.length; i++) {
@@ -176,7 +177,7 @@ export default function MapPanel({
     from: { latitude: number; longitude: number },
     to: { latitude: number; longitude: number }
   ): Promise<[{ trips: [{ coords: [number]; interchange: { coords: [number] } }] }]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       Promise.all([
         Parse.Cloud.run(
           'pt-stop-nearby',

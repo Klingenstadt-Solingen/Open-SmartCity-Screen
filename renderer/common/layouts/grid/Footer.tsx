@@ -2,19 +2,15 @@ import React from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../../utils/dexie'
 
-interface Props {
-  isOnline: boolean
-}
-export default function Footer({ isOnline }: Props): React.JSX.Element {
+export default function Footer(): React.JSX.Element {
   const weather = useLiveQuery(async () => {
-    return await db.weather.toCollection().first()
+    return db.weather.toCollection().first()
   })
 
   if (typeof weather === 'undefined') {
     return <></>
   } else {
     const messages = [
-      'Hochwassergefahr an der Wupper',
       'Wetter: ' + weather.values.lufttemperatur.value + weather.values.lufttemperatur.unit
     ]
     return (
@@ -24,7 +20,7 @@ export default function Footer({ isOnline }: Props): React.JSX.Element {
             className="inline-block w-full"
             style={{ animation: 'scrolling-left1 24s linear infinite' }}
           >
-            {isOnline ? `+++ ${messages.join(' +++ ')} +++` : '!!! Jetzt Offline !!!'}
+            {`+++ ${messages.join(' +++ ')} +++`}
           </span>
 
           <span
@@ -35,7 +31,7 @@ export default function Footer({ isOnline }: Props): React.JSX.Element {
               animationDelay: '6s'
             }}
           >
-            {isOnline ? `+++ ${messages.join(' +++ ')} +++` : '!!! Jetzt Offline !!!'}
+            {`+++ ${messages.join(' +++ ')} +++`}
           </span>
         </p>
       </div>

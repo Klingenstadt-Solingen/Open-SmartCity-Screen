@@ -6,7 +6,7 @@ html,
 body {
   font-family: 'MuseoSans', sans-serif;
   margin: 0;
-  font-size: 0.86vh;
+  font-size: 0.91vh;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -46,14 +46,6 @@ div#__next > div {
   }
 }
 
-.days {
-  line-height: 30px;
-}
-
-.month {
-  line-height: 22px;
-}
-
 .pressRelease > p {
   margin-bottom: 14px;
 }
@@ -70,4 +62,15 @@ div#__next > div {
 .a td:last-child {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  background-color: rgba(20, 20, 20, 0.2);
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background: rgba(255, 191, 9, 0.8);
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(30, 30, 30, 0.8);
+  scroll-behavior: smooth;
 }

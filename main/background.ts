@@ -14,8 +14,8 @@ if (isProd) {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width: 2160,
-    height: 3840,
+    width: 1080,
+    height: 720,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true

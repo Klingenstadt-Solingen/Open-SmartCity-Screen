@@ -11,11 +11,11 @@ interface Props {
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const Dashboard = ({ isParseOnline }: Props) => {
   const screen = useLiveQuery(async () => {
-    return await db.screen.toCollection().first()
+    return db.screen.toCollection().first()
   })
 
   const layoutConfig = useLiveQuery(async () => {
-    return await db.layoutConfig.toCollection().first()
+    return db.layoutConfig.toCollection().first()
   })
 
   //Prevent any Serverside Rendering
@@ -62,7 +62,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
           }
         >
           {layoutConfig.showHeader && (
-            <div>
+            <div className="h-full flex items-center">
               <Header />
             </div>
           )}
@@ -78,7 +78,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
               <Grid />
             </div>
           )}
-          {(layoutConfig.showFooter || !isParseOnline) && <Footer isOnline={isParseOnline} />}
+          {layoutConfig.showFooter && <Footer />}
         </div>
       )
     }

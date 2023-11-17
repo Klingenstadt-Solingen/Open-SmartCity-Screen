@@ -34,7 +34,7 @@ export default function Header(): React.JSX.Element {
     return <></>
   } else {
     return (
-      <div className="text-6xl text-left text-secondary-color font-bold bg-primary-color py-5">
+      <div className="text-5xl text-left text-secondary-color font-bold bg-primary-color py-5">
         <img
           src="/images/busstop.png"
           className="absolute z-50 shadow-2xl rounded-full m-0 ml-20 w-40"
@@ -42,8 +42,8 @@ export default function Header(): React.JSX.Element {
         <span className="ml-72">{busStop.name}</span>
         <span className="absolute text-on-primary-color font-light right-0 top-6 mr-20 flex items-center">
           {new Intl.DateTimeFormat('de-DE').format(new Date())}
-          <div className="mx-6">
-            <Clock></Clock>
+          <div className="h-full mx-6">
+            <Clock height="38" width="38"></Clock>
           </div>
           {time} Uhr
         </span>

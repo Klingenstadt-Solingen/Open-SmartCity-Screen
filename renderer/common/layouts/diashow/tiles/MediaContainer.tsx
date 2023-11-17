@@ -60,7 +60,7 @@ export default function MediaContainer(props: Props): React.JSX.Element {
         <Document
           loading={''}
           file={props.srcInfo}
-          onClick={(e) => {
+          onMouseDown={(e) => {
             if (swiper.animating) e.stopPropagation()
             else {
               if (props.setCenter !== undefined)
@@ -112,7 +112,7 @@ export default function MediaContainer(props: Props): React.JSX.Element {
           <img
             className="w-full h-full object-contain"
             src={props.srcInfo}
-            onClick={(e) => {
+            onMouseDown={(e) => {
               if (swiper.animating) e.stopPropagation()
               else {
                 if (props.setCenter)

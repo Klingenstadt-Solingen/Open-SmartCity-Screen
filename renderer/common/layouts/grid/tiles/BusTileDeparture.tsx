@@ -7,6 +7,13 @@ interface Props {
   isOpen: boolean
 }
 
+function minutesUntilNow(time: string) {
+  const calc = Math.floor((new Date(time).getTime() - new Date().getTime()) / 60000) + 1
+  if (calc > 0) {
+    return calc
+  } else return 0
+}
+
 export default function BusTileDeparture(props: Props): React.JSX.Element {
   const screen = useLiveQuery(async () => {
     return db.screen.toCollection().first()
@@ -78,15 +85,8 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
                     </td>
                     <td className={index % 2 === 0 ? '' : 'bg-background-color-dark '}>
                       {item.deparureTimeEstimated
-                        ? Math.floor(
-                            (new Date(item.deparureTimeEstimated).getTime() -
-                              new Date().getTime()) /
-                              60000
-                          ) + 1
-                        : Math.floor(
-                            (new Date(item.departureTimePlanned).getTime() - new Date().getTime()) /
-                              60000
-                          ) + 1}
+                        ? minutesUntilNow(item.departureTimeEstimated)
+                        : minutesUntilNow(item.departureTimePlanned)}
                       Min.
                     </td>
                   </tr>

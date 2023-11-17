@@ -28,7 +28,7 @@ export class SteleDB extends Dexie {
 
   constructor() {
     super('steleDB')
-    this.version(2).stores({
+    this.version(3).stores({
       pressReleases: '++,title,date,content',
       screen: '++,uuid,name,location',
       layoutConfig: '++,name',

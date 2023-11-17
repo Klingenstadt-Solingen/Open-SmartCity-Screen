@@ -58,25 +58,25 @@ export default function POITile(props: Props): React.JSX.Element {
         >
           <button
             className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onClick={() => props.setCenter(<MapPanel preSelected={'Freifunk'}></MapPanel>)}
+            onMouseDown={() => props.setCenter(<MapPanel preSelected={'Freifunk'}></MapPanel>)}
           >
-            <Wifi height="80%" width="100"></Wifi>
+            <Wifi height="100%" width="300"></Wifi>
             <div className="self-end w-full text-right">Freifunk WLAN</div>
           </button>
           <button
             className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onClick={() => props.setCenter(<MapPanel preSelected={'Übernachtung'}></MapPanel>)}
+            onMouseDown={() => props.setCenter(<MapPanel preSelected={'Übernachtung'}></MapPanel>)}
           >
-            <Bed height="80%" width="100"></Bed>
+            <Bed height="100%" width="300"></Bed>
             <div className="self-end w-full text-right whitespace-nowrap">
               Schlafen in {environment.cityName || 'Solingen'}
             </div>
           </button>
           <button
-            className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex flex-col justify-between"
-            onClick={() => props.setCenter(<MapPanel preSelected={'Freizeit'}></MapPanel>)}
+            className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
+            onMouseDown={() => props.setCenter(<MapPanel preSelected={'Freizeit'}></MapPanel>)}
           >
-            <Amusement height="80%" width="100"></Amusement>
+            <Amusement height="100%" width="300"></Amusement>
             <div className="self-end w-full text-right">Freizeitaktivitäten</div>
           </button>
         </div>

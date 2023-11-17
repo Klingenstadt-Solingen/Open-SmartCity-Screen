@@ -10,14 +10,11 @@ import Rotate from '../../icons/Rotate'
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Grid() {
   const tiles = useLiveQuery(async () => {
-    return await db.tiles.limit(4).toArray()
-  })
-  const isShowHeader = useLiveQuery(async () => {
-    return (await db.layoutConfig.toCollection().first()).showHeader
+    return db.tiles.limit(4).toArray()
   })
 
-  const isShowFooter = useLiveQuery(async () => {
-    return (await db.layoutConfig.toCollection().first()).showFooter
+  const layoutConfig = useLiveQuery(async () => {
+    return db.layoutConfig.toCollection().first()
   })
 
   const [centerPanel, setCenterPanel] = useState(<></>)
@@ -92,8 +89,8 @@ export default function Grid() {
         baseTileContainerCss = { rowGap: '65%' }
         break
       case 1:
-        if (isShowHeader) {
-          if (isShowFooter) {
+        if (layoutConfig.showHeader) {
+          if (layoutConfig.showFooter) {
             baseTileContainerCss = { ...baseTileContainerCss_tmp, marginTop: '-35vh' }
           } else {
             baseTileContainerCss = {
@@ -109,8 +106,8 @@ export default function Grid() {
         }
         break
       case 2:
-        if (isShowHeader) {
-          if (isShowFooter) {
+        if (layoutConfig.showHeader) {
+          if (layoutConfig.showFooter) {
             baseTileContainerCss = {
               ...baseTileContainerCss_tmp,
               marginTop: '-17vh'
@@ -136,9 +133,9 @@ export default function Grid() {
   if (typeof tiles !== 'undefined' && tiles.length) {
     return (
       <div
-        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-all duration-app-speed bg-white"
+        className="grid grid-cols-2 grid-rows-2 z-10 max-h-full min-h-full h-full w-full transition-all duration-app-speed bg-background-color"
         style={baseTileContainerCss}
-        onClick={handleOutsideClick}
+        onMouseDown={handleOutsideClick}
       >
         {tiles
           .sort((a, b) => {
@@ -162,7 +159,7 @@ export default function Grid() {
             {accessabilityCode !== 1 && (
               <div className="absolute w-screen flex justify-center top-[8rem]">
                 <button
-                  onClick={handleToUpButtonClick}
+                  onMouseDown={handleToUpButtonClick}
                   className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-gray-600 border shadow-md shadow-gray-600"
                 >
                   <ArrowUp height="70%" width="70%"></ArrowUp>
@@ -173,7 +170,7 @@ export default function Grid() {
             {accessabilityCode !== 2 && (
               <div className="absolute w-screen flex justify-center bottom-[8rem]">
                 <button
-                  onClick={handleToDownButtonClick}
+                  onMouseDown={handleToDownButtonClick}
                   className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-gray-600 border shadow-md shadow-gray-600"
                 >
                   <ArrowDown height="70%" width="70%"></ArrowDown>
@@ -183,8 +180,8 @@ export default function Grid() {
           </>
         ) : (
           <button
-            onClick={handleRotationButtonClick}
-            className="z-10 flex justify-center items-center absolute right-[3rem] bottom-[3rem] w-[8rem] h-[8rem] rounded-3xl bg-background-color-dark opacity-80"
+            onMouseDown={handleRotationButtonClick}
+            className="z-10 flex justify-center items-center absolute right-[3rem] bottom-[3rem] w-[6rem] h-[6rem] rounded-3xl bg-background-color-dark opacity-86"
           >
             <Rotate height="70%" width="70%"></Rotate>
           </button>

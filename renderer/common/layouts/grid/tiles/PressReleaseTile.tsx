@@ -44,7 +44,7 @@ export default function PressReleaseTile(props: Props): React.JSX.Element {
   }
 
   const pressReleases = useLiveQuery(async () => {
-    return await db.pressReleases.limit(8).reverse().toArray()
+    return db.pressReleases.toArray()
   })
 
   if (typeof pressReleases !== 'undefined') {
@@ -62,29 +62,31 @@ export default function PressReleaseTile(props: Props): React.JSX.Element {
           className="transition-opacity duration-app-speed flex flex-col flex-wrap overflow-hidden"
           style={props.isOpen ? { opacity: 0 } : { opacity: 1 }}
         >
-          {pressReleases?.map((pressRelease: PressRelease, index: number) => {
-            return (
-              <div
-                onClick={() =>
-                  props.setCenter(
-                    <PressReleasePanel pressRelease={pressRelease}></PressReleasePanel>
-                  )
-                }
-                key={index}
-                className="text-left font-bold mb-4 w-full"
-              >
-                <div className="text-lg pl-[6px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
-                  {new Intl.DateTimeFormat('de-DE').format(new Date(pressRelease.date.iso))}
+          {pressReleases
+            ?.sort((a, b) => new Date(b.date.iso).getTime() - new Date(a.date.iso).getTime())
+            .map((pressRelease: PressRelease, index: number) => {
+              return (
+                <div
+                  onMouseDown={() =>
+                    props.setCenter(
+                      <PressReleasePanel pressRelease={pressRelease}></PressReleasePanel>
+                    )
+                  }
+                  key={index}
+                  className="text-left font-bold mb-4 w-full"
+                >
+                  <div className="text-2xl pl-[6px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                    {new Intl.DateTimeFormat('de-DE').format(new Date(pressRelease.date.iso))}
+                  </div>
+                  <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
+                    {pressRelease.title}
+                  </div>
+                  <div className="mx-12 text-xl font-bold text-on-background-color">
+                    <span className="text-secondary-color">&gt;&nbsp;&nbsp;</span>mehr lesen
+                  </div>
                 </div>
-                <div className="mx-12 sm:text-lg my-2 md:text-xl lg:text-2xl text-primary-color line-clamp-3">
-                  {pressRelease.title}
-                </div>
-                <div className="mx-12 sm:text-base md:text-lg font-bold text-on-background-color">
-                  <span className="text-secondary-color">&gt;&nbsp;&nbsp;</span>mehr lesen
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
         </div>
       </div>
     )

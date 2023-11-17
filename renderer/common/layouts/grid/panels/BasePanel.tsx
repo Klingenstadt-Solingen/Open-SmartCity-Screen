@@ -90,7 +90,7 @@ export default function BasePanel(props: PropsWithChildren<Props>): React.JSX.El
         {showContent && (
           <div
             className={centerPanelClassName}
-            onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
             style={centerPanelCss}
           >
             {props.children}

@@ -61,7 +61,7 @@ export default function MapTile(props: Props): React.JSX.Element {
         style={props.isOpen ? { opacity: 0 } : { opacity: 1 }}
       >
         <div className="flex justify-center items-center mb-16 w-[12vh] h-[12vh] rounded-full bg-white">
-          <MapIcon width={'8vh'}></MapIcon>
+          <MapIcon width="100%" height="60%"></MapIcon>
         </div>
         <div className="text-4xl text-on-primary-color tracking-wide mb-6 font-light whitespace-nowrap">
           Interessante Orte
@@ -70,7 +70,7 @@ export default function MapTile(props: Props): React.JSX.Element {
         </div>
         <button
           className="w-60 h-14 rounded-lg text-2xl bg-secondary-color text-primary-color"
-          onClick={() => props.setCenter(<Map></Map>)}
+          onMouseDown={() => props.setCenter(<Map></Map>)}
         >
           Jetzt entdecken
         </button>

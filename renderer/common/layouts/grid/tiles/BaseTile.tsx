@@ -78,11 +78,11 @@ export default function BaseTile(props: Props): React.JSX.Element {
   return (
     <div
       id={props.position.toString()}
-      className="z-10 text-center w-full h-full flex bg-white transition-[filter] duration-app-speed"
+      className="z-10 text-center w-full h-full flex bg-background-color transition-[filter] duration-app-speed"
       style={
         props.isOpen
-          ? { order: props.position, filter: 'blur(1px) grayscale(25%) brightness(0.65)' }
-          : { order: props.position, filter: 'blur(0px) grayscale(0%) brightness(1)' }
+          ? { order: props.position, filter: 'grayscale(35%) brightness(0.45)' }
+          : { order: props.position, filter: 'grayscale(0%) brightness(1)' }
       }
     >
       {tile}

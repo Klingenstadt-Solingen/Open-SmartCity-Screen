@@ -16,7 +16,7 @@ import { DiashowObject } from '../../models/diashowObject'
 import { Tile } from '../../models/tile'
 
 import fs, { unlink } from 'fs'
-import { downloadDir, hourInMilliseconds } from '../../utils/constants'
+import { downloadDir } from '../../utils/constants'
 
 import EventEmitter from 'events'
 import { PoiCategory } from '../../models/poi-category'
@@ -51,7 +51,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
   const filesInDownload = getAllDFileInfos('' + downloadDir)
 
-  const [isParseOnline, setIsParseOnline] = useState<boolean>(true)
+  const [isParseOnline] = useState<boolean>(true)
 
   //reference to subscriptions has to be saved in a state in order to cancel them later.
   const [weatherSubscription, setWeatherSubscription] = useState<LiveQuerySubscription>()
@@ -140,27 +140,26 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     return subscription
   }
 
-  let timerFor24H: ReturnType<typeof setTimeout>
+  // let timerFor24H: ReturnType<typeof setTimeout>
 
-  Parse.LiveQuery.on('open', () => {
-    clearTimeout(timerFor24H)
-    setIsParseOnline(true)
-    console.warn('opened')
-  })
+  // Parse.LiveQuery.on('open', () => {
+  //   clearTimeout(timerFor24H)
+  //   setIsParseOnline(true)
+  // })
 
-  Parse.LiveQuery.on('close', () => {
-    console.warn('closed')
-    timerFor24H = setTimeout(() => {
-      setIsParseOnline(false)
-    }, hourInMilliseconds)
-  })
+  // Parse.LiveQuery.on('close', () => {
+  //   console.warn('closed')
+  //   timerFor24H = setTimeout(() => {
+  //     setIsParseOnline(true)
+  //   }, hourInMilliseconds)
+  // })
 
-  Parse.LiveQuery.on('error', (error) => {
-    console.warn('got error: ', error)
-    timerFor24H = setTimeout(() => {
-      setIsParseOnline(false)
-    }, hourInMilliseconds)
-  })
+  // Parse.LiveQuery.on('error', (error) => {
+  //   console.warn('got error: ', error)
+  //   timerFor24H = setTimeout(() => {
+  //     setIsParseOnline(true)
+  //   }, hourInMilliseconds)
+  // })
 
   //fetches ParseQueryData via HTTP and and replaces current IndexedDB Data with response if response has content
   function initTableWithQuery<T>(
@@ -282,20 +281,34 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         'pt-stop-nearby',
         { lat: screen?.location.latitude, lon: screen?.location.longitude },
         { useMasterKey: true }
-      ).then((a) => {
-        db.stops.clear().then(() => {
-          db.stops.add(a.stops[0])
-          Parse.Cloud.run(
-            'pt-serving-lines',
-            { stopId: a.stops[0].id },
-            { useMasterKey: true }
-          ).then((b) => {
-            db.departures.clear().then(() => {
-              db.departures.bulkAdd(b)
+      )
+        .then((a) => {
+          db.stops
+            .clear()
+            .then(() => {
+              db.stops.add(a.stops[0])
+              Parse.Cloud.run('pt-serving-lines', { stopId: a.stops[0].id }, { useMasterKey: true })
+                .then((b) => {
+                  db.departures
+                    .clear()
+                    .then(() => {
+                      db.departures.bulkAdd(b)
+                    })
+                    .catch(() => {
+                      console.error('Error getting Stop')
+                    })
+                })
+                .catch(() => {
+                  console.error('Error getting Stop')
+                })
             })
-          })
+            .catch(() => {
+              console.error('Error getting Stop')
+            })
         })
-      })
+        .catch(() => {
+          console.error('Error getting Stop')
+        })
     }
   }, [screen?.location?.latitude, screen?.location?.longitude])
 

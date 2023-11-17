@@ -1,7 +1,9 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react'
 import QRCode from 'react-qr-code'
 import Route from '../../../icons/Route'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BubbleInfo(props: any): React.JSX.Element {
   return (
     <>
@@ -23,6 +25,7 @@ export default function BubbleInfo(props: any): React.JSX.Element {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function MainInfo(props: any): React.JSX.Element {
   function getAttribute(attribute: string) {
     return props.information?.poi?.details?.find((el) => el.title === attribute)
@@ -131,6 +134,7 @@ function MainInfo(props: any): React.JSX.Element {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function InfoLine(props: any): React.JSX.Element {
   if (props.content.iconName === 'telefonicon') {
     props.content.iconName = 'mobileicon'
@@ -177,6 +181,7 @@ function InfoLine(props: any): React.JSX.Element {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function QR(props: any): React.JSX.Element {
   return (
     <div

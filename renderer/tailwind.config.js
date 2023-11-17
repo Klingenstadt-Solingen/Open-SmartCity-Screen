@@ -5,11 +5,6 @@ export const content = [
   './renderer/common/**/*.{js,ts,jsx,tsx}'
 ]
 export const theme = {
-  screens: {
-    sm: '1px',
-    md: '1600px',
-    lg: '1920px'
-  },
   extend: {
     fontSize: {
       '6xl': ['4.3rem', '1.2']
