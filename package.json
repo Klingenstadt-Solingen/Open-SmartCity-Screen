@@ -7,8 +7,8 @@
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
-    "build": "node prebuild.js && nextron build -w -l --x64",
-    "clean-build": "nextron build -w -l --x64",
+    "config-build": "node prebuild.js && nextron build -l -w --x64",
+    "build": "nextron build -l -w --x64",
     "postinstall": "electron-builder install-app-deps & patch-package",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
