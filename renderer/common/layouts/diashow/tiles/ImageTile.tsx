@@ -99,11 +99,7 @@ export default function ImageTile(props: Props): React.JSX.Element {
                 }
               >
                 <MediaContainer
-                  srcInfo={
-                    localStorage.getItem('mode') === 'dev'
-                      ? downloadDir + diashowObject.file.name
-                      : localStorage.getItem('path') + downloadDir + diashowObject.file.name
-                  }
+                  srcInfo={'https://' + diashowObject.file.url.split('://')[1]}
                   setCenter={props.setCenter}
                   isOpen={props.isOpen}
                   layoutDiashow={props.layoutDiashow}
