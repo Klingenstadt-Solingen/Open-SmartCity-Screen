@@ -103,6 +103,7 @@ function mapToLayers(pois: POI[], categories: PoiCategory[]) {
       })
     }
   }
+
   return res
 }
 
@@ -160,6 +161,29 @@ export default function MapPanel({
   })
 
   const [activeLayers, setActiveLayers] = useState<string[]>([])
+  const [searchTerm, setSearchTerm] = useState<string>('')
+
+  const handleInputChange = () => (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  useEffect(() => {
+    if (searchTerm) {
+      const layers: olLayer.Vector<any>[] = mpapi.map
+        .getAllLayers()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((layer) => activeLayers.includes(layer.values_.id))
+        .map((a) => {
+          const b = a as olLayer.Vector<any>
+          Object.entries(b.getProperties().source.uidIndex_).ma
+          for (const [key, value] of Object.entries(b.getProperties().source.uidIndex_)) {
+            if (value.poi.details.find((el) => el.title === 'Name').value.includes(searchTerm)) {
+              return b
+            }
+          }
+        })
+    }
+  }, [searchTerm])
 
   const switchLayer = (layerName: string) => {
     if (activeLayers.includes(layerName)) {
@@ -227,7 +251,7 @@ export default function MapPanel({
       vectorLine.addFeature(featureLine)
 
       const vectorLineLayer = new olLayer.Vector({
-        properties: { name: 'asdf' },
+        properties: { name: 'trip' },
         source: vectorLine,
         style: new olStyle.Style({
           image: new olStyle.Icon({
@@ -327,7 +351,7 @@ export default function MapPanel({
 
       <div
         className="w-screen h-full grid"
-        style={{ gridTemplateRows: 'auto minmax(0, min-content)' }}
+        style={{ gridTemplateRows: 'auto minmax(0, min-content) minmax(0, min-content)' }}
       >
         <div
           className="h-full w-full grid grid-flow-col"
@@ -398,7 +422,16 @@ export default function MapPanel({
             </div>
           )}
         </div>
-
+        <div className="bg-secondary-color text-3xl text-primary-color font-bold py-3 flex flex-row justify-center gap-14 items-center">
+          <span>Was suchen Sie?</span>
+          <div>
+            <input
+              onChange={handleInputChange()}
+              className="w-[50vw] rounded-xl p-2"
+              placeholder="Suchbegriff eingeben"
+            ></input>
+          </div>
+        </div>
         {categories && (
           <div className="w-full h-full bg-primary-color flex overflow-x-scroll scrollbar-hide justify-around text-on-primary-color">
             <div className="h-full grid grid-flow-col items-around w-full py-4 overflow-normal">
