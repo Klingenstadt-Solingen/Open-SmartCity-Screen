@@ -2,13 +2,14 @@
   "private": true,
   "name": "digital-signage",
   "description": "Application to run on digital signage",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "author": "",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
     "config-build": "node prebuild.js && nextron build -l -w --x64",
-    "build": "nextron build -l -w --x64",
+    "build": "nextron build -l -w --x64 -p never",
+    "build-publish": "nextron build -l -w --x64 -p always",
     "postinstall": "electron-builder install-app-deps & patch-package",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
@@ -83,6 +84,13 @@
     "typescript": "^5.1.6"
   },
   "build": {
+    "publish": [
+      {
+        "provider": "s3",
+        "endpoint": "http://192.168.8.140:9000/",
+        "bucket": "digital-signage-app"
+      }
+    ],
     "win": {
       "target": [
         {
@@ -90,6 +98,13 @@
           "arch": [
             "x64"
           ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage"
         }
       ]
     }

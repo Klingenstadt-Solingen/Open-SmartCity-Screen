@@ -2,6 +2,7 @@ image: node:18.17.1-bookworm
 
 stages:
   - check
+  - bump
   - build
 
 check:
@@ -15,10 +16,28 @@ check:
 
 build:latest:
   stage: build
-  image: electronuserland/builder:wine
+  image: electronuserland/builder:18-wine-07.23
   script:
     - yarn install --frozen-lockfile
     - yarn build
+  artifacts:
+    paths:
+      - dist/
+  tags:
+    - docker
+  when: manual
+
+build:deploy:
+  stage: build
+  image: git
+  before_script:
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+  script:
+    - yarn version --minor
+    - git add --all
+    - git commit -m "Bump version"
+    - git push origin master
   artifacts:
     paths:
       - dist/
@@ -26,21 +45,5 @@ build:latest:
     - docker
   # only:
   #   refs:
-  #     - development
   #     - master
   when: manual
-
-build:tag:
-  stage: build
-  image: electronuserland/builder:wine
-  script:
-    - yarn install --frozen-lockfile
-    - yarn build
-  artifacts:
-    paths:
-      - dist/
-  tags:
-    - docker
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)$/
-      when: always

@@ -9,3 +9,4 @@ renderer/.next
 renderer/environment.ts
 renderer/public/downloads
 renderer/public/download
+.env
