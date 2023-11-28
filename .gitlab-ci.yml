@@ -1,4 +1,4 @@
-image: node:18.17.1-bookworm
+image: node:18.18.2-bookworm
 
 stages:
   - check
@@ -7,24 +7,27 @@ stages:
 
 check:
   stage: check
-  image: node:18.17.1-bookworm
+  image: node:18.18.2-bookworm
   script:
     - apt update && apt install libpangocairo-1.0-0 -y && apt autoclean && apt autoremove -y && rm -rf /var/lib/apt/lists/*
     - yarn install --frozen-lockfile && yarn lint
   tags:
     - docker
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "development"
+      when: never
+  when: always
 
 bump:
   stage: bump
-  image: node:18.18.2
+  image: node:18.18.2-bookworm
   before_script:
     - yarn install --frozen-lockfile
   script:
     - yarn semantic-release
-  only:
-    refs:
-      - development
-  when: always
+  rules:
+    - if: $CI_COMMIT_TAG !~ /^v(?:\d+.){2}(?:\d+)$/ && $CI_COMMIT_REF_NAME == "development"
+      when: always
 
 build:latest:
   stage: build

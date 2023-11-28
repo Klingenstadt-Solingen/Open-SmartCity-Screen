@@ -24,7 +24,7 @@ const environment = {
   backgroundColorDark: backgroundColorDark,
   parseUrl: parseUrl,
   parseAppId: parseAppId,
-  parseMasterKey: parseMasterKey,
+  parseMasterKey: parseMasterKey
 }
 
 fs.writeFileSync(
