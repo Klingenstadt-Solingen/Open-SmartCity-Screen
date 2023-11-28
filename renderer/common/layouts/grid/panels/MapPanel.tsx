@@ -161,29 +161,29 @@ export default function MapPanel({
   })
 
   const [activeLayers, setActiveLayers] = useState<string[]>([])
-  const [searchTerm, setSearchTerm] = useState<string>('')
+  // const [searchTerm, setSearchTerm] = useState<string>('')
 
-  const handleInputChange = () => (e) => {
-    setSearchTerm(e.target.value)
-  }
+  // const handleInputChange = () => (e) => {
+  //   setSearchTerm(e.target.value)
+  // }
 
-  useEffect(() => {
-    if (searchTerm) {
-      const layers: olLayer.Vector<any>[] = mpapi.map
-        .getAllLayers()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .filter((layer) => activeLayers.includes(layer.values_.id))
-        .map((a) => {
-          const b = a as olLayer.Vector<any>
-          Object.entries(b.getProperties().source.uidIndex_).ma
-          for (const [key, value] of Object.entries(b.getProperties().source.uidIndex_)) {
-            if (value.poi.details.find((el) => el.title === 'Name').value.includes(searchTerm)) {
-              return b
-            }
-          }
-        })
-    }
-  }, [searchTerm])
+  // useEffect(() => {
+  //   if (searchTerm) {
+  //     const layers: olLayer.Vector<any>[] = mpapi.map
+  //       .getAllLayers()
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //       .filter((layer) => activeLayers.includes(layer.values_.id))
+  //       .map((a) => {
+  //         const b = a as olLayer.Vector<any>
+  //         Object.entries(b.getProperties().source.uidIndex_).ma
+  //         for (const [key, value] of Object.entries(b.getProperties().source.uidIndex_)) {
+  //           if (value.poi.details.find((el) => el.title === 'Name').value.includes(searchTerm)) {
+  //             return b
+  //           }
+  //         }
+  //       })
+  //   }
+  // }, [searchTerm])
 
   const switchLayer = (layerName: string) => {
     if (activeLayers.includes(layerName)) {

@@ -14,6 +14,18 @@ check:
   tags:
     - docker
 
+bump:
+  stage: bump
+  image: node:18.18.2
+  before_script:
+    - yarn install --frozen-lockfile
+  script:
+    - yarn semantic-release
+  only:
+    refs:
+      - development
+  when: always
+
 build:latest:
   stage: build
   image: electronuserland/builder:18-wine-07.23
@@ -27,23 +39,17 @@ build:latest:
     - docker
   when: manual
 
-build:deploy:
+build:deploy-tag:
   stage: build
-  image: git
-  before_script:
-    - git config --global user.name "${GITLAB_USER_NAME}"
-    - git config --global user.email "${GITLAB_USER_EMAIL}"
+  image: electronuserland/builder:18-wine-07.23
   script:
-    - yarn version --minor
-    - git add --all
-    - git commit -m "Bump version"
-    - git push origin master
+    - yarn install --frozen-lockfile
+    - yarn build-publish
   artifacts:
     paths:
       - dist/
   tags:
     - docker
-  # only:
-  #   refs:
-  #     - master
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)$/ && $CI_COMMIT_REF_NAME == "master"
   when: manual
