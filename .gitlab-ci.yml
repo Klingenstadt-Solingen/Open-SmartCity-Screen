@@ -27,7 +27,7 @@ bump:
     - yarn semantic-release
   when: always
   rules:
-    - if: $CI_COMMIT_REF_NAME !== "development"
+    - if: $CI_COMMIT_REF_NAME != "development"
       when: never
 
 build:latest:
