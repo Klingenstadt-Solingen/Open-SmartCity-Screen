@@ -26,9 +26,10 @@ bump:
   script:
     - yarn semantic-release
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
+    # Doesnt work as expected: Pipeline should only run on development when no version tag exists
     - if: $CI_COMMIT_REF_NAME != "development"
+      when: never
+    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)$/
       when: never
 
 build:latest:
