@@ -9,6 +9,7 @@ interface Props {
   isParseOnline: boolean
 }
 // eslint-disable-next-line sonarjs/cognitive-complexity
+//a
 const Dashboard = ({ isParseOnline }: Props) => {
   const screen = useLiveQuery(async () => {
     return db.screen.toCollection().first()
