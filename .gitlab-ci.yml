@@ -25,10 +25,10 @@ bump:
     - yarn install --frozen-lockfile
   script:
     - yarn semantic-release
-  rules:
-    - if: $CI_COMMIT_REF_NAME != "development"
-      when: never
   when: always
+  rules:
+    - if: $CI_COMMIT_REF_NAME !== "development"
+      when: never
 
 build:latest:
   stage: build
