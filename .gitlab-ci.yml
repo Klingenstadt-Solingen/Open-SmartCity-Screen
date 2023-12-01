@@ -27,7 +27,6 @@ bump:
     - yarn semantic-release
   rules:
     - if: $CI_COMMIT_TAG !~ /^v(?:\d+.){2}(?:\d+)$/ && $CI_COMMIT_REF_NAME == "development"
-      when: always
 
 build:latest:
   stage: build
