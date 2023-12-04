@@ -19,7 +19,7 @@ check:
   when: always
 
 bump:
-  s tage: bump
+  stage: bump
   image: node:18.18.2-bookworm
   before_script:
     - yarn install --frozen-lockfile
