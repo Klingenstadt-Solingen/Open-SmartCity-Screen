@@ -1,3 +1,10 @@
+## [1.1.2](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.1.1...v1.1.2) (2023-12-04)
+
+
+### Bug Fixes
+
+* fix dashboard bug ([f08b40c](https://git.app.nedeco.de/solingen/digital-signage/commit/f08b40ca6dfa781f4cd8af19533410379cc84c74))
+
 ## [1.1.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.1.0...v1.1.1) (2023-12-04)
 
 
