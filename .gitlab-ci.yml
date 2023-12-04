@@ -19,15 +19,14 @@ check:
   when: always
 
 bump:
-  stage: bump
+  s tage: bump
   image: node:18.18.2-bookworm
   before_script:
     - yarn install --frozen-lockfile
   script:
     - yarn semantic-release
   rules:
-    - if: $CI_COMMIT_REF_NAME == "development"
-      when: always
+    - if: $CI_COMMIT_REF_NAME == "master"
 
 build:latest:
   stage: build
@@ -54,5 +53,5 @@ build:deploy-tag:
   tags:
     - docker
   rules:
-    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)$/ && $CI_COMMIT_REF_NAME == "master"
+    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)$/
   when: manual
