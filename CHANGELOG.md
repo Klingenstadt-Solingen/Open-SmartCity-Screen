@@ -1,3 +1,10 @@
+## [1.2.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.2.0...v1.2.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* change config to dynamic js file ([6f225e0](https://git.app.nedeco.de/solingen/digital-signage/commit/6f225e054589bf3835ffbd540c51a76754269939))
+
 # [1.2.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.1.2...v1.2.0) (2023-12-04)
 
 
