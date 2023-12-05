@@ -14,6 +14,10 @@ It runs with
 
 run `yarn install` to install third party dependencies
 
+### Setup Environment
+
+Setup your environment variables by copying .env.example to .env and filling in the values.
+
 ### Use it
 
 ```
