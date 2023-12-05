@@ -7,9 +7,9 @@
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
-    "config-build": "node prebuild.js && nextron build -l -w --x64",
-    "build": "nextron build -l -w --x64 -p never",
-    "build-publish": "nextron build -l -w --x64 -p always",
+    "config-build": "node prebuild.js && nextron build -l -w --x64 --config publish.config.js",
+    "build": "nextron build -l -w --x64 -p never --config publish.config.js",
+    "build-publish": "nextron build -l -w --x64 -p always --config publish.config.js",
     "postinstall": "electron-builder install-app-deps & patch-package",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
@@ -86,31 +86,5 @@
     "semantic-release": "^22.0.8",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
-  },
-  "build": {
-    "publish": [
-      {
-        "provider": "s3",
-        "endpoint": "http://192.168.8.140:9000/",
-        "bucket": "digital-signage-app"
-      }
-    ],
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "AppImage"
-        }
-      ]
-    }
   }
 }
