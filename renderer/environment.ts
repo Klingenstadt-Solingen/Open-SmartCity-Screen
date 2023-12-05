@@ -6,8 +6,7 @@ export const environment = {
   onSecondaryColor: null,
   backgroundColor: null,
   backgroundColorDark: null,
-  parseUrl: '***REMOVED***',
-  parseAppId: '***REMOVED***',
-  parseMasterKey:
-    '***REMOVED***'
+  parseUrl: process.env.PARSE_URL,
+  parseAppId: process.env.PARSE_APP_ID,
+  parseMasterKey: process.env.PARSE_MASTER_KEY
 }
