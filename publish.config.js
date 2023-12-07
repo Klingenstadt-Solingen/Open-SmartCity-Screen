@@ -3,7 +3,7 @@ const build = {
     {
       provider: 's3',
       endpoint: process.env.AWS_ENDPOINT_URL,
-      bucket: 'digital-signage-app'
+      bucket: process.env.AWS_BUCKET_NAME
     }
   ],
   win: {
