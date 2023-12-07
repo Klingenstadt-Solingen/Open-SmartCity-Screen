@@ -1,3 +1,10 @@
+# [1.3.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.2.1...v1.3.0) (2023-12-07)
+
+
+### Features
+
+* **build:** parse server configured via environment ([4df1216](https://git.app.nedeco.de/solingen/digital-signage/commit/4df121687e37dc17135e8944b1d49700b999fa12))
+
 ## [1.2.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.2.0...v1.2.1) (2023-12-05)
 
 
