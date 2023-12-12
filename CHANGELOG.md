@@ -1,3 +1,10 @@
+# [1.6.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.5.0...v1.6.0) (2023-12-12)
+
+
+### Features
+
+* only quit app on downloaded update ([bd9f61e](https://git.app.nedeco.de/solingen/digital-signage/commit/bd9f61eab08e0be84f48174cddce35715c0c6f8c))
+
 # [1.5.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.4.0...v1.5.0) (2023-12-12)
 
 
