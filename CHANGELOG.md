@@ -1,3 +1,10 @@
+# [1.7.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.6.0...v1.7.0) (2023-12-12)
+
+
+### Features
+
+* add console log ([4914324](https://git.app.nedeco.de/solingen/digital-signage/commit/491432453aa1493030feab60334e633e27f58e36))
+
 # [1.6.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.5.0...v1.6.0) (2023-12-12)
 
 
