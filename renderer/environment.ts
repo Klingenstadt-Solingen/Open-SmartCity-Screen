@@ -1,5 +1,5 @@
 export const environment = {
-  cityName: 'Nedeco Town',
+  cityName: 'Solingen',
   primaryColor: null,
   secondaryColor: null,
   onPrimaryColor: null,
