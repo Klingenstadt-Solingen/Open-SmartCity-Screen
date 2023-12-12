@@ -54,7 +54,7 @@ if (isProd) {
     })
 
     autoUpdater.on('update-downloaded', () => {
-      autoUpdater.quitAndInstall()
+      app.quit()
     })
 
     // Check for updates every 6 hours
