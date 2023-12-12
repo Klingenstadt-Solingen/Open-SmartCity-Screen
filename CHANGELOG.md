@@ -1,3 +1,10 @@
+# [1.5.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.4.0...v1.5.0) (2023-12-12)
+
+
+### Features
+
+* rename city ([0149c94](https://git.app.nedeco.de/solingen/digital-signage/commit/0149c948b7ff6d040086009a18cec61504fc39cf))
+
 # [1.4.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.3.0...v1.4.0) (2023-12-07)
 
 
