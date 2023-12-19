@@ -244,7 +244,11 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   }, [])
 
   useEffect(() => {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+
     const pressReleaseQuery = new Query<Parse.Object<PressRelease>>('PressRelease')
+      .lessThanOrEqualTo('date', today)
       .descending('date')
       .limit(10)
     initTableWithQuery(pressReleaseQuery, db.pressReleases)
