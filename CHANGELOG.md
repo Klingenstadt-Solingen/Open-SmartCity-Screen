@@ -1,3 +1,10 @@
+## [1.8.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.8.0...v1.8.1) (2023-12-20)
+
+
+### Bug Fixes
+
+* **linter:** change date to any ([10fff4c](https://git.app.nedeco.de/solingen/digital-signage/commit/10fff4c74d7a202c173e6617ba4e46a57fae556c))
+
 # [1.8.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.7.0...v1.8.0) (2023-12-20)
 
 
