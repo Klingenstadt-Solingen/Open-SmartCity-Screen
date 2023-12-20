@@ -1,3 +1,10 @@
+# [1.8.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.7.0...v1.8.0) (2023-12-20)
+
+
+### Features
+
+* **pressReleases:** filter out future pressReleases ([47a56c4](https://git.app.nedeco.de/solingen/digital-signage/commit/47a56c46437214f02c368fcb02b0e358164ede21))
+
 # [1.7.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.6.0...v1.7.0) (2023-12-12)
 
 
