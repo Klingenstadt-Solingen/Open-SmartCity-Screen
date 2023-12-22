@@ -1,3 +1,10 @@
+# [1.10.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.9.0...v1.10.0) (2023-12-22)
+
+
+### Features
+
+* **christmas:** add christmas ([c5e9a2a](https://git.app.nedeco.de/solingen/digital-signage/commit/c5e9a2a9b1fcb5b21dc6402b1b4c81279dbffbf9))
+
 # [1.9.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.8.2...v1.9.0) (2023-12-22)
 
 
