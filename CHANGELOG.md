@@ -1,3 +1,10 @@
+# [1.11.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.10.0...v1.11.0) (2023-12-22)
+
+
+### Features
+
+* **back:** go back ([9291353](https://git.app.nedeco.de/solingen/digital-signage/commit/9291353777b0ec3f551fabe3c811a82e79ffad3e))
+
 # [1.10.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.9.0...v1.10.0) (2023-12-22)
 
 
