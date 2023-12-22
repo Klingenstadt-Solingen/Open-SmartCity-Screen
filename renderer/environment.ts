@@ -8,5 +8,6 @@ export const environment = {
   backgroundColorDark: null,
   parseUrl: '***REMOVED***',
   parseAppId: '***REMOVED***',
-  parseMasterKey: '***REMOVED***'
+  parseMasterKey:
+    '***REMOVED***'
 }
