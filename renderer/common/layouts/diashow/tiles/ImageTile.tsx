@@ -52,8 +52,36 @@ export default function ImageTile(props: Props): React.JSX.Element {
     return db.diashowObjects.toArray()
   })
 
+  const today = new Date()
+
   const [isLoading, setIsLoading] = useState(true)
   const [isDownloading, setIsDownloading] = useState(false)
+
+  const [isChristmas, setIsChristmas] = useState(false)
+  const [isNewYear, setIsNewYear] = useState(false)
+
+  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined)
+
+  useEffect(() => {
+    setTimer(
+      setInterval(() => {
+        if (today.getDate() >= 24 && today.getDate() <= 26 && today.getMonth() === 11) {
+          setIsChristmas(true)
+        } else {
+          setIsChristmas(false)
+        }
+        if (
+          ((today.getDate() === 30 || today.getDate() === 31) && today.getMonth() === 11) ||
+          (today.getDate() === 1 && today.getMonth() === 0)
+        ) {
+          setIsNewYear(true)
+        } else {
+          setIsNewYear(false)
+        }
+      }, 1000)
+    )
+    clearInterval(timer)
+  }, [])
 
   useEffect(() => {
     setIsLoading(true)
@@ -65,6 +93,26 @@ export default function ImageTile(props: Props): React.JSX.Element {
       })
     }
   }, [diashowObjects])
+
+  if (isChristmas) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
+        <video width="100%" autoPlay muted loop>
+          <source src="weihnachten.mp4" type="video/mp4"></source>
+        </video>
+      </div>
+    )
+  }
+
+  if (isNewYear) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
+        <video autoPlay muted loop>
+          <source src="neujahr.mp4" type="video/mp4"></source>
+        </video>
+      </div>
+    )
+  }
 
   if (!isLoading && typeof diashowObjects !== 'undefined' && diashowObjects.length) {
     return (
