@@ -28,8 +28,6 @@ const Dashboard = ({ isParseOnline }: Props) => {
     ssr: false
   })
 
-  console.log('new version')
-
   if (typeof screen === 'undefined') {
     return (
       <div className="h-screen w-screen bg-primary-color flex justify-center items-center text-8xl text-on-primary-color">
