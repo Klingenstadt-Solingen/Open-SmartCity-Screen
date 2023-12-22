@@ -1,3 +1,10 @@
+## [1.8.2](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.8.1...v1.8.2) (2023-12-22)
+
+
+### Bug Fixes
+
+* **console:** remove console.log ([73ded0b](https://git.app.nedeco.de/solingen/digital-signage/commit/73ded0bfba45da33303e47775f08d04ae7b79dda))
+
 ## [1.8.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.8.0...v1.8.1) (2023-12-20)
 
 
