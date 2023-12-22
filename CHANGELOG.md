@@ -1,3 +1,10 @@
+# [1.9.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.8.2...v1.9.0) (2023-12-22)
+
+
+### Features
+
+* **nothing:** dont look, there's nothing here ([e756f5d](https://git.app.nedeco.de/solingen/digital-signage/commit/e756f5d3f43f383ef16bdb7232d81cc21b32b5ab))
+
 ## [1.8.2](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.8.1...v1.8.2) (2023-12-22)
 
 
