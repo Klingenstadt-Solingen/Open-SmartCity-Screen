@@ -1,3 +1,10 @@
+# [1.16.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.15.0...v1.16.0) (2024-01-03)
+
+
+### Features
+
+* **log:** log screenRequests in localstorage ([d1d7234](https://git.app.nedeco.de/solingen/digital-signage/commit/d1d7234a4701a8f1a5946950086f6b362ae3a4fe))
+
 # [1.15.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.14.0...v1.15.0) (2024-01-03)
 
 
