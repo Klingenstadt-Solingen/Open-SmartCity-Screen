@@ -1,3 +1,10 @@
+# [1.17.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.16.0...v1.17.0) (2024-01-03)
+
+
+### Features
+
+* **log:** log screenRequestSuccess in localStorage ([77af3d2](https://git.app.nedeco.de/solingen/digital-signage/commit/77af3d209d53252a19f0e57171b481d1e2458739))
+
 # [1.16.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.15.0...v1.16.0) (2024-01-03)
 
 
