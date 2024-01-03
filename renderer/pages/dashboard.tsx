@@ -4,6 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../utils/dexie'
 import Header from '../common/layouts/grid/Header'
 import Footer from '../common/layouts/grid/Footer'
+import { environment } from '../environment'
 
 interface Props {
   isParseOnline: boolean
@@ -35,6 +36,8 @@ const Dashboard = ({ isParseOnline }: Props) => {
       </div>
     )
   } else {
+    localStorage.setItem('parseUrl', environment.parseUrl)
+
     if (screen.state?.name !== 'ACTIVE' || typeof layoutConfig === 'undefined') {
       return (
         <div className="text-center w-full h-screen items-center justify-center bg-primary-color flex flex-col flex-nowrap">
