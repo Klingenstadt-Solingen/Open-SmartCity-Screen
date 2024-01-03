@@ -231,25 +231,29 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       //only use include with never changing constants like state and layout type
       .include('state')
       .include('layoutType')
-    initTableWithQuery<Screen>(screenQuery, db.screen).catch((error) => {
-      localStorage.setItem(
-        new Date().getTime().toString(),
-        'Error finding Screen: ' + JSON.stringify(error)
-      )
-      console.warn(error, '\nTrying to create a new Screen with id', appId)
-      createNewScreen(appId)
-        .then((res) => {
-          console.log('Successfully created new Screen', res)
-          db.screen.add(res.attributes)
-        })
-        .catch((error) => {
-          console.error(error)
-          localStorage.setItem(
-            new Date().getTime().toString(),
-            'Error creating Screen: ' + JSON.stringify(error)
-          )
-        })
-    })
+    initTableWithQuery<Screen>(screenQuery, db.screen)
+      .catch((error) => {
+        localStorage.setItem(
+          new Date().getTime().toString(),
+          'Error finding Screen: ' + JSON.stringify(error)
+        )
+        console.warn(error, '\nTrying to create a new Screen with id', appId)
+        createNewScreen(appId)
+          .then((res) => {
+            console.log('Successfully created new Screen', res)
+            db.screen.add(res.attributes)
+          })
+          .catch((error) => {
+            console.error(error)
+            localStorage.setItem(
+              new Date().getTime().toString(),
+              'Error creating Screen: ' + JSON.stringify(error)
+            )
+          })
+      })
+      .then((a) => {
+        localStorage.setItem('screenId set/found', a as string)
+      })
     subscribeTableToQuery<Screen>(screenQuery, db.screen)
   }, [])
 
