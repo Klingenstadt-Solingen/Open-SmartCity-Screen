@@ -1,3 +1,10 @@
+# [1.15.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.14.0...v1.15.0) (2024-01-03)
+
+
+### Features
+
+* **log:** log parseURL in localstorage ([f0ab7f8](https://git.app.nedeco.de/solingen/digital-signage/commit/f0ab7f87b5af53cf8ce766813e77023c3580ede0))
+
 # [1.14.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.13.0...v1.14.0) (2023-12-23)
 
 
