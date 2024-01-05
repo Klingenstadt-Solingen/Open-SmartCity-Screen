@@ -12,34 +12,34 @@ import fs from 'fs'
 import { downloadDir } from '../../../../utils/constants'
 import { writeFile } from 'fs/promises'
 
-function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (!fs.existsSync(localStorage.getItem('path') + downloadDir)) {
-      fs.mkdirSync(localStorage.getItem('path') + downloadDir)
-    }
-    Promise.all(
-      diashowObjects.map((diashowObject) => {
-        return new Promise<void>((resolveOne) => {
-          const fileUrl = 'https://' + diashowObject.file.url.split('://')[1]
-          if (fs.existsSync(localStorage.getItem('path') + downloadDir + diashowObject.file.name)) {
-            resolveOne()
-          } else {
-            fetch(fileUrl).then((res) => {
-              res.arrayBuffer().then((b) => {
-                writeFile(
-                  localStorage.getItem('path') + downloadDir + diashowObject.file.name,
-                  Buffer.from(b)
-                ).then(() => resolveOne())
-              })
-            })
-          }
-        })
-      })
-    )
-      .then(() => resolve())
-      .catch(() => reject())
-  })
-}
+// function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
+//   return new Promise((resolve, reject) => {
+//     if (!fs.existsSync(localStorage.getItem('path') + downloadDir)) {
+//       fs.mkdirSync(localStorage.getItem('path') + downloadDir)
+//     }
+//     Promise.all(
+//       diashowObjects.map((diashowObject) => {
+//         return new Promise<void>((resolveOne) => {
+//           const fileUrl = 'https://' + diashowObject.file.url.split('://')[1]
+//           if (fs.existsSync(localStorage.getItem('path') + downloadDir + diashowObject.file.name)) {
+//             resolveOne()
+//           } else {
+//             fetch(fileUrl).then((res) => {
+//               res.arrayBuffer().then((b) => {
+//                 writeFile(
+//                   localStorage.getItem('path') + downloadDir + diashowObject.file.name,
+//                   Buffer.from(b)
+//                 ).then(() => resolveOne())
+//               })
+//             })
+//           }
+//         })
+//       })
+//     )
+//       .then(() => resolve())
+//       .catch(() => reject())
+//   })
+// }
 
 interface Props {
   setCenter?: (panel: React.JSX.Element) => void | undefined
@@ -52,67 +52,19 @@ export default function ImageTile(props: Props): React.JSX.Element {
     return db.diashowObjects.toArray()
   })
 
-  const today = new Date()
-
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
 
-  const [isChristmas, setIsChristmas] = useState(false)
-  const [isNewYear, setIsNewYear] = useState(false)
-
-  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined)
-
-  useEffect(() => {
-    setTimer(
-      setInterval(() => {
-        if (today.getDate() >= 24 && today.getDate() <= 26 && today.getMonth() === 11) {
-          setIsChristmas(true)
-        } else {
-          setIsChristmas(false)
-        }
-        if (
-          ((today.getDate() === 30 || today.getDate() === 31) && today.getMonth() === 11) ||
-          (today.getDate() === 1 && today.getMonth() === 0)
-        ) {
-          setIsNewYear(true)
-        } else {
-          setIsNewYear(false)
-        }
-      }, 1000)
-    )
-    clearInterval(timer)
-  }, [])
-
-  useEffect(() => {
-    setIsLoading(true)
-    if (typeof diashowObjects !== 'undefined' && diashowObjects.length && isDownloading === false) {
-      setIsDownloading(true)
-      downloadDiashowObjects(diashowObjects).then(() => {
-        setIsDownloading(false)
-        setIsLoading(false)
-      })
-    }
-  }, [diashowObjects])
-
-  if (isChristmas) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
-        <video width="100%" autoPlay muted loop>
-          <source src="weihnachten.mp4" type="video/mp4"></source>
-        </video>
-      </div>
-    )
-  }
-
-  if (isNewYear) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
-        <video autoPlay muted loop>
-          <source src="neujahr.mp4" type="video/mp4"></source>
-        </video>
-      </div>
-    )
-  }
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   if (typeof diashowObjects !== 'undefined' && diashowObjects.length && isDownloading === false) {
+  //     setIsDownloading(true)
+  //     downloadDiashowObjects(diashowObjects).then(() => {
+  //       setIsDownloading(false)
+  //       setIsLoading(false)
+  //     })
+  //   }
+  // }, [diashowObjects])
 
   if (!isLoading && typeof diashowObjects !== 'undefined' && diashowObjects.length) {
     return (

@@ -233,10 +233,15 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .include('layoutType')
     initTableWithQuery<Screen>(screenQuery, db.screen)
       .catch((error) => {
-        localStorage.setItem(
-          new Date().getTime().toString(),
-          'Error finding Screen: ' + JSON.stringify(error)
-        )
+        try {
+          localStorage.setItem(
+            new Date().getTime().toString(),
+            'Error finding Screen: ' + JSON.stringify(error)
+          )
+        } catch {
+          localStorage.setItem(new Date().getTime().toString(), 'Error finding Screen')
+        }
+
         console.warn(error, '\nTrying to create a new Screen with id', appId)
         createNewScreen(appId)
           .then((res) => {
@@ -245,10 +250,14 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
           })
           .catch((error) => {
             console.error(error)
-            localStorage.setItem(
-              new Date().getTime().toString(),
-              'Error creating Screen: ' + JSON.stringify(error)
-            )
+            try {
+              localStorage.setItem(
+                new Date().getTime().toString(),
+                'Error creating Screen: ' + JSON.stringify(error)
+              )
+            } catch {
+              localStorage.setItem(new Date().getTime().toString(), 'Error creating Screen')
+            }
           })
       })
       .then((a) => {

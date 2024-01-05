@@ -40,8 +40,12 @@ if (isProd) {
       mainWindow.webContents.executeJavaScript(`console.log('Update not available.')`)
     })
     autoUpdater.on('error', (err) => {
-      const a = 'Error in auto-updater, ' + JSON.stringify(err)
-      mainWindow.webContents.executeJavaScript(`console.log('${a}')`)
+      try {
+        const a = 'Error in auto-updater, ' + JSON.stringify(err)
+        mainWindow.webContents.executeJavaScript(`console.log('${a}')`)
+      } catch {
+        mainWindow.webContents.executeJavaScript(`console.log('Error in auto-updater.')`)
+      }
     })
     autoUpdater.on('download-progress', (progressObj) => {
       let log_message = 'Download speed: ' + progressObj.bytesPerSecond
