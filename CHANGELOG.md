@@ -1,3 +1,10 @@
+# [1.19.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.18.0...v1.19.0) (2024-01-05)
+
+
+### Features
+
+* **pipeline:** trigger pipeline ([13eaefd](https://git.app.nedeco.de/solingen/digital-signage/commit/13eaefd996a58a42949374c9f022e3782bb2adbb))
+
 # [1.18.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.17.0...v1.18.0) (2024-01-05)
 
 
