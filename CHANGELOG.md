@@ -1,3 +1,15 @@
+# [1.18.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.17.0...v1.18.0) (2024-01-05)
+
+
+### Bug Fixes
+
+* **parse:** catch json parse errors ([220e866](https://git.app.nedeco.de/solingen/digital-signage/commit/220e866e6ed00e7776a163e40ce26fbc0807e2ff))
+
+
+### Features
+
+* **debug:** write screen name to localstorage ([d2775a2](https://git.app.nedeco.de/solingen/digital-signage/commit/d2775a290ba21c9f8845e027beff9b7b091451e8))
+
 # [1.17.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.16.0...v1.17.0) (2024-01-03)
 
 
