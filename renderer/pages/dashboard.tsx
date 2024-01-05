@@ -37,7 +37,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
     )
   } else {
     localStorage.setItem('parseUrl', environment.parseUrl)
-
+    localStorage.setItem('screenName', screen.name)
     if (screen.state?.name !== 'ACTIVE' || typeof layoutConfig === 'undefined') {
       return (
         <div className="text-center w-full h-screen items-center justify-center bg-primary-color flex flex-col flex-nowrap">
