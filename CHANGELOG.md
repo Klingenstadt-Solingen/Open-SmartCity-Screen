@@ -1,3 +1,10 @@
+# [1.20.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.19.0...v1.20.0) (2024-01-09)
+
+
+### Features
+
+* **size:** remove unused videos ([338d01a](https://git.app.nedeco.de/solingen/digital-signage/commit/338d01a8e2822c94df075ac2e4cf11c597af1813))
+
 # [1.19.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.18.0...v1.19.0) (2024-01-05)
 
 
