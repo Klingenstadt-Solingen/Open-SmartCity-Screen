@@ -1,3 +1,10 @@
+# [1.21.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.20.0...v1.21.0) (2024-01-25)
+
+
+### Features
+
+* **monitor:** write version to textfile ([de98044](https://git.app.nedeco.de/solingen/digital-signage/commit/de98044e110c2da550ae30ba38035ee950788155))
+
 # [1.20.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.19.0...v1.20.0) (2024-01-09)
 
 
