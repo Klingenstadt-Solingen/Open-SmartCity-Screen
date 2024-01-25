@@ -1,3 +1,10 @@
+## [1.21.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.21.0...v1.21.1) (2024-01-25)
+
+
+### Bug Fixes
+
+* **path:** change version file path ([86afa74](https://git.app.nedeco.de/solingen/digital-signage/commit/86afa742ae8afeae07dac8147802b0fcb1b59eb7))
+
 # [1.21.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.20.0...v1.21.0) (2024-01-25)
 
 
