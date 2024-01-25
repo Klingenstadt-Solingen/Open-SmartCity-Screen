@@ -30,7 +30,8 @@ if (isProd) {
     mainWindow.setFullScreen(true)
 
     const userPath = app.getPath('userData').replaceAll('\\', '/')
-    execSync(`echo ${version} > ${userPath}/version.txt`, { encoding: 'utf-8' })
+    const appPath = app.getPath('userData').replaceAll('\\', '/')
+    execSync(`echo ${version} > ${appPath}/version.txt`, { encoding: 'utf-8' })
 
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("path", "${userPath}")`, true)
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("mode", "prod")`, true)
