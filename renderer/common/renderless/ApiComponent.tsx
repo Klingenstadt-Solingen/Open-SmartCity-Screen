@@ -274,15 +274,15 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .lessThanOrEqualTo('date', today)
       .descending('date')
       .limit(10)
-    initTableWithQuery(pressReleaseQuery, db.pressReleases)
+    initTableWithQuery(pressReleaseQuery, db.pressReleases).catch((e) => console.log(e))
     subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
 
     const poiCategoryQuery = new Query<Parse.Object<PoiCategory>>('POICategory')
-    initTableWithQuery(poiCategoryQuery, db.poiCategories)
+    initTableWithQuery(poiCategoryQuery, db.poiCategories).catch((e) => console.log(e))
     subscribeTableToQuery(poiCategoryQuery, db.poiCategories)
 
     const poiQuery = new Query<Parse.Object<POI>>('POI').limit(1000)
-    initTableWithQuery(poiQuery, db.pois)
+    initTableWithQuery(poiQuery, db.pois).catch((e) => console.log(e))
     subscribeTableToQuery(poiQuery, db.pois)
   }, [])
 
@@ -295,14 +295,16 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         //ignore broken sensorStations
         .limit(1)
         .near('geopoint', screen.location)
-      initTableWithQuery(weatherQuery, db.weather).then((a) => {
-        if (typeof weatherSubscription !== 'undefined') {
-          weatherSubscription.unsubscribe()
-        }
-        subscribeTableToQuery(weatherQuery.equalTo('objectId', a as string), db.weather).then(
-          (sub) => setWeatherSubscription(sub)
-        )
-      })
+      initTableWithQuery(weatherQuery, db.weather)
+        .then((a) => {
+          if (typeof weatherSubscription !== 'undefined') {
+            weatherSubscription.unsubscribe()
+          }
+          subscribeTableToQuery(weatherQuery.equalTo('objectId', a as string), db.weather).then(
+            (sub) => setWeatherSubscription(sub)
+          )
+        })
+        .catch((e) => console.log(e))
 
       Parse.Cloud.run(
         'pt-stop-nearby',
@@ -344,14 +346,16 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       const layoutConfigQuery: Query<Parse.Object<Layout>> = new Query<Parse.Object<Layout>>(
         'SteleLayoutConfig'
       ).equalTo('objectId', screen.layoutConfig.objectId)
-      initTableWithQuery(layoutConfigQuery, db.layoutConfig).then(() => {
-        if (typeof layoutConfigSubscription !== 'undefined') {
-          layoutConfigSubscription.unsubscribe()
-        }
-        subscribeTableToQuery(layoutConfigQuery, db.layoutConfig).then((sub) =>
-          setLayoutConfigSubscription(sub)
-        )
-      })
+      initTableWithQuery(layoutConfigQuery, db.layoutConfig)
+        .then(() => {
+          if (typeof layoutConfigSubscription !== 'undefined') {
+            layoutConfigSubscription.unsubscribe()
+          }
+          subscribeTableToQuery(layoutConfigQuery, db.layoutConfig).then((sub) =>
+            setLayoutConfigSubscription(sub)
+          )
+        })
+        .catch((e) => console.log(e))
     }
   }, [screen?.layoutConfig?.objectId])
 
@@ -362,16 +366,18 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         'SteleGridConfig'
       ).equalTo('objectId', layoutConfig.gridConfig.objectId)
 
-      initTableWithQuery(gridConfigQuery, db.gridConfig).then(() => {
-        if (typeof gridConfigSubscription !== 'undefined') {
-          gridConfigSubscription.unsubscribe()
-        }
-        subscribeTableToQuery(gridConfigQuery, db.gridConfig)
-          .then((sub) => {
-            setGridConfigSubscription(sub)
-          })
-          .finally(() => setGridConfigDirty(false))
-      })
+      initTableWithQuery(gridConfigQuery, db.gridConfig)
+        .then(() => {
+          if (typeof gridConfigSubscription !== 'undefined') {
+            gridConfigSubscription.unsubscribe()
+          }
+          subscribeTableToQuery(gridConfigQuery, db.gridConfig)
+            .then((sub) => {
+              setGridConfigSubscription(sub)
+            })
+            .finally(() => setGridConfigDirty(false))
+        })
+        .catch((e) => console.log(e))
     }
   }, [layoutConfig?.gridConfig?.objectId])
 
@@ -381,16 +387,18 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       const diashowConfigQuery: Query<Parse.Object<Diashow>> = new Query<Parse.Object<Diashow>>(
         'SteleDiashowConfig'
       ).equalTo('objectId', layoutConfig.diashowConfig.objectId)
-      initTableWithQuery(diashowConfigQuery, db.diashowConfig).then(() => {
-        if (typeof diashowConfigSubscription !== 'undefined') {
-          diashowConfigSubscription.unsubscribe()
-        }
-        subscribeTableToQuery(diashowConfigQuery, db.diashowConfig)
-          .then((sub) => {
-            setDiashowConfigSubscription(sub)
-          })
-          .finally(() => setDiashowConfigDirty(false))
-      })
+      initTableWithQuery(diashowConfigQuery, db.diashowConfig)
+        .then(() => {
+          if (typeof diashowConfigSubscription !== 'undefined') {
+            diashowConfigSubscription.unsubscribe()
+          }
+          subscribeTableToQuery(diashowConfigQuery, db.diashowConfig)
+            .then((sub) => {
+              setDiashowConfigSubscription(sub)
+            })
+            .finally(() => setDiashowConfigDirty(false))
+        })
+        .catch((e) => console.log(e))
     }
   }, [layoutConfig?.diashowConfig?.objectId])
 
@@ -403,22 +411,24 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             dC.attributes.diashowObjects.query().includeAll(),
             db.diashowObjects,
             true
-          ).then(() => {
-            if (!diashowConfigDirty) {
-              if (typeof diashowObjectsSubscription !== 'undefined') {
-                diashowObjectsSubscription.unsubscribe()
-              }
-              subscribeTableToQuery(
-                new Query<Parse.Object<DiashowObject>>('SteleDiashowObject'),
-                db.diashowObjects,
-                {
-                  initQuery: dC.attributes.diashowObjects.query().includeAll()
+          )
+            .then(() => {
+              if (!diashowConfigDirty) {
+                if (typeof diashowObjectsSubscription !== 'undefined') {
+                  diashowObjectsSubscription.unsubscribe()
                 }
-              ).then((sub) => {
-                setDiashowObjectsSubscription(sub)
-              })
-            }
-          })
+                subscribeTableToQuery(
+                  new Query<Parse.Object<DiashowObject>>('SteleDiashowObject'),
+                  db.diashowObjects,
+                  {
+                    initQuery: dC.attributes.diashowObjects.query().includeAll()
+                  }
+                ).then((sub) => {
+                  setDiashowObjectsSubscription(sub)
+                })
+              }
+            })
+            .catch((e) => console.log(e))
         })
     }
   }, [diashowConfig?.diashowObjects])
@@ -431,18 +441,27 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
           initTableWithQuery(
             gC.attributes.tiles.query().include('tile.tileType').include('position'),
             db.tiles
-          ).then(() => {
-            if (!gridConfigDirty) {
-              if (typeof tilesSubscription !== 'undefined') {
-                tilesSubscription.unsubscribe()
+          )
+            .then(() => {
+              if (!gridConfigDirty) {
+                if (typeof tilesSubscription !== 'undefined') {
+                  tilesSubscription.unsubscribe()
+                }
+                subscribeTableToQuery(
+                  new Query<Parse.Object<Tile>>('SteleTilePosition'),
+                  db.tiles,
+                  {
+                    initQuery: gC.attributes.tiles
+                      .query()
+                      .include('tile.tileType')
+                      .include('position')
+                  }
+                ).then((sub) => {
+                  setTilesSubscription(sub)
+                })
               }
-              subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTilePosition'), db.tiles, {
-                initQuery: gC.attributes.tiles.query().include('tile.tileType').include('position')
-              }).then((sub) => {
-                setTilesSubscription(sub)
-              })
-            }
-          })
+            })
+            .catch((e) => console.log(e))
         })
     }
   }, [gridConfig?.tiles])

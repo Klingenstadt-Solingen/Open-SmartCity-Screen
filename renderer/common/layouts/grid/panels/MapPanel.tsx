@@ -147,6 +147,7 @@ export default function MapPanel({
   const [first, setFirst] = useState(true)
   const [information, setInformation] = useState(undefined)
   const [trip, setTrip] = useState(undefined)
+  const [tripSelection, setTripSelection] = useState(undefined)
 
   const categories = useLiveQuery(async () => {
     return db.poiCategories.toArray()
@@ -167,12 +168,6 @@ export default function MapPanel({
     setSearchTerm(e.target.value)
   }
 
-  useEffect(() => {
-    if (searchTerm) {
-      console.log('hi')
-    }
-  }, [searchTerm])
-
   const switchLayer = (layerName: string) => {
     if (activeLayers.includes(layerName)) {
       mpapi.map.removeLayer(
@@ -188,7 +183,8 @@ export default function MapPanel({
   function getTrip(
     from: { latitude: number; longitude: number },
     to: { latitude: number; longitude: number }
-  ): Promise<[{ trips: [{ coords: [number]; interchange: { coords: [number] } }] }]> {
+    // ): Promise<[{ trips: [{ coords: [number]; interchange: { coords: [number] } }] }]> {
+  ): Promise<any[]> {
     return new Promise((resolve) => {
       Promise.all([
         Parse.Cloud.run(
@@ -212,7 +208,8 @@ export default function MapPanel({
             to: {
               geoPoint: '[' + to.latitude + ', ' + to.longitude + ']',
               stop: a[1].stops[0].properties.stopId
-            }
+            },
+            trip: { tz: 'Europe/Berlin' }
           },
           { useMasterKey: true }
         ).then((a) => {
@@ -314,15 +311,34 @@ export default function MapPanel({
         latitude: latitude
       }
     ).then((a) => {
-      for (let i = 0; i <= a[0]?.trips.length; i++) {
-        setTrip(a[0])
-        drawLine(a[0]?.trips[i]?.interchange?.coords, 'red')
-        drawLine(
-          a[0]?.trips[i]?.coords,
-          i % 2 === 0
-            ? environment.primaryColor || '#004373'
-            : environment.secondaryColor || '#0a7ac9'
-        )
+      const seen = []
+      const b = a.filter((el) => {
+        const duplicate = seen.includes(el.trips[0].destination.name)
+        seen.push(el.trips[0].destination.name)
+        return !duplicate
+      })
+      mpapi.map
+        .getLayers()
+        .getArray()
+        .filter((el) => el.get('name') === 'trip')
+        .forEach((layer) => {
+          mpapi.map.removeLayer(layer)
+        })
+      setTrip(undefined)
+      if (b.length > 1) {
+        setTripSelection(b.slice(0, 3))
+      } else {
+        for (let i = 0; i <= b[0]?.trips.length; i++) {
+          setTripSelection(undefined)
+          setTrip(b[0])
+          drawLine(b[0]?.trips[i]?.interchange?.coords, 'red')
+          drawLine(
+            b[0]?.trips[i]?.coords,
+            i % 2 === 0
+              ? environment.primaryColor || '#004373'
+              : environment.secondaryColor || '#0a7ac9'
+          )
+        }
       }
     })
   }
@@ -403,6 +419,52 @@ export default function MapPanel({
                       ) : (
                         <></>
                       )}
+                    </>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+          {tripSelection && (
+            <div className="flex flex-col p-10 bg-primary-color text-on-primary-color h-full w-[25rem] text-2xl">
+              <div className="w-full h-min flex justify-around">
+                <span className="text-4xl text-secondary-color font-bold">Verbindung Wählen:</span>
+                <button
+                  onMouseDown={() => {
+                    setTripSelection(undefined)
+                  }}
+                  className="bg-gray-500 text-on-secondary-color bg-opacity-50 aspect-square h-full rounded-md"
+                >
+                  <Close
+                    width="100%"
+                    height="2rem"
+                    fill={environment.onPrimaryColor || '#FFFFFF'}
+                  ></Close>
+                </button>
+              </div>
+              <div className="h-full grid grid-flow-row items-center">
+                {tripSelection.map((t, index) => {
+                  return (
+                    <>
+                      <button
+                        className="w-full bg-secondary-color rounded-xl text-on-secondary-color p-3 h-min flex flex-col justify-around items-start text-center border border-secondary-color"
+                        onMouseDown={() => {
+                          for (let i = 0; i <= t?.trips.length; i++) {
+                            setTripSelection(undefined)
+                            setTrip(t)
+                            drawLine(t?.trips[i]?.interchange?.coords, 'red')
+                            drawLine(
+                              t?.trips[i]?.coords,
+                              i % 2 === 0
+                                ? environment.primaryColor || '#004373'
+                                : environment.secondaryColor || '#0a7ac9'
+                            )
+                          }
+                        }}
+                      >
+                        Über: {t.trips[0].destination.name} <br />
+                        Mit: {t.trips[0].transportation.name}
+                      </button>
                     </>
                   )
                 })}

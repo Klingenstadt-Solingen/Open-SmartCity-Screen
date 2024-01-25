@@ -41,7 +41,8 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
           {
             type: 'public-transport',
             lat: screen.location.latitude,
-            lon: screen.location.longitude
+            lon: screen.location.longitude,
+            force: true
           },
           { useMasterKey: true }
         ).then((a) => {
@@ -50,7 +51,6 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
       }, 1000 * 30)
     }
   }, [screen])
-
   if (typeof departures !== 'undefined' && departures.length) {
     return (
       <div

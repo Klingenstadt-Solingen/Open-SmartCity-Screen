@@ -2,6 +2,8 @@ import { app } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
 import { autoUpdater } from 'electron-updater'
+import { version } from '../package.json'
+import { execSync } from 'child_process'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
 
@@ -26,7 +28,10 @@ if (isProd) {
   if (isProd) {
     await mainWindow.loadURL('app://./dashboard.html')
     mainWindow.setFullScreen(true)
+
     const userPath = app.getPath('userData').replaceAll('\\', '/')
+    execSync(`echo ${version} > ${userPath}/version.txt`, { encoding: 'utf-8' })
+
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("path", "${userPath}")`, true)
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("mode", "prod")`, true)
 
