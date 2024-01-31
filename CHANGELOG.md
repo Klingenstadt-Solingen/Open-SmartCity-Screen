@@ -1,3 +1,10 @@
+# [1.22.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.21.1...v1.22.0) (2024-01-31)
+
+
+### Features
+
+* **environment:** listen to env ([b47e516](https://git.app.nedeco.de/solingen/digital-signage/commit/b47e516c55d6f1810ff3b766dfbb180850663c2d))
+
 ## [1.21.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.21.0...v1.21.1) (2024-01-25)
 
 
