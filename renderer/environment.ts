@@ -8,5 +8,6 @@ export const environment = {
   backgroundColorDark: null,
   parseUrl: process.env.PARSE_URL,
   parseAppId: process.env.PARSE_APP_ID,
-  parseMasterKey: process.env.PARSE_MASTER_KEY
+  parseMasterKey: process.env.PARSE_MASTER_KEY,
+  screenshotDir: '/home/kiosk/screenshots'
 }

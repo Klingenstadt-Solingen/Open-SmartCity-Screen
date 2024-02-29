@@ -1,4 +1,4 @@
-import { GeoPoint } from 'parse'
+import { File, GeoPoint, Pointer } from 'parse'
 import { Base } from './base'
 import { Layout } from './layout'
 
@@ -18,4 +18,10 @@ export interface LayoutType {
 
 export interface ScreenState {
   name: 'ACTIVE' | 'INACTIVE'
+}
+
+export interface Screenshot {
+  screenshot: File
+  screen: Pointer
+  date: Date
 }

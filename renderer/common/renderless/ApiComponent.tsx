@@ -63,8 +63,11 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     useState<LiveQuerySubscription>()
   const [tilesSubscription, setTilesSubscription] = useState<LiveQuerySubscription>()
 
+  //states to prevent multiple subscriptions
   const [gridConfigDirty, setGridConfigDirty] = useState<boolean>(false)
   const [diashowConfigDirty, setDiashowConfigDirty] = useState<boolean>(false)
+
+  const [screenshotInterval, setScreenshotInterval] = useState<any>()
 
   function getAllDFileInfos(filePath: string) {
     let allFileNames = []
@@ -221,10 +224,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     Parse.masterKey = environment.parseMasterKey
     Parse.serverURL = environment.parseUrl
 
-    // Parse.initialize('dashboard')
-    // Parse.masterKey = 'enrTPQGtJX8QqnPjre7hjSfnrwtbQZ2b'
-    // Parse.serverURL = 'https://parse-be.hosting.nedeco.mobi/parse'
-
     const screenQuery: Query<Parse.Object<Screen>> = new Query<Parse.Object<Screen>>('SteleScreen')
       .limit(1)
       .equalTo('uuid', appId)
@@ -274,6 +273,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .lessThanOrEqualTo('date', today)
       .descending('date')
       .limit(10)
+
     initTableWithQuery(pressReleaseQuery, db.pressReleases).catch((e) => console.log(e))
     subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
 
@@ -308,7 +308,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
       Parse.Cloud.run(
         'pt-stop-nearby',
-        { lat: screen?.location.latitude, lon: screen?.location.longitude },
+        { lat: screen?.location?.latitude, lon: screen?.location?.longitude },
         { useMasterKey: true }
       )
         .then((a) => {
@@ -487,6 +487,61 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .then()
       .catch((err) => console.error(err))
   }, [diashowObjects])
+
+  useEffect(() => {
+    const dir = environment.screenshotDir
+    if (typeof screen !== 'undefined') {
+      clearInterval(screenshotInterval)
+      setScreenshotInterval(
+        setInterval(() => {
+          fs.readdir(dir + '/', (err, files) => {
+            const f = files
+              .map((fileName) => {
+                return {
+                  name: fileName,
+                  time: fs.statSync(dir + '/' + fileName).mtime.getTime()
+                }
+              })
+              .sort(function (a, b) {
+                return b.time - a.time
+              })
+              .slice(0, 2)
+            if (typeof f !== 'undefined') {
+              const screenshotQuery = new Parse.Query('SteleScreenshot').equalTo('screen', {
+                __type: 'Pointer',
+                className: 'SteleScreen',
+                objectId: screen.objectId
+              })
+              screenshotQuery.find({ useMasterKey: true }).then((scs) => {
+                Parse.Object.destroyAll(scs, { useMasterKey: true }).then((a) => {
+                  f.map((file) => {
+                    fs.readFile(dir + '/' + file.name, 'base64', (err, data) => {
+                      const screenshot = new Parse.File(
+                        screen.objectId + '_screenshot_' + file.name + '.png',
+                        { base64: data }
+                      )
+                      screenshot.save({ useMasterKey: true }).then((f) => {
+                        const screenshot = new Parse.Object('SteleScreenshot')
+                        screenshot.set('screenshot', f)
+                        screenshot.set('date', new Date(file.time))
+                        screenshot.set(
+                          'screen',
+                          Parse.Object.extend('SteleScreen').createWithoutData(screen.objectId)
+                        )
+                        screenshot.save(undefined, { useMasterKey: true }).then(() => {
+                          console.log('saved new screenshots')
+                        })
+                      })
+                    })
+                  })
+                })
+              })
+            }
+          })
+        }, 600000 /*10min*/)
+      )
+    }
+  }, [screen])
 
   return (
     <>
