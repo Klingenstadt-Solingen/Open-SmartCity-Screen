@@ -10,6 +10,8 @@
     "config-build": "node prebuild.js && nextron build -l -w --x64 --config publish.config.js",
     "build": "nextron build -l -w --x64 -p never --config publish.config.js",
     "build-publish": "nextron build -l -w --x64 -p always --config publish.config.js",
+    "build-publish-linux": "nextron build -l --x64 -p always --config publish.config.js",
+    "build-publish-windows": "nextron build -w --x64 -p always --config publish.config.js",
     "postinstall": "electron-builder install-app-deps & patch-package",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
