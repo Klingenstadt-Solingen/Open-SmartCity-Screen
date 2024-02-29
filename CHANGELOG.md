@@ -1,3 +1,10 @@
+# [1.24.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.23.0...v1.24.0) (2024-02-29)
+
+
+### Features
+
+* **pipeline:** allow seperate releasing of windows and linux ([074b138](https://git.app.nedeco.de/solingen/digital-signage/commit/074b13864c4b7bc0783ccbc543b8353dabed11fc))
+
 # [1.23.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.22.0...v1.23.0) (2024-02-29)
 
 
