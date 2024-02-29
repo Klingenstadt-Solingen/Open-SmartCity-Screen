@@ -1,3 +1,10 @@
+# [1.23.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.22.0...v1.23.0) (2024-02-29)
+
+
+### Features
+
+* **screenshots:** upload new screenshots every 10 minutes ([8b6ccb7](https://git.app.nedeco.de/solingen/digital-signage/commit/8b6ccb7908ed09cf36f4df07417b193050d6b9fe))
+
 # [1.22.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.21.1...v1.22.0) (2024-01-31)
 
 
