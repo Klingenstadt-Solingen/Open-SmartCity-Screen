@@ -35,6 +35,7 @@ build:latest:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build
   artifacts:
+    expire_in: 3 months
     paths:
       - dist/
   tags:
@@ -48,6 +49,7 @@ build:deploy-tag-all:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish
   artifacts:
+    expire_in: 3 months
     paths:
       - dist/
   tags:
@@ -63,6 +65,7 @@ build:deploy-tag-linux:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish-linux
   artifacts:
+    expire_in: 3 months
     paths:
       - dist/
   tags:
@@ -78,6 +81,7 @@ build:deploy-tag-windows:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish-windows
   artifacts:
+    expire_in: 3 months
     paths:
       - dist/
   tags:
