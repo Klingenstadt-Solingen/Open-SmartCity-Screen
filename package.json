@@ -12,7 +12,7 @@
     "build-publish": "nextron build -l -w --x64 -p always --config publish.config.js",
     "build-publish-linux": "nextron build -l --x64 -p always --config publish.config.js",
     "build-publish-windows": "nextron build -w --x64 -p always --config publish.config.js",
-    "postinstall": "electron-builder install-app-deps & patch-package",
+    "postinstall": "electron-builder install-app-deps",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
     "format:fix": "prettier --write renderer/",
