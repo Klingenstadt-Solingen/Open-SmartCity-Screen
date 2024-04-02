@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
-import dynamic from 'next/dynamic'
+import React from 'react'
 import { environment } from '../../../../environment'
 import MapIcon from '../../../icons/MapIcon'
+import MapPanel from '../panels/MapPanel/MapPanel'
 
 type setCenter = (panel: React.JSX.Element) => void
 
@@ -13,7 +13,6 @@ interface Props {
 }
 
 export default function MapTile(props: Props): React.JSX.Element {
-  const Map = useMemo(() => dynamic(() => import('../panels/MapPanel')), [])
   let cssForTitle: React.CSSProperties = {}
   if (props.isOpen) {
     if (props.tilePos < 3) {
@@ -70,7 +69,7 @@ export default function MapTile(props: Props): React.JSX.Element {
         </div>
         <button
           className="w-60 h-14 rounded-lg text-2xl bg-secondary-color text-primary-color"
-          onMouseDown={() => props.setCenter(<Map></Map>)}
+          onMouseDown={() => props.setCenter(<MapPanel></MapPanel>)}
         >
           Jetzt entdecken
         </button>

@@ -28,8 +28,8 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
         'mobility',
         {
           type: 'public-transport',
-          lat: screen.location.latitude,
-          lon: screen.location.longitude
+          lat: screen.location?.latitude,
+          lon: screen.location?.longitude
         },
         { useMasterKey: true }
       ).then((a) => {
@@ -40,8 +40,8 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
           'mobility',
           {
             type: 'public-transport',
-            lat: screen.location.latitude,
-            lon: screen.location.longitude,
+            lat: screen.location?.latitude,
+            lon: screen.location?.longitude,
             force: true
           },
           { useMasterKey: true }

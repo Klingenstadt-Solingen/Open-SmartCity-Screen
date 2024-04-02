@@ -74,3 +74,8 @@ div#__next > div {
   border: 1px solid rgba(30, 30, 30, 0.8);
   scroll-behavior: smooth;
 }
+
+.hg-button {
+  height: 4vh !important;
+  font-size: medium;
+}

@@ -6,4 +6,5 @@ export interface PressRelease extends Base {
   imageUrl: string
   title: string
   content: string
+  sourceId?: string
 }

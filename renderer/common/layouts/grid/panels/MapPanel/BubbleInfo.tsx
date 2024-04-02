@@ -1,38 +1,45 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react'
 import QRCode from 'react-qr-code'
-import Route from '../../../icons/Route'
+import Route from '../../../../icons/Route'
+import * as olProj from 'ol/proj.js'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BubbleInfo(props: any): React.JSX.Element {
   return (
-    <>
+    <div className="flex rounded-3xl">
       <MainInfo information={props.information}></MainInfo>
-      {props.information?.poi?.details?.find((el) => el.title === 'Sie Sind Hier') ===
-        undefined && (
+      {props.information?.details?.find((el) => el.title === 'Sie Sind Hier') === undefined && (
         <button
-          onMouseDown={() => {
-            props.tripTo(props?.information?.coordinates[0], props?.information?.coordinates[1])
+          onMouseDown={(e) => {
+            console.warn('LOL')
+            e.stopPropagation()
+            const target = olProj.transform(
+              props.information.geometry.flatCoordinates,
+              'EPSG:3857',
+              'EPSG:4326'
+            )
+            props.tripTo(target[0], target[1])
           }}
-          className="w-full pl-[2rem] left-[-2rem] h-[12rem] rounded-3xl text-on-primary-color text-xl relative bg-primary-color shadow-xl shadow-gray-500 flex justify-center items-center"
+          className="mt-7 w-full pl-[2rem] mr-[-2rem] left-[-2rem] h-[12rem] rounded-3xl text-on-primary-color text-xl relative bg-primary-color shadow-xl shadow-gray-500 flex justify-center items-center"
         >
           <div className="h-full w-full flex py-2 px-2">
             <Route></Route>
           </div>
         </button>
       )}
-    </>
+    </div>
   )
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function MainInfo(props: any): React.JSX.Element {
   function getAttribute(attribute: string) {
-    return props.information?.poi?.details?.find((el) => el.title === attribute)
+    return props.information?.details?.find((el) => el.title === attribute)
   }
 
   return (
-    props.information?.poi?.details && (
+    props.information?.details && (
       <div
         className="overflow-hidden text-left gap-4 p-4 grid grid-flow-row gap-x-5 box-border rounded-3xl bg-secondary-color text-on-secondary-color shadow-xl shadow-gray-500 z-50"
         style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0,1fr)' }}
@@ -146,7 +153,7 @@ function InfoLine(props: any): React.JSX.Element {
       style={{
         gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 4fr)',
         overflow: 'hidden',
-        overflowWrap: 'normal'
+        overflowWrap: 'break-word'
       }}
     >
       {props.content.iconName && (

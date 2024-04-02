@@ -1,5 +1,5 @@
 import React from 'react'
-import MapPanel from '../panels/MapPanel'
+import MapPanel from '../panels/MapPanel/MapPanel'
 import { environment } from '../../../../environment'
 import Wifi from '../../../icons/Wifi'
 import Bed from '../../../icons/Bed'

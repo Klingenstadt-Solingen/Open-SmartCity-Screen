@@ -6,6 +6,7 @@ import { db } from '../../../utils/dexie'
 import ArrowUp from '../../icons/ArrowUp'
 import ArrowDown from '../../icons/ArrowDown'
 import Rotate from '../../icons/Rotate'
+import KeyboardReact from 'react-simple-keyboard'
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Grid() {
@@ -18,6 +19,8 @@ export default function Grid() {
   })
 
   const [centerPanel, setCenterPanel] = useState(<></>)
+  const [showKeyboard, setShowKeyboard] = useState<boolean>(false)
+  const [keyboardChange, setKeyboardChange] = useState<string>('')
 
   const boxOrder = [
     [1, 2, 3, 4],
@@ -30,6 +33,14 @@ export default function Grid() {
   //accessabilityCode: 0-> middle, 1-> top, 2-> bottom
   const [accessabilityCode, setAccessabilityCode] = useState<number>(0)
   const [orderStatus, setOrderStatus] = useState<number>(0)
+  const [shift, setShift] = useState<boolean>(false)
+
+  function closePanel() {
+    setIsOpen(false)
+    setKeyboardChange('')
+    setShowKeyboard(false)
+    setAccessabilityCode(0)
+  }
 
   function inactivityTime() {
     let time
@@ -40,7 +51,9 @@ export default function Grid() {
 
     function resetTimer() {
       clearTimeout(time)
-      time = setTimeout(() => setIsOpen(false), 300000)
+      time = setTimeout(() => {
+        closePanel()
+      }, 300000)
     }
   }
 
@@ -57,8 +70,7 @@ export default function Grid() {
 
   function handleOutsideClick(): void {
     if (isOpen) {
-      setIsOpen(false)
-      setAccessabilityCode(0)
+      closePanel()
     }
   }
 
@@ -151,7 +163,13 @@ export default function Grid() {
               accessabilityCode={accessabilityCode}
             ></BaseTile>
           ))}
-        <BasePanel isOpen={isOpen} accessabilityCode={accessabilityCode}>
+        <BasePanel
+          isOpen={isOpen}
+          accessabilityCode={accessabilityCode}
+          setAccessabilityCode={setAccessabilityCode}
+          setShowKeyboard={setShowKeyboard}
+          keyboardChange={keyboardChange}
+        >
           {centerPanel}
         </BasePanel>
         {isOpen ? (
@@ -185,6 +203,58 @@ export default function Grid() {
           >
             <Rotate height="70%" width="70%"></Rotate>
           </button>
+        )}
+        {showKeyboard && (
+          <div
+            className="absolute w-screen h-30 bottom-20 z-20 asd"
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+          >
+            <KeyboardReact
+              layout={{
+                default: [
+                  '` 1 2 3 4 5 6 7 8 9 0 ß ´ {bksp}',
+                  '{tab} q w e r t z u i o p ü +',
+                  '{lock} a s d f g h j k l ö ä {enter}',
+                  '{shift} y x c v b n m , . - {shift}',
+                  '.com @ {space}'
+                ],
+                shift: [
+                  '~ ! " § $ % & / ( ) = ? ` {bksp}',
+                  '{tab} Q W E R T Z U I O P Ü *',
+                  '{lock} A S D F G H J K L Ö Ä {enter}',
+                  '{shift} Y X C V B N M ; : _ {shift}',
+                  '.com @ {space}'
+                ]
+              }}
+              layoutName={shift ? 'shift' : 'default'}
+              onChange={(c) => {
+                setKeyboardChange(c)
+              }}
+              onKeyPress={(c) => {
+                if (c === '{lock}') {
+                  setShift(!shift)
+                }
+                if (c === '{shift}') {
+                  setShift(true)
+                }
+              }}
+              onKeyReleased={(c) => {
+                if (c === '{shift}') {
+                  setShift(false)
+                }
+              }}
+              disableButtonHold={true}
+              stopMouseDownPropagation={true}
+              stopMouseUpPropagation={true}
+            ></KeyboardReact>
+          </div>
         )}
       </div>
     )

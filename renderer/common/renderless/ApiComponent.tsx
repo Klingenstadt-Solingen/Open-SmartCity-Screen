@@ -20,7 +20,6 @@ import { downloadDir } from '../../utils/constants'
 
 import EventEmitter from 'events'
 import { PoiCategory } from '../../models/poi-category'
-import { POI } from '../../models/poi'
 import { Grid } from '../../models/grid'
 import { Diashow } from '../../models/diashow'
 import { Layout } from '../../models/layout'
@@ -62,6 +61,9 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
   const [diashowObjectsSubscription, setDiashowObjectsSubscription] =
     useState<LiveQuerySubscription>()
   const [tilesSubscription, setTilesSubscription] = useState<LiveQuerySubscription>()
+  const [screenSubscription, setScreenSubscription] = useState<LiveQuerySubscription>()
+  const [poiCategorySubscription, setPoiCategorySubscription] = useState<LiveQuerySubscription>()
+  const [pressReleaseSubscription, setPressReleaseSubscription] = useState<LiveQuerySubscription>()
 
   //states to prevent multiple subscriptions
   const [gridConfigDirty, setGridConfigDirty] = useState<boolean>(false)
@@ -143,27 +145,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     return subscription
   }
 
-  // let timerFor24H: ReturnType<typeof setTimeout>
-
-  // Parse.LiveQuery.on('open', () => {
-  //   clearTimeout(timerFor24H)
-  //   setIsParseOnline(true)
-  // })
-
-  // Parse.LiveQuery.on('close', () => {
-  //   console.warn('closed')
-  //   timerFor24H = setTimeout(() => {
-  //     setIsParseOnline(true)
-  //   }, hourInMilliseconds)
-  // })
-
-  // Parse.LiveQuery.on('error', (error) => {
-  //   console.warn('got error: ', error)
-  //   timerFor24H = setTimeout(() => {
-  //     setIsParseOnline(true)
-  //   }, hourInMilliseconds)
-  // })
-
   //fetches ParseQueryData via HTTP and and replaces current IndexedDB Data with response if response has content
   function initTableWithQuery<T>(
     query: Query<Parse.Object<T>>,
@@ -197,32 +178,8 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     }
   }
 
-  //Creates new Screen in Parse with given AppId
-  function createNewScreen(appId: string): Promise<Parse.Object<Screen>> {
-    const NewScreen = Parse.Object.extend('SteleScreen')
-    const newScreen: Parse.Object<Screen> = new NewScreen()
-    const config: Config = {
-      dictionaries: [names]
-    }
-    newScreen.set('uuid', appId)
-    newScreen.set('name', uniqueNamesGenerator(config))
-    return new Promise((resolve, reject) => {
-      newScreen
-        .save(null, { useMasterKey: true })
-        .then((result) => {
-          resolve(result)
-        })
-        .catch((error) => reject(error))
-    })
-  }
-
-  //Function calls happen in useEffect([]) to ensure client side handling
-  useEffect(() => {
+  function fetchConfig() {
     const appId = getAppId()
-
-    Parse.initialize(environment.parseAppId)
-    Parse.masterKey = environment.parseMasterKey
-    Parse.serverURL = environment.parseUrl
 
     const screenQuery: Query<Parse.Object<Screen>> = new Query<Parse.Object<Screen>>('SteleScreen')
       .limit(1)
@@ -262,28 +219,99 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .then((a) => {
         localStorage.setItem('screenId set/found', a as string)
       })
-    subscribeTableToQuery<Screen>(screenQuery, db.screen)
-  }, [])
+    if (typeof screenSubscription !== 'undefined') {
+      screenSubscription.unsubscribe()
+    }
+    subscribeTableToQuery<Screen>(screenQuery, db.screen).then((sub) => setScreenSubscription(sub))
 
-  useEffect(() => {
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-
     const pressReleaseQuery = new Query<Parse.Object<PressRelease>>('PressRelease')
       .lessThanOrEqualTo('date', today)
       .descending('date')
       .limit(10)
 
     initTableWithQuery(pressReleaseQuery, db.pressReleases).catch((e) => console.log(e))
-    subscribeTableToQuery(pressReleaseQuery, db.pressReleases)
+    if (typeof pressReleaseSubscription !== 'undefined') {
+      pressReleaseSubscription.unsubscribe()
+    }
+    subscribeTableToQuery(pressReleaseQuery, db.pressReleases).then((sub) => {
+      setPressReleaseSubscription(sub)
+    })
 
     const poiCategoryQuery = new Query<Parse.Object<PoiCategory>>('POICategory')
     initTableWithQuery(poiCategoryQuery, db.poiCategories).catch((e) => console.log(e))
-    subscribeTableToQuery(poiCategoryQuery, db.poiCategories)
+    if (typeof poiCategorySubscription !== 'undefined') {
+      poiCategorySubscription.unsubscribe()
+    }
+    subscribeTableToQuery(poiCategoryQuery, db.poiCategories).then((sub) => {
+      setPoiCategorySubscription(sub)
+    })
 
-    const poiQuery = new Query<Parse.Object<POI>>('POI').limit(1000)
-    initTableWithQuery(poiQuery, db.pois).catch((e) => console.log(e))
-    subscribeTableToQuery(poiQuery, db.pois)
+    initTableWithFunction('poi-all', db.pois).catch((e) => console.log(e))
+    // const poiQuery = new Query<Parse.Object<POI>>('POI').limit(100)
+    // initTableWithQuery(poiQuery, db.pois).catch((e) => console.log(e))
+  }
+
+  //fetches ParseQueryData via HTTP and and replaces current IndexedDB Data with response if response has content
+  function initTableWithFunction<T>(
+    functionName: string,
+    table: Table<T, IndexableType>,
+    data: unknown = null,
+    canBeEmtpy = false
+  ): Promise<IndexableType> {
+    if (typeof table !== 'undefined' && typeof functionName !== 'undefined') {
+      return new Promise<IndexableType>((resolve, reject) => {
+        Parse.Cloud.run(functionName, data, { useMasterKey: true })
+          .then((results) => {
+            if (results.length || canBeEmtpy) {
+              table.clear()
+              table
+                .bulkAdd(
+                  results.map((res) => {
+                    return res as unknown as T
+                  }),
+                  results.map((res) => {
+                    return res.id
+                  })
+                )
+                .then((a) => resolve(a))
+                .catch((reason) => reject(reason))
+            } else {
+              reject('No results found for function ' + functionName)
+            }
+          })
+          .catch((reason) => reject(reason))
+      })
+    }
+  }
+
+  //Creates new Screen in Parse with given AppId
+  function createNewScreen(appId: string): Promise<Parse.Object<Screen>> {
+    const NewScreen = Parse.Object.extend('SteleScreen')
+    const newScreen: Parse.Object<Screen> = new NewScreen()
+    const config: Config = {
+      dictionaries: [names]
+    }
+    newScreen.set('uuid', appId)
+    newScreen.set('name', uniqueNamesGenerator(config))
+    return new Promise((resolve, reject) => {
+      newScreen
+        .save(null, { useMasterKey: true })
+        .then((result) => {
+          resolve(result)
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
+  //Function calls happen in useEffect([]) to ensure client side handling
+  useEffect(() => {
+    Parse.initialize(environment.parseAppId)
+    Parse.masterKey = environment.parseMasterKey
+    Parse.serverURL = environment.parseUrl
+    fetchConfig()
+    setInterval(fetchConfig, 1000 * 60 * 60 * 6)
   }, [])
 
   //Update WeatherQuery if ScreenLocation Changes

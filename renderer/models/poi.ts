@@ -2,9 +2,13 @@ import { GeoPoint } from 'parse'
 import { Base } from './base'
 
 interface detail {
-  type: string
-  title: string
-  value: string
+  type?: string
+  title?: string
+  value?: string
+  filterField?: string
+  symbolMimetype?: string
+  symbolName?: string
+  symbolPath?: string
 }
 export interface POI extends Base {
   poiCategory: string

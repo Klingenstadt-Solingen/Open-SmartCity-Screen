@@ -5,11 +5,12 @@ import { db } from '../utils/dexie'
 import Header from '../common/layouts/grid/Header'
 import Footer from '../common/layouts/grid/Footer'
 import { environment } from '../environment'
+import 'react-simple-keyboard/build/css/index.css'
 
 interface Props {
   isParseOnline: boolean
 }
-//aaaaa
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const Dashboard = ({ isParseOnline }: Props) => {
   const screen = useLiveQuery(async () => {

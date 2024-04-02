@@ -1,10 +1,13 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react'
 import { db } from '../../../../utils/dexie'
 
 interface Props {
   isOpen: boolean
   accessabilityCode: number
+  setAccessabilityCode: (code: number) => void
+  setShowKeyboard: (show: boolean) => void
+  keyboardChange: string
 }
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -93,7 +96,11 @@ export default function BasePanel(props: PropsWithChildren<Props>): React.JSX.El
             onMouseDown={(e) => e.stopPropagation()}
             style={centerPanelCss}
           >
-            {props.children}
+            {React.cloneElement(props.children as ReactElement, {
+              setAccessabilityCode: props.setAccessabilityCode,
+              setShowKeyboard: props.setShowKeyboard,
+              keyboardChange: props.keyboardChange
+            })}
           </div>
         )}
       </>

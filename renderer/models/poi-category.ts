@@ -12,4 +12,5 @@ export interface PoiCategory extends Base {
   mapTitle: string
   symbolPath: string
   iconPath: string
+  filterFields: Array<{ field: string; value: string }>
 }
