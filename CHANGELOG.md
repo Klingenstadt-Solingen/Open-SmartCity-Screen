@@ -5,6 +5,13 @@
 
 * linting ([f250128](https://git.app.nedeco.de/solingen/digital-signage/commit/f25012896d223ecdcbdabb013e11c0e9369e9639))
 
+## [1.25.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.25.0...v1.25.1) (2024-04-05)
+
+
+### Bug Fixes
+
+* linting ([f250128](https://git.app.nedeco.de/solingen/digital-signage/commit/f25012896d223ecdcbdabb013e11c0e9369e9639))
+
 # [1.25.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.24.0...v1.25.0) (2024-04-05)
 
 
