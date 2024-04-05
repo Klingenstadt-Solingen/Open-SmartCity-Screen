@@ -1,3 +1,15 @@
+# [1.25.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.24.0...v1.25.0) (2024-04-05)
+
+
+### Bug Fixes
+
+* package script ([003956e](https://git.app.nedeco.de/solingen/digital-signage/commit/003956e3e214f3e71953cb73d6fb0c64f5e279fe))
+
+
+### Features
+
+* **component:** refactor map Panel, add polling to API Component ([8678984](https://git.app.nedeco.de/solingen/digital-signage/commit/867898475b9bc826b140f82cd27ce2bb477c0777))
+
 # [1.24.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.23.0...v1.24.0) (2024-02-29)
 
 
