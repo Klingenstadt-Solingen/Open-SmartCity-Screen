@@ -52,8 +52,8 @@ export default function ImageTile(props: Props): React.JSX.Element {
     return db.diashowObjects.toArray()
   })
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [isDownloading, setIsDownloading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [isDownloading, setIsDownloading] = useState(false)
 
   // useEffect(() => {
   //   setIsLoading(true)
@@ -66,7 +66,7 @@ export default function ImageTile(props: Props): React.JSX.Element {
   //   }
   // }, [diashowObjects])
 
-  if (!isLoading && typeof diashowObjects !== 'undefined' && diashowObjects.length) {
+  if (typeof diashowObjects !== 'undefined' && diashowObjects.length) {
     return (
       <Swiper
         className="w-full h-full bg-primary-color"

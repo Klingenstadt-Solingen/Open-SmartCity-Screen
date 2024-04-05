@@ -263,7 +263,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     if (typeof table !== 'undefined' && typeof functionName !== 'undefined') {
       return new Promise<IndexableType>((resolve, reject) => {
         Parse.Cloud.run(functionName, data, { useMasterKey: true })
-          .then((results) => {
+          .then((results: any[]) => {
             if (results.length || canBeEmtpy) {
               table.clear()
               table

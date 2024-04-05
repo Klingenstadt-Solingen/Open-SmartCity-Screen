@@ -15,9 +15,10 @@ const MapBase = dynamic(async () => await import('./BaseMap'), {
 })
 
 interface Props {
-  setAccessabilityCode: (number) => void
-  setShowKeyboard: (boolean) => void
-  keyboardChange: string
+  setAccessabilityCode?: (number) => void
+  setShowKeyboard?: (boolean) => void
+  keyboardChange?: string
+  preSelected?: string
 }
 
 export default function MapPanel(props: Props) {
