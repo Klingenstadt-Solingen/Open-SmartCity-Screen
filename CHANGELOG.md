@@ -1,3 +1,10 @@
+## [1.25.2](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.25.1...v1.25.2) (2024-04-10)
+
+
+### Bug Fixes
+
+* **pipeline:** upgrade builder version ([da928b8](https://git.app.nedeco.de/solingen/digital-signage/commit/da928b830a29b1078ef7e9a4fdbe4ada6bb07355))
+
 ## [1.25.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.25.0...v1.25.1) (2024-04-05)
 
 
