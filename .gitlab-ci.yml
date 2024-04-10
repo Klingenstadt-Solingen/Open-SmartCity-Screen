@@ -44,7 +44,7 @@ build:latest:
 
 build:deploy-tag-all:
   stage: build
-  image: electronuserland/builder:18-wine-07.23
+  image: electronuserland/builder:18-wine-11.23
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish
@@ -60,7 +60,7 @@ build:deploy-tag-all:
 
 build:deploy-tag-linux:
   stage: build
-  image: electronuserland/builder:18-wine-07.23
+  image: electronuserland/builder:18-wine-11.23
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish-linux
@@ -76,7 +76,7 @@ build:deploy-tag-linux:
 
 build:deploy-tag-windows:
   stage: build
-  image: electronuserland/builder:18-wine-07.23
+  image: electronuserland/builder:18-wine-11.23
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish-windows
