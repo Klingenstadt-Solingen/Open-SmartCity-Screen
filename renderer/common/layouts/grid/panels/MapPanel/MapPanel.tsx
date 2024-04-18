@@ -104,6 +104,28 @@ export default function MapPanel(props: Props) {
   }
 
   useEffect(() => {
+    if (typeof categories !== 'undefined' && typeof pois !== 'undefined') {
+      switch (props.preSelected) {
+        case 'preSelect1':
+          setShowDetailSelection(true)
+          setDetailSelection(categories.find((category) => category.name === 'Freifunk'))
+          setDisplayedPoiFilter(['Online'])
+          break
+        case 'preSelect2':
+          setShowDetailSelection(true)
+          setDetailSelection(categories.find((category) => category.name === 'Übernachten'))
+          setDisplayedPoiFilter(['Hotel'])
+          break
+        case 'preSelect3':
+          setShowDetailSelection(true)
+          setDetailSelection(categories.find((category) => category.name === 'Freizeit'))
+          setDisplayedPoiFilter(['Museen und Bildung', 'Sport und Spiel'])
+          break
+      }
+    }
+  }, [categories, pois])
+
+  useEffect(() => {
     if (typeof pois !== 'undefined') {
       setDisplayedPois(
         pois
