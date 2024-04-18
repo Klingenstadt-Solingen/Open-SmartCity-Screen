@@ -1,3 +1,10 @@
+# [1.26.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.25.2...v1.26.0) (2024-04-18)
+
+
+### Features
+
+* **poiTile:** preSelect correct categories when opening map from POI Tile ([1cac26d](https://git.app.nedeco.de/solingen/digital-signage/commit/1cac26df8901fee8935f2da9619d1cf3c36b5148))
+
 ## [1.25.2](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.25.1...v1.25.2) (2024-04-10)
 
 
