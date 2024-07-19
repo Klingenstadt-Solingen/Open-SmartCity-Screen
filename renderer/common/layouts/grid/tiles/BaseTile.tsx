@@ -8,6 +8,9 @@ import ImageTile from '../../diashow/tiles/ImageTile'
 import BusTileDeparture from './BusTileDeparture'
 import BusTileSchedule from './BusTileSchedule'
 import BobTile from './BobTile'
+import PersonTile from './PersonTile'
+import ServiceTile from './ServiceTile'
+import SearchTile from './SearchTile'
 
 interface Props {
   isOpen: boolean
@@ -72,6 +75,15 @@ export default function BaseTile(props: Props): React.JSX.Element {
       break
     case 'BOB':
       tile = <BobTile />
+      break
+    case 'Personen':
+      tile = <PersonTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      break
+    case 'Diensleistungen':
+      tile = <ServiceTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      break
+    case 'HCMS-Suche':
+      tile = <SearchTile setCenter={props.setCenter} isOpen={props.isOpen} />
       break
   }
 
