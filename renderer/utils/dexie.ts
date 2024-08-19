@@ -11,6 +11,13 @@ import { Grid } from '../models/grid'
 import { Layout } from '../models/layout'
 import { Busstop } from '../models/busstop'
 import { Busdeparture } from '../models/busdeparture'
+import { EnvironmentCategory } from '../models/environmentCategory'
+import { EnvironmentSubCategory } from '../models/environmentSubCategory'
+import { EnvironmentStation } from '../models/environmentStation'
+import { EnvironmentIcon } from '../models/environmentIcon'
+import { EnvironmentSensorType } from '../models/environmentSensorType'
+import { EnvironmentSensor } from '../models/environmentSensor'
+import { EnvironmentLocale } from '../models/environmentLocale'
 
 export class SteleDB extends Dexie {
   pressReleases!: Table<PressRelease, string>
@@ -25,10 +32,18 @@ export class SteleDB extends Dexie {
   pois!: Table<POI, string>
   stops!: Table<Busstop, string>
   departures!: Table<Busdeparture, string>
+  environmentCategories!: Table<EnvironmentCategory, string>
+  environmentSubCategories!: Table<EnvironmentSubCategory & { category: string }, string>
+  environmentStations!: Table<EnvironmentStation, string>
+  environmentIcons!: Table<EnvironmentIcon, string>
+  environmentSensorTypes!: Table<EnvironmentSensorType & { subCategory: string }, string>
+  environmentSensors!: Table<EnvironmentSensor, string>
+  environmentLocales!: Table<EnvironmentLocale, string>
 
+  //Whenever making changes to the database, remember increasing the database version.
   constructor() {
     super('steleDB')
-    this.version(3).stores({
+    this.version(4).stores({
       pressReleases: '++,title,date,content',
       screen: '++,uuid,name,location',
       layoutConfig: '++,name',
@@ -40,7 +55,14 @@ export class SteleDB extends Dexie {
       poiCategories: '++',
       pois: '++',
       stops: '++',
-      departures: '++'
+      departures: '++',
+      environmentCategories: '++',
+      environmentSubCategories: '++, category',
+      environmentStations: '++, objectId',
+      environmentIcons: '++',
+      environmentSensorTypes: '++, subCategory',
+      environmentSensors: '++, sensorType',
+      environmentLocales: '++, key'
     })
   }
 }

@@ -21,7 +21,7 @@ export default function WeatherPanel(props: { weather: Weather }): React.JSX.Ele
               style={{ gridTemplateColumns: '1fr 2fr' }}
             >
               <div className="break-words flex items-center justify-center ">
-                <Temperature height="20rem"></Temperature>
+                <Temperature height="20rem" />
               </div>
               <div className="break-words text-3xl flex flex-col items-start gap-5 text-primary-color">
                 <span className="break-words border-primary-color border-l-[10px] pl-4 font-bold">
@@ -47,7 +47,7 @@ export default function WeatherPanel(props: { weather: Weather }): React.JSX.Ele
 
             <div className="break-words p-5 text-left h-full flex flex-wrap overflow-hidden justify-center items-center w-full rounded-3xl bg-background-color-dark gap-5">
               <div className="break-words flex items-center justify-center">
-                <UV height="auto" width="40%" fill={environment.primaryColor || '#004373'}></UV>
+                <UV height="auto" width="40%" fill={environment.primaryColor || '#004373'} />
               </div>
               <div className="break-words text-2xl flex flex-col items-start gap-5 text-primary-color">
                 <span className="break-words border-primary-color font-bold">UV-Licht</span>
@@ -64,11 +64,7 @@ export default function WeatherPanel(props: { weather: Weather }): React.JSX.Ele
             </div>
             <div className="break-words p-5 text-left h-full flex flex-wrap overflow-hidden justify-center items-center w-full rounded-3xl gap-5 bg-primary-color bg-opacity-70">
               <div className="break-words flex items-center justify-center">
-                <Rain
-                  height="auto"
-                  width="40%"
-                  fill={environment.onPrimaryColor || '#FFFFFF'}
-                ></Rain>
+                <Rain height="auto" width="40%" fill={environment.onPrimaryColor || '#FFFFFF'} />{' '}
               </div>
               <div className="break-words text-2xl flex flex-col items-start gap-5 text-on-primary-color">
                 <span className="break-words border-on-primary-color font-bold">Niederschlag</span>
@@ -85,11 +81,7 @@ export default function WeatherPanel(props: { weather: Weather }): React.JSX.Ele
             </div>
             <div className="break-words p-5 text-left h-full flex flex-wrap overflow-hidden justify-center items-center w-full rounded-3xl gap-5 bg-background-color-dark">
               <div className="break-words flex items-center justify-center">
-                <Moisture
-                  height="auto"
-                  width="40%"
-                  fill={environment.primaryColor || '#004373'}
-                ></Moisture>
+                <Moisture height="auto" width="40%" fill={environment.primaryColor || '#004373'} />
               </div>
               <div className="break-words text-2xl flex flex-col items-start gap-5 text-primary-color">
                 <span className="break-words border-primary-color font-bold">Luftfeuchtigkeit</span>
@@ -110,7 +102,7 @@ export default function WeatherPanel(props: { weather: Weather }): React.JSX.Ele
                   height="auto"
                   width="40%"
                   fill={environment.primaryColor || '#004373'}
-                ></AirPressure>
+                />
               </div>
               <div className="break-words text-2xl flex flex-col items-start gap-5 text-primary-color">
                 <span className="break-words border-primary-color font-bold">Luftdruck</span>

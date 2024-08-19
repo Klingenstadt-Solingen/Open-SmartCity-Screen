@@ -13,11 +13,11 @@ export interface Screen extends Base {
 }
 
 export interface LayoutType {
-  name: 'GRID' | 'DIASHOW'
+  name: 'Diashow' | 'Touchscreen'
 }
 
 export interface ScreenState {
-  name: 'ACTIVE' | 'INACTIVE'
+  name: 'Aktiv' | 'Inaktiv'
 }
 
 export interface Screenshot {

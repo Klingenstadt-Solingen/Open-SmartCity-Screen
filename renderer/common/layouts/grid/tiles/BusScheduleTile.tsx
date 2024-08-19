@@ -10,7 +10,7 @@ interface Props {
   isOpen: boolean
 }
 
-export default function BusTileDeparture(props: Props): React.JSX.Element {
+export default function BusScheduleTile(props: Props): React.JSX.Element {
   const departures = useLiveQuery(async () => {
     return db.departures.toArray()
   })
@@ -55,7 +55,7 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
                             pdfCanvasHeight={height}
                             imgSrc={'data:application/pdf;base64,' + item.sttPdf}
                             fileType="pdf"
-                          ></ImagePanel>
+                          />
                         )
                       }
                     }}

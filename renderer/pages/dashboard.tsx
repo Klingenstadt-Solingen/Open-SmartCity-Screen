@@ -39,7 +39,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
   } else {
     localStorage.setItem('parseUrl', environment.parseUrl)
     localStorage.setItem('screenName', screen.name)
-    if (screen.state?.name !== 'ACTIVE' || typeof layoutConfig === 'undefined') {
+    if (screen.state?.name !== 'Aktiv' || typeof layoutConfig === 'undefined') {
       return (
         <div className="text-center w-full h-screen items-center justify-center bg-primary-color flex flex-col flex-nowrap">
           <img className="w-[200px] mb-[3vh]" src="/images/city-logo.png" />
@@ -71,14 +71,14 @@ const Dashboard = ({ isParseOnline }: Props) => {
               <Header />
             </div>
           )}
-          {(screen.layoutType?.name === 'DIASHOW' ||
+          {(screen.layoutType?.name === 'Diashow' ||
             !isParseOnline ||
             screen.layoutType === undefined) && (
             <div className="h-full w-screen">
               <Diashow />
             </div>
           )}
-          {screen.layoutType?.name === 'GRID' && isParseOnline && (
+          {screen.layoutType?.name === 'Touchscreen' && isParseOnline && (
             <div className="h-full w-screen">
               <Grid />
             </div>

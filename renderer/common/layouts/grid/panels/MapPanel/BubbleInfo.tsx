@@ -9,25 +9,25 @@ export default function BubbleInfo(props: any): React.JSX.Element {
   return (
     <div className="flex rounded-3xl">
       <MainInfo information={props.information}></MainInfo>
-      {props.information?.details?.find((el) => el.title === 'Sie Sind Hier') === undefined && (
-        <button
-          onMouseDown={(e) => {
-            console.warn('LOL')
-            e.stopPropagation()
-            const target = olProj.transform(
-              props.information.geometry.flatCoordinates,
-              'EPSG:3857',
-              'EPSG:4326'
-            )
-            props.tripTo(target[0], target[1])
-          }}
-          className="mt-7 w-full pl-[2rem] mr-[-2rem] left-[-2rem] h-[12rem] rounded-3xl text-on-primary-color text-xl relative bg-primary-color shadow-xl shadow-gray-500 flex justify-center items-center"
-        >
-          <div className="h-full w-full flex py-2 px-2">
-            <Route></Route>
-          </div>
-        </button>
-      )}
+      {props.information?.details?.find((el) => el.title === 'Sie Sind Hier') === undefined &&
+        props.showRoute && (
+          <button
+            onMouseDown={(e) => {
+              e.stopPropagation()
+              const target = olProj.transform(
+                props.information.geometry.flatCoordinates,
+                'EPSG:3857',
+                'EPSG:4326'
+              )
+              props.tripTo?.(target[0], target[1])
+            }}
+            className="mt-7 pl-[3rem] pr-[1rem] mr-[-2rem] left-[-2rem] h-[11rem] rounded-3xl text-on-primary-color text-md relative bg-primary-color shadow-xl shadow-gray-500 flex justify-center items-center"
+          >
+            <div className="h-3/4 w-full flex">
+              <Route></Route>
+            </div>
+          </button>
+        )}
     </div>
   )
 }
@@ -41,7 +41,7 @@ function MainInfo(props: any): React.JSX.Element {
   return (
     props.information?.details && (
       <div
-        className="overflow-hidden text-left gap-4 p-4 grid grid-flow-row gap-x-5 box-border rounded-3xl bg-secondary-color text-on-secondary-color shadow-xl shadow-gray-500 z-50"
+        className="overflow-hidden text-left gap-y-2 p-4 grid grid-flow-row gap-x-3 box-border rounded-3xl bg-secondary-color text-on-secondary-color shadow-xl shadow-gray-500 z-50"
         style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0,1fr)' }}
       >
         {getAttribute('Sie Sind Hier') && (
@@ -162,8 +162,8 @@ function InfoLine(props: any): React.JSX.Element {
         />
       )}
       {!props.content.iconName && <div></div>}
-      <div className="text-xl font-bold">
-        <div className="text-xl mt-1">
+      <div className="text-md font-bold">
+        <div className="text-md mt-1">
           {props.name}
           {props.name !== 'Sie Sind Hier' ? ':' : ''}
         </div>

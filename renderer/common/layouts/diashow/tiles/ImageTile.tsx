@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Mousewheel, Autoplay } from 'swiper/modules'
 import { db } from '../../../../utils/dexie'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { DiashowObject } from '../../../../models/diashowObject'
 import MediaContainer from './MediaContainer'
-
-import fs from 'fs'
-import { downloadDir } from '../../../../utils/constants'
-import { writeFile } from 'fs/promises'
+import { environment } from '../../../../environment'
 
 // function downloadDiashowObjects(diashowObjects: DiashowObject[]): Promise<void> {
 //   return new Promise((resolve, reject) => {
@@ -99,11 +95,15 @@ export default function ImageTile(props: Props): React.JSX.Element {
                 }
               >
                 <MediaContainer
-                  srcInfo={'https://' + diashowObject.file.url.split('://')[1]}
+                  srcInfo={
+                    environment.parseUrl.split('://')[0] +
+                    '://' +
+                    diashowObject.file.url.split('://')[1]
+                  }
                   setCenter={props.setCenter}
                   isOpen={props.isOpen}
                   layoutDiashow={props.layoutDiashow}
-                ></MediaContainer>
+                />
               </SwiperSlide>
             )
           }

@@ -5,9 +5,10 @@ import POITile from './POITile'
 import WeatherTile from './WeatherTile'
 import { Tile } from '../../../../models/tile'
 import ImageTile from '../../diashow/tiles/ImageTile'
-import BusTileDeparture from './BusTileDeparture'
-import BusTileSchedule from './BusTileSchedule'
+import BusDepartureTile from './BusDepartureTile'
+import BusScheduleTile from './BusScheduleTile'
 import BobTile from './BobTile'
+import EnvironmentTile from './EnvironmentTile'
 import PersonTile from './PersonTile'
 import ServiceTile from './ServiceTile'
 import SearchTile from './SearchTile'
@@ -24,7 +25,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
   let tile: React.JSX.Element
 
   switch (props.tile.tile.tileType.name) {
-    case 'MAP':
+    case 'Karte':
       tile = (
         <MapTile
           setCenter={props.setCenter}
@@ -34,7 +35,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
-    case 'PRESSRELEASES':
+    case 'Pressemitteilung':
       tile = (
         <PressReleaseTile
           setCenter={props.setCenter}
@@ -44,7 +45,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
-    case 'POI':
+    case 'POIs':
       tile = (
         <POITile
           setCenter={props.setCenter}
@@ -54,7 +55,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
-    case 'WEATHER':
+    case 'Wetter':
       tile = (
         <WeatherTile
           setCenter={props.setCenter}
@@ -64,17 +65,27 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
-    case 'BUSDEPARTURE':
-      tile = <BusTileDeparture isOpen={props.isOpen} />
+    case 'Busabfahrten':
+      tile = <BusDepartureTile isOpen={props.isOpen} />
       break
-    case 'BUSSCHEDULE':
-      tile = <BusTileSchedule setCenter={props.setCenter} isOpen={props.isOpen} />
+    case 'Aushangsfahrplan':
+      tile = <BusScheduleTile setCenter={props.setCenter} isOpen={props.isOpen} />
       break
-    case 'DIASHOW':
+    case 'Diashow':
       tile = <ImageTile layoutDiashow={false} setCenter={props.setCenter} isOpen={props.isOpen} />
       break
-    case 'BOB':
+    case 'Bob':
       tile = <BobTile />
+      break
+    case 'Umwelt':
+      tile = (
+        <EnvironmentTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          tilePos={props.position}
+          accessabilityCode={props.accessabilityCode}
+        />
+      )
       break
     case 'Personen':
       tile = <PersonTile setCenter={props.setCenter} isOpen={props.isOpen} />

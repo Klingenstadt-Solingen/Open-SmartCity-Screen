@@ -48,32 +48,20 @@ export default function MapPanel(props: Props) {
   ): Promise<any[]> {
     return new Promise((resolve) => {
       Promise.all([
-        Parse.Cloud.run(
-          'pt-stop-nearby',
-          { lat: from.latitude, lon: from.longitude },
-          { useMasterKey: true }
-        ),
-        Parse.Cloud.run(
-          'pt-stop-nearby',
-          { lat: to.latitude, lon: to.longitude },
-          { useMasterKey: true }
-        )
+        Parse.Cloud.run('pt-stop-nearby', { lat: from.latitude, lon: from.longitude }),
+        Parse.Cloud.run('pt-stop-nearby', { lat: to.latitude, lon: to.longitude })
       ]).then((a) => {
-        Parse.Cloud.run(
-          'pt-trip',
-          {
-            from: {
-              geoPoint: '[' + from.latitude + ', ' + from.longitude + ']',
-              stop: a[0].stops[0].properties.stopId
-            },
-            to: {
-              geoPoint: '[' + to.latitude + ', ' + to.longitude + ']',
-              stop: a[1].stops[0].properties.stopId
-            },
-            trip: { tz: 'Europe/Berlin' }
+        Parse.Cloud.run('pt-trip', {
+          from: {
+            geoPoint: '[' + from.latitude + ', ' + from.longitude + ']',
+            stop: a[0].stops[0].properties.stopId
           },
-          { useMasterKey: true }
-        ).then((a) => {
+          to: {
+            geoPoint: '[' + to.latitude + ', ' + to.longitude + ']',
+            stop: a[1].stops[0].properties.stopId
+          },
+          trip: { tz: 'Europe/Berlin' }
+        }).then((a) => {
           resolve(a)
         })
       })
@@ -167,7 +155,9 @@ export default function MapPanel(props: Props) {
               zoom={zoom}
               trip={trip}
               tripTo={tripTo}
-            ></MapBase>
+              showRoute={true}
+              showInfo={true}
+            />
             {trip && (
               <div className="flex flex-col p-10 bg-primary-color text-on-primary-color h-full w-[25rem] text-2xl">
                 <div className="w-full h-min flex justify-between">
@@ -182,7 +172,7 @@ export default function MapPanel(props: Props) {
                       width="100%"
                       height="2rem"
                       fill={environment.onPrimaryColor || '#FFFFFF'}
-                    ></Close>
+                    />
                   </button>
                 </div>
                 <div className="h-full grid grid-flow-row">

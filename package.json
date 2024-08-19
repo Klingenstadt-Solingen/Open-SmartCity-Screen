@@ -36,26 +36,29 @@
     ]
   },
   "engines": {
-    "node": "18.x",
+    "node": "20.x",
     "yarn": "1.22.x",
     "npm": "please-use-yarn"
   },
   "dependencies": {
-    "@masterportal/masterportalapi": "^2.27.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "bufferutil": "^4.0.7",
     "cesium": "^1.109.0",
+    "chart.js": "^4.4.3",
     "dayjs": "^1.11.9",
     "dexie": "^3.2.4",
     "dexie-react-hooks": "^1.1.6",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.4",
-    "parse": "^4.3.1",
+    "ol": "^9.2.4",
+    "parse": "5.3.0",
+    "react-chartjs-2": "^5.2.0",
     "react-pdf": "^7.3.3",
     "react-player": "^2.13.0",
     "react-qr-code": "^2.0.12",
     "react-simple-keyboard": "^3.7.94",
+    "react-spinners": "^0.14.1",
     "swiper": "^10.1.0",
     "unique-names-generator": "^4.7.1",
     "utf-8-validate": "^6.0.3",
@@ -64,7 +67,7 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^18.11.18",
+    "@types/node": "^20.15.1",
     "@types/parse": "^3.0.9",
     "@types/prompt-sync": "^4.2.2",
     "@types/react": "^18.0.26",
@@ -91,5 +94,6 @@
     "semantic-release": "^22.0.8",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

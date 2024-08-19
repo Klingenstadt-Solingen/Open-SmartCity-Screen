@@ -8,10 +8,10 @@ interface Props {
 
 export default function PressReleasePanel(props: Props): React.JSX.Element {
   return (
-    <>
-      <div className="text-primary-color text-5xl font-bold text-left py-4 mt-12 px-14 flex w-full justify-between items-center">
-        <span className="line-clamp-3 h-full">{props.pressRelease.title}</span>
-        <div className="flex justify-self-end mx-10">
+    <div className="p-12 flex flex-col justify-between gap-y-12">
+      <div className="text-primary-color text-5xl font-bold text-left flex w-full justify-between items-center">
+        <span className="line-clamp-3">{props.pressRelease.title}</span>
+        <div className="flex justify-self-end">
           <div className="flex flex-col justify-center">
             <span className="text-3xl font-black">
               {dayjs(new Date(props.pressRelease.date.iso)).format('DD')}
@@ -28,15 +28,15 @@ export default function PressReleasePanel(props: Props): React.JSX.Element {
           </div>
         </div>
       </div>
-      <div className="w-full h-full p-12">
-        <img className="float-right m-5 w-1/3" src={props.pressRelease.imageUrl} />
+      <div className="w-full overflow-y-scroll overflow-x-wrap h-full scrollbar-hide">
+        <img className="float-right w-1/2 m-8" src={props.pressRelease.imageUrl} />
         <div
-          className="text-2xl text-left h-full overflow-wrap scrollbar-hide pressRelease"
+          className="text-2xl text-left scrollbar-hide h-[55rem] [&>p]:mb-5"
           dangerouslySetInnerHTML={{
             __html: props.pressRelease.content
           }}
-        ></div>
+        />
       </div>
-    </>
+    </div>
   )
 }

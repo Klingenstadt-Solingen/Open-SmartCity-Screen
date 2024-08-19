@@ -14,7 +14,7 @@ function minutesUntilNow(time: string) {
   } else return 0
 }
 
-export default function BusTileDeparture(props: Props): React.JSX.Element {
+export default function BusDepartureTile(props: Props): React.JSX.Element {
   const screen = useLiveQuery(async () => {
     return db.screen.toCollection().first()
   })
@@ -24,28 +24,20 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
 
   useEffect(() => {
     if (typeof screen !== 'undefined') {
-      Parse.Cloud.run(
-        'mobility',
-        {
-          type: 'public-transport',
-          lat: screen.location?.latitude,
-          lon: screen.location?.longitude
-        },
-        { useMasterKey: true }
-      ).then((a) => {
+      Parse.Cloud.run('mobility', {
+        type: 'public-transport',
+        lat: screen.location?.latitude,
+        lon: screen.location?.longitude
+      }).then((a) => {
         setDepartures(a[0].availableOptions)
       })
       setInterval(() => {
-        Parse.Cloud.run(
-          'mobility',
-          {
-            type: 'public-transport',
-            lat: screen.location?.latitude,
-            lon: screen.location?.longitude,
-            force: true
-          },
-          { useMasterKey: true }
-        ).then((a) => {
+        Parse.Cloud.run('mobility', {
+          type: 'public-transport',
+          lat: screen.location?.latitude,
+          lon: screen.location?.longitude,
+          force: true
+        }).then((a) => {
           setDepartures(a[0].availableOptions)
         })
       }, 1000 * 30)
@@ -66,7 +58,7 @@ export default function BusTileDeparture(props: Props): React.JSX.Element {
             {departures.map((item, index) => {
               if (index < 6)
                 return (
-                  <tr key={index} className="a text-5xl">
+                  <tr key={index} className="tableRow text-5xl">
                     <td
                       className={
                         index % 2 === 0

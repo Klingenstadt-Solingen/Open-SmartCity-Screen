@@ -68,9 +68,7 @@ export default function PressReleaseTile(props: Props): React.JSX.Element {
               return (
                 <div
                   onMouseDown={() =>
-                    props.setCenter(
-                      <PressReleasePanel pressRelease={pressRelease}></PressReleasePanel>
-                    )
+                    props.setCenter(<PressReleasePanel pressRelease={pressRelease} />)
                   }
                   key={index}
                   className="text-left font-bold mb-4 w-full"

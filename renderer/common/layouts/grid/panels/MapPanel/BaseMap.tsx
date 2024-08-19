@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Map from 'ol/Map'
 import View from 'ol/View'
 import TileWMS from 'ol/source/TileWMS.js'
@@ -17,13 +17,21 @@ import BubbleInfo from './BubbleInfo'
 import { environment } from '../../../../../environment'
 
 export default function BaseMap(
-  props: { pois?: POI[]; center?: Coordinate; zoom?: number; trip?: any; tripTo?: any },
+  props: {
+    pois?: POI[]
+    center?: Coordinate
+    zoom?: number
+    trip?: any
+    tripTo?: any
+    onPoiSelected?: (poi: any) => void
+    showRoute?: boolean
+    showInfo?: boolean
+  },
   { children }
 ): React.JSX.Element {
   const { center, zoom } = props
   const mapElement = useRef()
   const [map, setMap] = useState<Map>()
-  const [poiLayer, setPoiLayer] = useState<olLayer.Vector<olSource.Vector>>()
   const [information, setInformation] = useState<any>()
 
   useEffect(() => {
@@ -101,10 +109,6 @@ export default function BaseMap(
     }
   }
 
-  function clearInformation() {
-    setInformation(undefined)
-  }
-
   useEffect(() => {
     setMap(
       new Map({
@@ -128,7 +132,7 @@ export default function BaseMap(
         })
       })
     )
-  }, [])
+  }, [mapElement])
 
   useEffect(() => {
     if (typeof map !== 'undefined') {
@@ -144,50 +148,46 @@ export default function BaseMap(
         const feature = map.forEachFeatureAtPixel(evt.pixel, (feature) => {
           return feature
         })
-
-        if (feature?.getProperties().city) {
-          setInformation(feature.getProperties())
+        const properties = feature?.getProperties()
+        if (properties?.city) {
+          setInformation(properties)
           map.getView().animate({
             center: coordinate,
-            duration: 800
+            duration: 600
           })
+          props.onPoiSelected?.(properties)
         } else {
-          clearInformation()
+          setInformation(undefined)
         }
       })
     }
-  }, [map])
+  }, [map, props.onPoiSelected])
 
-  useEffect(() => {
+  const poiLayer = useMemo(() => {
     if (typeof props.pois !== 'undefined' && typeof map !== 'undefined') {
-      clearInformation()
-      map.removeLayer(poiLayer)
       const features = props.pois.map((poi) => {
-        const { address, city, geopoint, details } = poi
-        //poi-all gives stringified json in different form
+        const { address, city, geopoint, details, objectId } = poi
+        // poi-all gives stringified json in different form
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const latitude = geopoint._latitude
+        const latitude = geopoint._latitude || geopoint.latitude
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const longitude = geopoint._longitude
-
+        const longitude = geopoint._longitude || geopoint.longitude
         const point = new olGeom.Point(olProj.fromLonLat([longitude, latitude]))
-
         const feature = new ol.Feature({
           geometry: point,
           address: address,
           city: city,
-          details: details
+          details: details,
+          objectId: objectId
         })
-
         const definingDetail = details.find((detail) => detail.symbolName !== undefined)
         const symbolUrl =
           definingDetail?.symbolPath +
           '/' +
           definingDetail?.symbolName +
           definingDetail?.symbolMimetype
-
         if (symbolUrl) {
           feature.setStyle(
             new olStyle.Style({
@@ -198,29 +198,37 @@ export default function BaseMap(
             })
           )
         }
-
         return feature
       })
-
       const vectorSource = new olSource.Vector({
         features: features
       })
 
-      const vectorLayer = new olLayer.Vector({
+      return new olLayer.Vector({
         zIndex: 20,
         source: vectorSource
       })
-
-      setPoiLayer(vectorLayer)
-
-      map.addLayer(vectorLayer)
     }
-  }, [props.pois])
+  }, [props.pois, map])
+
+  useEffect(() => {
+    if (map && poiLayer) {
+      setInformation(undefined)
+      map?.addLayer(poiLayer)
+      return () => {
+        if (poiLayer) {
+          map?.removeLayer(poiLayer)
+        }
+      }
+    }
+  }, [poiLayer])
 
   return (
     <div>
       <div id="popupDiv" className="w-fit min-w-[18rem] max-w-[36rem] grid">
-        {information && <BubbleInfo tripTo={props.tripTo} information={information} />}
+        {information && props.showInfo && (
+          <BubbleInfo tripTo={props.tripTo} information={information} showRoute={props.showRoute} />
+        )}
       </div>
       <div className="w-full h-full" id="map" ref={mapElement}>
         {children}

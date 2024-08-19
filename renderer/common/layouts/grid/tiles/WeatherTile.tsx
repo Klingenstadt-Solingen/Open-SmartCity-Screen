@@ -65,7 +65,7 @@ export default function WeatherTile(props: Props): React.JSX.Element {
           </div>
 
           <div className="mx-auto mt-9 w-56 h-56 rounded-full bg-white flex justify-center items-center">
-            <Weather width="100%" height="60%"></Weather>
+            <Weather width="100%" height="60%" />
           </div>
 
           <div className="text-9xl mt-10 font-bold">
@@ -83,7 +83,7 @@ export default function WeatherTile(props: Props): React.JSX.Element {
           <button
             id="btnInWeatherTile"
             className="w-60 h-14 rounded-lg text-2xl mt-10 bg-primary-color text-on-primary-color"
-            onMouseDown={() => props.setCenter(<WeatherPanel weather={weather}></WeatherPanel>)}
+            onMouseDown={() => props.setCenter(<WeatherPanel weather={weather} />)}
           >
             weitere Daten
           </button>

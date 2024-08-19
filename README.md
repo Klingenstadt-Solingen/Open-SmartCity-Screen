@@ -4,7 +4,7 @@ This is an electron app, running a digital signage react application.
 
 It runs with
 
-- `NodeJS v18.18`,
+- `NodeJS v20.15.1`,
 - `NextJS v12.3`,
 - `yarn v1.22`
 

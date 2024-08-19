@@ -161,7 +161,7 @@ export default function Grid() {
               position={boxOrder[orderStatus][index]}
               setCenter={setCenter}
               accessabilityCode={accessabilityCode}
-            ></BaseTile>
+            />
           ))}
         <BasePanel
           isOpen={isOpen}
@@ -180,7 +180,7 @@ export default function Grid() {
                   onMouseDown={handleToUpButtonClick}
                   className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-gray-600 border shadow-md shadow-gray-600"
                 >
-                  <ArrowUp height="70%" width="70%"></ArrowUp>
+                  <ArrowUp height="70%" width="70%" />
                 </button>
               </div>
             )}
@@ -191,7 +191,7 @@ export default function Grid() {
                   onMouseDown={handleToDownButtonClick}
                   className="z-10 flex justify-center items-center w-[7rem] h-[7rem] rounded-xl bg-background-color-dark opacity-80 border-gray-600 border shadow-md shadow-gray-600"
                 >
-                  <ArrowDown height="70%" width="70%"></ArrowDown>
+                  <ArrowDown height="70%" width="70%" />
                 </button>
               </div>
             )}
@@ -201,7 +201,7 @@ export default function Grid() {
             onMouseDown={handleRotationButtonClick}
             className="z-10 flex justify-center items-center absolute right-[3rem] bottom-[3rem] w-[6rem] h-[6rem] rounded-3xl bg-background-color-dark opacity-86"
           >
-            <Rotate height="70%" width="70%"></Rotate>
+            <Rotate height="70%" width="70%" />
           </button>
         )}
         {showKeyboard && (
@@ -253,7 +253,7 @@ export default function Grid() {
               disableButtonHold={true}
               stopMouseDownPropagation={true}
               stopMouseUpPropagation={true}
-            ></KeyboardReact>
+            />
           </div>
         )}
       </div>

@@ -58,25 +58,25 @@ export default function POITile(props: Props): React.JSX.Element {
         >
           <button
             className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onMouseDown={() => props.setCenter(<MapPanel preSelected={'preSelect1'}></MapPanel>)}
+            onMouseDown={() => props.setCenter(<MapPanel preSelected={'preSelect1'} />)}
           >
-            <Wifi height="100%" width="300"></Wifi>
+            <Wifi height="100%" width="300" />
             <div className="self-end w-full text-right">Freifunk WLAN</div>
           </button>
           <button
             className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onMouseDown={() => props.setCenter(<MapPanel preSelected={'preSelect2'}></MapPanel>)}
+            onMouseDown={() => props.setCenter(<MapPanel preSelected={'preSelect2'} />)}
           >
-            <Bed height="100%" width="300"></Bed>
+            <Bed height="100%" width="300" />
             <div className="self-end w-full text-right whitespace-nowrap">
               Schlafen in {environment.cityName || 'Solingen'}
             </div>
           </button>
           <button
             className="text-3xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onMouseDown={() => props.setCenter(<MapPanel preSelected={'preSelect3'}></MapPanel>)}
+            onMouseDown={() => props.setCenter(<MapPanel preSelected={'preSelect3'} />)}
           >
-            <Amusement height="100%" width="300"></Amusement>
+            <Amusement height="100%" width="300" />
             <div className="self-end w-full text-right">Freizeitaktivitäten</div>
           </button>
         </div>
