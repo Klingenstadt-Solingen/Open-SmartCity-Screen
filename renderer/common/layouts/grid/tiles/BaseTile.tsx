@@ -12,6 +12,7 @@ import EnvironmentTile from './EnvironmentTile'
 import PersonTile from './PersonTile'
 import ServiceTile from './ServiceTile'
 import SearchTile from './SearchTile'
+import RoomBookingTile from './RoomBookingTile'
 
 interface Props {
   isOpen: boolean
@@ -96,6 +97,10 @@ export default function BaseTile(props: Props): React.JSX.Element {
     case 'HCMS-Suche':
       tile = <SearchTile setCenter={props.setCenter} isOpen={props.isOpen} />
       break
+    case 'Raumbuchung':
+      tile = <RoomBookingTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      break
+
   }
 
   return (
