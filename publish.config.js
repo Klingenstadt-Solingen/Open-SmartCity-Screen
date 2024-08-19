@@ -20,6 +20,13 @@ const build = {
         target: 'AppImage'
       }
     ]
+  },
+  mac: {
+    target: [
+      {
+        target: 'dmg'
+      }
+    ]
   }
 }
 
