@@ -7,16 +7,19 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-
+        project-node = pkgs.nodejs_18;
+        project-yarn = pkgs.yarn.overrideAttrs (oldAttrs: rec {
+          buildInputs = [ project-node ];
+        });
         inherit (pkgs) stdenv;
         inherit (nixpkgs.lib) optionals;
       in
       {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            nodejs-18_x
+            project-node
+            project-yarn
             python3
-            nodePackages.yarn
             pkg-config
           ] ++ optionals stdenv.isDarwin [
             xcbuild
@@ -24,9 +27,5 @@
             darwin.apple_sdk.frameworks.CoreServices
           ];
         };
-
-        shellHook = ''
-        '';
       });
 }
-
