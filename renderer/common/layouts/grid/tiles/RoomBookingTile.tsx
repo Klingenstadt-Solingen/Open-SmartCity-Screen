@@ -47,7 +47,7 @@ export default function RoomBookingTile(props: Props): React.JSX.Element {
 
   if (typeof roomBooking !== 'undefined') {
     return (
-      <div className="w-full h-full pt-12 overflow-hidden flex flex-col">
+      <div className="w-full h-full pt-12 overflow-hidden flex flex-col pb-16">
         <div
           className="px-12 text-6xl text-left font-bold mb-8 tracking-wide text-primary-color whitespace-nowrap"
           style={cssForTitle}
@@ -73,7 +73,7 @@ export default function RoomBookingTile(props: Props): React.JSX.Element {
                 <span className="text-left font-bold mb-4"></span>
                 <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
                   Hier steht was im Raum stattfindet?
-                  <br>Lorem ipsum dolor sit amet</br>
+                  <div>Lorem ipsum dolor sit amet</div>
                 </div>
                 <div className="mx-12 text-xl font-bold text-secondary-color">
                   Hier steht eine weitere Info
@@ -84,10 +84,11 @@ export default function RoomBookingTile(props: Props): React.JSX.Element {
           })}
         </div>
         <button
-          className="w-72 h-16 rounded-lg text-2xl bg-secondary-color text-primary-color mt-10 self-center"
-          onMouseDown={() => props.setCenter(<RoomBookingPanel />)}
+          style={props.isOpen ? { opacity: 0 } : {opacity: 1}}
+          className="w-64 h-20 rounded-lg text-2xl bg-secondary-color text-primary-color self-center font-semibold p-2"
+          onMouseDown={() => props.setCenter(<RoomBookingPanel></RoomBookingPanel>)}
         >
-          Alle Raumbelegungen<span className="text-on-primary-color">&gt;&nbsp;&nbsp</span>
+          Alle Raumbelegungen <span className="text-on-primary-color ml-2">&gt;&nbsp;&nbsp;</span>
         </button>
       </div>
     )
