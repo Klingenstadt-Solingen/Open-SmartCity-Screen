@@ -115,17 +115,23 @@ export default function MapPanel(props: Props) {
 
   useEffect(() => {
     if (typeof pois !== 'undefined') {
-      setDisplayedPois(
-        pois
-          .filter((poi) => {
-            return displayedPoiFilter.includes(
-              poi.details.find(
-                (detail) => detail.filterField === detailSelection?.filterFields[0].field
-              )?.value
-            )
-          })
-          .filter((poi) => poi.name.toLowerCase().includes(props.keyboardChange.toLowerCase()))
-      )
+      if(props.keyboardChange){
+        setDisplayedPois(
+          pois.filter((poi) => poi.name.toLowerCase().includes(props.keyboardChange.toLowerCase()))
+        )
+      }
+      else {
+        setDisplayedPois(
+          pois
+            .filter((poi) => {
+              return displayedPoiFilter.includes(
+                poi.details.find(
+                  (detail) => detail.filterField === detailSelection?.filterFields[0].field
+                )?.value
+              )
+            })
+        )
+      }
     }
   }, [displayedPoiFilter, props.keyboardChange])
 
