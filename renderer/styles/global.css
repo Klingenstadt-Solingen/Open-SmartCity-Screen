@@ -75,3 +75,10 @@ div#__next > div {
   height: 4vh !important;
   font-size: medium;
 }
+
+.background-image {
+  background-image: url("/images/city-logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30%;
+}

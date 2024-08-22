@@ -36,7 +36,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
-    case 'Pressemitteilung':
+    case 'Pressemitteilungen':
       tile = (
         <PressReleaseTile
           setCenter={props.setCenter}

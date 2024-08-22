@@ -65,7 +65,7 @@ export default function ImageTile(props: Props): React.JSX.Element {
   if (typeof diashowObjects !== 'undefined' && diashowObjects.length) {
     return (
       <Swiper
-        className="w-full h-full bg-primary-color"
+        className="w-full h-full background-image bg-primary-color"
         //no idea what this is, but without you cant close panel on swiper
         style={props.isOpen ? { pointerEvents: 'none' } : {}}
         watchSlidesProgress={true}
