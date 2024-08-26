@@ -6,14 +6,6 @@ export const environment = {
   onSecondaryColor: null,
   backgroundColor: null,
   backgroundColorDark: null,
-  // parseUrl: '***REMOVED***',
-  // parseAppId: '***REMOVED***',
-  // parseMasterKey: '***REMOVED***',
-
-  // parseUrl: '***REMOVED***',
-  // parseAppId: '***REMOVED***',
-  // parseMasterKey: '***REMOVED***',
-
   // parseUrl: 'http://localhost:1337/parse',
   // parseAppId: '***REMOVED***',
   // parseClientKey: 'myclientkey',

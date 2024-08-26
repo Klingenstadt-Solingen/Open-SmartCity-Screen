@@ -28,7 +28,7 @@ $ yarn dev
 $ yarn build
 ```
 
-To start this application alongside the [Stelen Configurator](https://git.app.nedeco.de/solingen/stelen-configurator) you can use `$ yarn dev --port <port>` to specify a different port
+To start this application alongside the [Stelen Configurator](https://git.app.nedeco.de/solingen/stelen-configurator) you can use `$ yarn dev --renderer-port <port>` to specify a different port
 
 ## Commit Convention:
 
