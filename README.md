@@ -1,5 +1,7 @@
 # Solingen Digital Signage
 
+Complete Documentation: https://solingen.gitlabpages.app.nedeco.de/stele-docs/
+
 This is an electron app, running a digital signage react application.
 
 It runs with
@@ -28,7 +30,7 @@ $ yarn dev
 $ yarn build
 ```
 
-To start this application alongside the [Stelen Configurator](https://git.app.nedeco.de/solingen/stelen-configurator) you can use `$ yarn dev --renderer-port <port>` to specify a different port
+To start this application alongside the [Stelen Configurator](https://git.app.nedeco.de/solingen/stele-configurator) you can use `$ yarn dev --renderer-port <port>` to specify a different port
 
 ## Commit Convention:
 
