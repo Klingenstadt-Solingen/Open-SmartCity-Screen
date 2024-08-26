@@ -42,7 +42,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
     if (screen.state?.name !== 'Aktiv' || typeof layoutConfig === 'undefined') {
       return (
         <div className="text-center w-full h-screen items-center justify-center bg-primary-color flex flex-col flex-nowrap">
-          <img className="w-[200px] mb-[3vh]" src="/images/city-logo.png" />
+          <img className="w-[150px] mb-[3vh]" src="/images/city-logo.png" />
           <div className="text-4xl w-full text-secondary-color leading-relaxed">
             Diese Stele wird gerade konfiguriert.
             <br />
