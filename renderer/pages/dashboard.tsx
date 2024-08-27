@@ -62,8 +62,8 @@ const Dashboard = ({ isParseOnline }: Props) => {
                 ? 'w-screen h-screen grid grid-rows-headerFooter bg-primary-color'
                 : 'w-screen h-screen grid grid-rows-header bg-primary-color'
               : layoutConfig.showFooter
-              ? 'w-screen h-screen grid grid-rows-footer bg-primary-color'
-              : 'w-screen h-screen grid grid-rows-full bg-primary-color'
+                ? 'w-screen h-screen grid grid-rows-footer bg-primary-color'
+                : 'w-screen h-screen grid grid-rows-full bg-primary-color'
           }
         >
           {layoutConfig.showHeader && (

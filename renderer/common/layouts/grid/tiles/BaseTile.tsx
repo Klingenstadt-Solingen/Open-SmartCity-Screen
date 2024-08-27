@@ -89,18 +89,45 @@ export default function BaseTile(props: Props): React.JSX.Element {
       )
       break
     case 'Personen':
-      tile = <PersonTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      tile = (
+        <PersonTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          accessabilityCode={props.accessabilityCode}
+          tilePos={props.position}
+        />
+      )
       break
     case 'Diensleistungen':
-      tile = <ServiceTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      tile = (
+        <ServiceTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          accessabilityCode={props.accessabilityCode}
+          tilePos={props.position}
+        />
+      )
       break
     case 'HCMS-Suche':
-      tile = <SearchTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      tile = (
+        <SearchTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          accessabilityCode={props.accessabilityCode}
+          tilePos={props.position}
+        />
+      )
       break
     case 'Raumbuchung':
-      tile = <RoomBookingTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      tile = (
+        <RoomBookingTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          accessabilityCode={props.accessabilityCode}
+          tilePos={props.position}
+        />
+      )
       break
-
   }
 
   return (

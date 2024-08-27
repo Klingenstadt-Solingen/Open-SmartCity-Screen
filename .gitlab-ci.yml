@@ -1,4 +1,4 @@
-image: node:18.18.2-bookworm
+image: node:20.15.1-bookworm
 
 stages:
   - check
@@ -7,7 +7,7 @@ stages:
 
 check:
   stage: check
-  image: node:18.18.2-bookworm
+  image: node:20.15.1-bookworm
   script:
     - apt update && apt install libpangocairo-1.0-0 -y && apt autoclean && apt autoremove -y && rm -rf /var/lib/apt/lists/*
     - yarn install --frozen-lockfile && yarn lint
@@ -20,7 +20,7 @@ check:
 
 bump:
   stage: bump
-  image: node:18.18.2-bookworm
+  image: node:20.15.1-bookworm
   before_script:
     - yarn install --frozen-lockfile
   script:
@@ -30,7 +30,7 @@ bump:
 
 build:latest:
   stage: build
-  image: electronuserland/builder:18-wine-07.23
+  image: electronuserland/builder:20-wine-07.24
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build
@@ -44,7 +44,7 @@ build:latest:
 
 build:deploy-tag-all:
   stage: build
-  image: electronuserland/builder:18-wine-11.23
+  image: electronuserland/builder:20-wine-07.24
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish
@@ -60,7 +60,7 @@ build:deploy-tag-all:
 
 build:deploy-tag-linux:
   stage: build
-  image: electronuserland/builder:18-wine-11.23
+  image: electronuserland/builder:20-wine-07.24
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish-linux
@@ -76,7 +76,7 @@ build:deploy-tag-linux:
 
 build:deploy-tag-windows:
   stage: build
-  image: electronuserland/builder:18-wine-11.23
+  image: electronuserland/builder:20-wine-07.24
   script:
     - yarn install --frozen-lockfile --ignore-engines
     - yarn build-publish-windows
