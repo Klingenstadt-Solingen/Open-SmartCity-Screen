@@ -1,3 +1,10 @@
+# [1.27.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.26.0...v1.27.0) (2024-08-30)
+
+
+### Features
+
+* **video:** loop videos ([1f92123](https://git.app.nedeco.de/solingen/digital-signage/commit/1f9212347a4e571093f367028734aaa0b6deab2c))
+
 # [1.26.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.25.2...v1.26.0) (2024-04-18)
 
 
