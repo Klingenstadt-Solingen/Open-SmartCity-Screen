@@ -93,7 +93,7 @@ export default function MediaContainer(props: Props): React.JSX.Element {
             ref={videoRef}
             url={props.srcInfo}
             playing={swiperSlide.isVisible ? true : false}
-            loop={false}
+            loop={true}
             controls={false}
             muted={true}
             width="100%"
