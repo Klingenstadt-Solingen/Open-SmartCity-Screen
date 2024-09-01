@@ -7,14 +7,14 @@
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
-    "config-build": "node prebuild.js && nextron build -l -w --x64 --config publish.config.js",
-    "build": "nextron build -l -w --x64 -p never --config publish.config.js",
-    "build-publish": "nextron build -l -w --x64 -p always --config publish.config.js",
-    "build-publish-linux": "nextron build -l --x64 -p always --config publish.config.js",
-    "build-publish-windows": "nextron build -w --x64 -p always --config publish.config.js",
-    "build-linux": "nextron build -l --x64",
-    "build-windows": "nextron build -w --x64",
-    "build-macos": "nextron build -m --x64",
+    "config-build": "node prebuild.js && nextron build --linux --win --x64 --config publish.config.js",
+    "build": "nextron build --linux --win --x64 --publish never --config publish.config.js",
+    "build-publish": "nextron build --linux --win --x64 --publish always --config publish.config.js",
+    "build-publish-linux": "nextron build --linux --x64 --publish always --config publish.config.js",
+    "build-publish-windows": "nextron build --win --x64 --publish always --config publish.config.js",
+    "build-linux": "nextron build --linux --x64",
+    "build-windows": "nextron build --win --x64",
+    "build-macos": "nextron build --mac --x64",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint renderer",
     "lint:fix": "eslint renderer --fix",
@@ -94,5 +94,6 @@
     "semantic-release": "^22.0.8",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
