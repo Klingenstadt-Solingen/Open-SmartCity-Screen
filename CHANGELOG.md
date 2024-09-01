@@ -1,3 +1,25 @@
+# [1.28.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.27.0...v1.28.0) (2024-09-01)
+
+
+### Bug Fixes
+
+* change tile Type, add build scripts ([5bc7cbb](https://git.app.nedeco.de/solingen/digital-signage/commit/5bc7cbb27a3e2949e92de01bca066a862cd9b015))
+* **readme:** update run command ([3dbfb49](https://git.app.nedeco.de/solingen/digital-signage/commit/3dbfb4960e97d6b5098f4e41eed136b370cf56f6))
+
+
+### Features
+
+* add environmentTile including graphs ([1a390c5](https://git.app.nedeco.de/solingen/digital-signage/commit/1a390c544372b4a438d0ae388f3ca742ace48d65))
+* add Person, Search and ServiceTile ([c4ff7d7](https://git.app.nedeco.de/solingen/digital-signage/commit/c4ff7d74135366a367e12c5fdf872084c30b53be))
+* lint and nodejs fix ([a43a3a5](https://git.app.nedeco.de/solingen/digital-signage/commit/a43a3a59325deb436afb5e9b033a20bbe2622a05))
+* **logo:** show logo behind non-loaded DiashowObjects ([cc62ab3](https://git.app.nedeco.de/solingen/digital-signage/commit/cc62ab30fc6457afdd20b36235330be84ef7272b))
+* **roomBooking:** add roomBooking Tile ([c3c79f0](https://git.app.nedeco.de/solingen/digital-signage/commit/c3c79f0ec0ef08a5e1e5bc59e701f151e8a912e5))
+* **roomBooking:** small design fixes ([be56c40](https://git.app.nedeco.de/solingen/digital-signage/commit/be56c40adf17e35bd7868ebb9f8a5e725a52f4af))
+* **search:** unset filter when searching for pois ([3fb3bd4](https://git.app.nedeco.de/solingen/digital-signage/commit/3fb3bd490bfd300292bf9ce92bd184bb582a7c20))
+* **service:** add new design for searchtile and ServiceTile ([74c800b](https://git.app.nedeco.de/solingen/digital-signage/commit/74c800bdbe22a0595f6ba4b2f52ff8daa1e2b00f))
+* update city-logo ([da890c3](https://git.app.nedeco.de/solingen/digital-signage/commit/da890c3d1d2b3c38b07d1a6c9a786e270bb4637d))
+* update README ([e44527f](https://git.app.nedeco.de/solingen/digital-signage/commit/e44527fe50a7541cd88ac5ef7770eb2b49519e65))
+
 # [1.27.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.26.0...v1.27.0) (2024-08-30)
 
 
