@@ -7,4 +7,5 @@ export interface Layout extends Base {
   diashowConfig?: Diashow
   showHeader?: boolean
   showFooter?: boolean
+  showNewsticker?: boolean
 }

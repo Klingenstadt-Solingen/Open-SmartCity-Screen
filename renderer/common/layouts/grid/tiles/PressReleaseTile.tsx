@@ -73,13 +73,13 @@ export default function PressReleaseTile(props: Props): React.JSX.Element {
                   key={index}
                   className="text-left font-bold mb-4 w-full"
                 >
-                  <div className="text-2xl pl-[6px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                  <div className="text-2xl pl-[30px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                     {new Intl.DateTimeFormat('de-DE').format(new Date(pressRelease.date.iso))}
                   </div>
                   <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
                     {pressRelease.title}
                   </div>
-                  <div className="mx-12 text-xl font-bold text-on-background-color">
+                  <div className="mx-12 text-xl font-normal text-on-background-color">
                     <span className="text-secondary-color">&gt;&nbsp;&nbsp;</span>mehr lesen
                   </div>
                 </div>
