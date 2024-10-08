@@ -1,6 +1,6 @@
 set NEXT_PUBLIC_PARSE_URL=***REMOVED***
 set NEXT_PUBLIC_PARSE_APP_ID=***REMOVED***
-set NEXT_PUBLIC_PARSE_JAVASCRIPT_KEY=***REMOVED*** 
+set NEXT_PUBLIC_PARSE_JAVASCRIPT_KEY=***REMOVED***
 set NEXT_PUBLIC_PARSE_USERNAME=stele
 set NEXT_PUBLIC_PARSE_PASSWORD=***REMOVED***
 set AWS_ACCESS_KEY_ID=***REMOVED***
@@ -9,5 +9,4 @@ set AWS_ENDPOINT_URL=***REMOVED***
 set AWS_BUCKET_NAME=stele-updates
 set IS_WINDOWS=true
 
-start /d %LOCALAPPDATA%\Programs\digital-signage digital-signage.exe
-
+start /d %LOCALAPPDATA%\Programs\digital-signage DigitalSignage.exe
