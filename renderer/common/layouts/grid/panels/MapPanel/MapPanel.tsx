@@ -37,6 +37,7 @@ export default function MapPanel(props: Props) {
   const [detailSelection, setDetailSelection] = useState<PoiCategory>()
   const [displayedPoiFilter, setDisplayedPoiFilter] = useState<string[]>([])
   const [displayedPois, setDisplayedPois] = useState<POI[]>([])
+  const [firstSelection, setFirstSelection] = useState<boolean>(false)
   const [showDetailSelection, setShowDetailSelection] = useState(false)
   const [tripSelection, setTripSelection] = useState<any>()
   const [trip, setTrip] = useState<any>()
@@ -320,11 +321,16 @@ export default function MapPanel(props: Props) {
                         return (
                           <button
                             onMouseDown={() => {
-                              if (displayedPoiFilter.includes(value))
-                                setDisplayedPoiFilter(
-                                  displayedPoiFilter.filter((poi) => poi !== value)
-                                )
-                              else setDisplayedPoiFilter([...displayedPoiFilter, value])
+                              if (firstSelection) {
+                                setDisplayedPoiFilter([value])
+                                setFirstSelection(false)
+                              } else {
+                                if (displayedPoiFilter.includes(value))
+                                  setDisplayedPoiFilter(
+                                    displayedPoiFilter.filter((poi) => poi !== value)
+                                  )
+                                else setDisplayedPoiFilter([...displayedPoiFilter, value])
+                              }
                             }}
                             className={
                               displayedPoiFilter.includes(value)
@@ -360,10 +366,23 @@ export default function MapPanel(props: Props) {
                             setTimeout(() => {
                               setDetailSelection(undefined)
                             }, 500)
+                            setFirstSelection(false)
                           } else {
                             setDisplayedPoiFilter([])
                             setShowDetailSelection(true)
                             setDetailSelection(category)
+                            setDisplayedPoiFilter(
+                              pois
+                                .filter((poi) => poi.poiCategory === category?.sourceId)
+                                .map((poi) => {
+                                  const a = poi.details.find(
+                                    (detail) =>
+                                      detail.filterField === category?.filterFields[0].field
+                                  )
+                                  return a ? a.value : 'Sonstige'
+                                })
+                            )
+                            setFirstSelection(true)
                           }
                         }}
                       >
