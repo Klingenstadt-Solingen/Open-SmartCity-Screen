@@ -125,8 +125,9 @@ const updateMessageTime = (createdAt: string) => {
 
 const ComponentCommonNewstickerItem = ({ message }: { message: ProcessedDigitalMessage }) => {
   if (!message) return null
-  const [messageTime, setMessageTime] = useState(updateMessageTime(message.createdAt))
+  //const [messageTime, setMessageTime] = useState(updateMessageTime(message.createdAt))
 
+  /*
   useEffect(() => {
     const interval = setInterval(
       () => setMessageTime(updateMessageTime(message.createdAt)),
@@ -136,6 +137,7 @@ const ComponentCommonNewstickerItem = ({ message }: { message: ProcessedDigitalM
       clearInterval(interval)
     }
   }, [])
+  */
 
   const backgroundColor = message.severity === 'high' ? 'bg-red-500' : 'bg-white'
   const textColor = message.severity === 'high' ? 'text-white' : 'text-gray-700'
@@ -173,7 +175,9 @@ const ComponentCommonNewstickerItem = ({ message }: { message: ProcessedDigitalM
         <span className={`block text-md !line-clamp-2 ${textColor}`}>{message.title}</span>
       </div>
       <div className="flex flex-col mr-1 items-end">
-        <span className={`text-sm ${textColor} text-right`}>{'Erhalten: ' + messageTime}</span>
+        <span className={`text-sm ${textColor} text-right`}>
+          {'Erhalten: ' + updateMessageTime(message.createdAt)}
+        </span>
       </div>
     </div>
   )
