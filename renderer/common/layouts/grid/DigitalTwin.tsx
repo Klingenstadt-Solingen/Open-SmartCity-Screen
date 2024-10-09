@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   DigitalTwinMessage,
   ProcessedDigitalMessage,
@@ -12,6 +12,7 @@ import { Pressrelease } from '../../../public/Pressrelease'
 import { Project } from '../../../public/Project'
 import { Jobposting } from '../../../public/Jobposting'
 import { Event } from '../../../public/Event'
+import { Warning } from '../../../public/Warning'
 
 const getStringValue = (value: string) => {
   if (typeof value === 'string') return value
@@ -79,11 +80,11 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
     case 'plain_message': {
       const plainMessage = innerPayload as unknown as DigitalTwinPlainMessage
       return {
-        eventType: 'Meldung',
-        title: getStringValue(plainMessage.title) || 'Unbekanntes Event',
+        eventType: getStringValue(plainMessage.title),
+        title: plainMessage.message || 'Unbekanntes Event',
         createdAt: new Date(plainMessage.createdAt || Date.now()).toLocaleString(),
         location: null,
-        image: plainMessage.severity || <Event></Event>,
+        image: <Warning></Warning>,
         severity: plainMessage.severity
       }
     }
@@ -114,17 +115,30 @@ const updateMessageTime = (createdAt: string) => {
 
   if (diffInSeconds < 3600) {
     const minutesDiff = Math.floor(diffInSeconds / 60)
-    return `${minutesDiff} Minute${minutesDiff !== 1 ? 'n' : ''}`
+    return `vor ${minutesDiff} Minute${minutesDiff !== 1 ? 'n' : ''}`
   } else {
     const hoursDiff = Math.floor(diffInSeconds / 3600)
-    return `${hoursDiff} Stunde${hoursDiff !== 1 ? 'n' : ''}`
+    return `vor ${hoursDiff} Stunde${hoursDiff !== 1 ? 'n' : ''}`
   }
 }
 
 const ComponentCommonNewstickerItem = ({ message }: { message: ProcessedDigitalMessage }) => {
   if (!message) return null
+  const [messageTime, setMessageTime] = useState(updateMessageTime(message.createdAt))
+
+  useEffect(() => {
+    const interval = setInterval(
+      () => setMessageTime(updateMessageTime(message.createdAt)),
+      60 * 1000
+    )
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
 
   const backgroundColor = message.severity === 'high' ? 'bg-red-500' : 'bg-white'
+  const textColor = message.severity === 'high' ? 'text-white' : 'text-gray-700'
+  const iconBackgroundColor = message.severity === 'high' ? 'bg-white' : 'bg-gray-200' // Kein grauer Hintergrund, wenn severity 'high'
 
   return (
     <div
@@ -135,31 +149,30 @@ const ComponentCommonNewstickerItem = ({ message }: { message: ProcessedDigitalM
           <img
             src={message.image}
             alt="message-icon"
-            className="w-16 h-16 object-cover rounded-full"
+            className="w-16 h-16 object-cover rounded-lg"
           />
         ) : (
-          <div className="flex items-center justify-center object-cover w-20 h-16 bg-gray-200 rounded-full">
+          <div
+            className={`flex items-center justify-center object-cover min-w-16 min-h-16 max-w-16 max-h-16 ${iconBackgroundColor} rounded-lg`}
+          >
             {message.image}
           </div>
         )
       ) : (
-        <div className="flex items-center justify-center max-w-10 w-16 h-16 bg-gray-200 rounded-full">
+        <div
+          className={`flex items-center justify-center w-16 h-16 ${iconBackgroundColor} rounded-full`}
+        >
           <div className="text-red-500" />
         </div>
       )}
       <div className="ml-4 flex-1 w-32 fade-container">
-        <span className="block text-lg !line-clamp-2 font-semibold text-fade">
+        <span className={`block text-lg !line-clamp-2 font-semibold ${textColor}`}>
           {message.eventType}
         </span>
-        <span className="block text-md !line-clamp-2 text-gray-700 text-fade">{message.title}</span>
+        <span className={`block text-md !line-clamp-2 ${textColor}`}>{message.title}</span>
       </div>
       <div className="flex flex-col mr-1 items-end">
-        <span className="text-sm text-gray-500 text-right">
-          {message.location || 'Unbekannter Ort'}
-        </span>
-        <span className="text-sm text-gray-500 text-right">
-          {'Stand: ' + updateMessageTime(message.createdAt)}
-        </span>
+        <span className={`text-sm ${textColor} text-right`}>{'Erhalten: ' + messageTime}</span>
       </div>
     </div>
   )
@@ -173,7 +186,6 @@ export default function DigitalTwin({ messages }: DigitalTwinProps): React.JSX.E
   const processedMessages = messages
     .map(processMessage)
     .filter((message): message is ProcessedDigitalMessage => message !== null) // Type guard
-    .slice(0, 3)
 
   if (processedMessages.length === 0) {
     return null

@@ -63,7 +63,7 @@ const Dashboard = ({ isParseOnline }: Props) => {
         <div
           className={
             layoutConfig.showHeader
-              ? rabbitMessages.length > 0
+              ? rabbitMessages.length > 0 || !process.env.NEXT_PUBLIC_RABBITMQ_HOST
                 ? 'w-screen h-screen grid grid-rows-header bg-primary-color'
                 : layoutConfig.showFooter
                   ? 'w-screen h-screen grid grid-rows-footer bg-primary-color'
@@ -73,12 +73,14 @@ const Dashboard = ({ isParseOnline }: Props) => {
                 : 'w-screen h-screen grid grid-rows-full bg-primary-color'
           }
         >
-          {layoutConfig.showHeader && rabbitMessages.length > 0 && (
-            <div className="h-full justify-center flex items-center">
-              <DigitalTwin messages={rabbitMessages} />
-            </div>
-          )}
-          {layoutConfig.showNewsticker && (
+          {layoutConfig.showHeader &&
+            rabbitMessages.length > 0 &&
+            process.env.NEXT_PUBLIC_RABBITMQ_HOST && (
+              <div className="h-full justify-center flex items-center">
+                <DigitalTwin messages={rabbitMessages} />
+              </div>
+            )}
+          {layoutConfig.showHeader && process.env.NEXT_PUBLIC_RABBITMQ_HOST == null && (
             <div className="h-full flex items-center">
               <Header />
             </div>
