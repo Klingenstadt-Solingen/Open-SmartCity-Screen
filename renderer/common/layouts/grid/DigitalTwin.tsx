@@ -32,6 +32,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
     case 'press_release': {
       const pressrelease = innerPayload as DigitalTwinPressRelease
       return {
+        uuid: message.uuid,
         eventType: 'Pressemitteilung',
         title: getStringValue(pressrelease.title) || 'Unbekannte Pressemitteilung',
         createdAt: new Date(pressrelease.createdAt || Date.now()).toLocaleString(),
@@ -195,7 +196,7 @@ export default function DigitalTwin({ messages }: DigitalTwinProps): React.JSX.E
     <div className="flex justify-center">
       {processedMessages.map((message, index) => (
         <div className="flex-grow m-2 w-1/3 max-w-xs" key={index}>
-          <ComponentCommonNewstickerItem message={message} />
+          <ComponentCommonNewstickerItem message={message} key={message.uuid} />
         </div>
       ))}
     </div>
