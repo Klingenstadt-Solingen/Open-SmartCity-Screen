@@ -41,6 +41,7 @@
     "npm": "please-use-yarn"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "bufferutil": "^4.0.7",
     "cesium": "^1.109.0",
@@ -62,7 +63,8 @@
     "swiper": "^10.1.0",
     "unique-names-generator": "^4.7.1",
     "utf-8-validate": "^6.0.3",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",

@@ -7,7 +7,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        project-node = pkgs.nodejs_18;
+        project-node = pkgs.nodejs_20;
         project-yarn = pkgs.yarn.overrideAttrs (oldAttrs: rec {
           buildInputs = [ project-node ];
         });
