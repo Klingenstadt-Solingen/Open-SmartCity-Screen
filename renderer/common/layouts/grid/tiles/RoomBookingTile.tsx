@@ -1,5 +1,6 @@
 import React from 'react'
 import RoomBookingPanel from '../panels/RoomBookingPanel'
+import { RoomBooking } from '../../../../models/roombooking'
 
 type setCenter = (panel: React.JSX.Element) => void
 interface Props {
@@ -60,7 +61,7 @@ export default function RoomBookingTile(props: Props): React.JSX.Element {
       details: desc,
       info: speaker
     }
-  ]
+  ] as RoomBooking[]
 
   return (
     <div className="w-full h-full pt-12 overflow-hidden flex flex-col pb-16">
@@ -78,7 +79,7 @@ export default function RoomBookingTile(props: Props): React.JSX.Element {
       >
         {roomBooking.map((booking, index) => (
           <div
-            onMouseDown={() => props.setCenter(<RoomBookingPanel />)}
+            onMouseDown={() => props.setCenter(<RoomBookingPanel roombooking={booking} />)}
             key={index}
             className="text-left mb-4 w-full"
           >
