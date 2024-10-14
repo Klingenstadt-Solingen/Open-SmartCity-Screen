@@ -1,6 +1,6 @@
 import React from 'react'
 import PeopleIcon from '../../../icons/PeopleIcon'
-import MapPanel from '../panels/MapPanel/MapPanel'
+import SearchPanel from '../panels/SearchPanel'
 
 type setCenter = (panel: React.JSX.Element) => void
 
@@ -67,7 +67,7 @@ export default function SearchTile(props: Props): React.JSX.Element {
         </div>
         <button
           className="w-60 h-14 rounded-lg mt-20 text-2xl bg-primary-color text-on-primary-color"
-          onMouseDown={() => props.setCenter(<MapPanel></MapPanel>)}
+          onMouseDown={() => props.setCenter(<SearchPanel preSelectedIndex="Person"></SearchPanel>)}
         >
           Jetzt suchen <span className="text-secondary-color">&gt;&nbsp;&nbsp;</span>
         </button>

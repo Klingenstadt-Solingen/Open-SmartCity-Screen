@@ -172,7 +172,7 @@ export default function EnvironmentPanel(props: {
                       <span>{sensorTypes.find((type) => type.id === sensor.sensorType)?.unit}</span>
                     </div>
                     <div className="text-primary-color">
-                      <div className="text-2xl font-extrabold">{sensor.value}</div>
+                      <div className="text-2xl font-extrabold">{sensor.value.toFixed(2)}</div>
                       <div className="font-bold text-md break-all whitespace-pre-line line-clamp-1">
                         {locales.find(
                           (l) =>
