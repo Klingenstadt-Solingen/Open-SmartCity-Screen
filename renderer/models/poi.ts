@@ -1,5 +1,6 @@
 import { GeoPoint } from 'parse'
 import { Base } from './base'
+import { PoiCategory } from './poi-category'
 
 interface detail {
   type?: string
@@ -12,6 +13,7 @@ interface detail {
 }
 export interface POI extends Base {
   poiCategory: string
+  poiCategoryFull?: PoiCategory
   name: string
   geopoint: GeoPoint
   address: string

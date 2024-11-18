@@ -52,17 +52,17 @@ export class SteleDB extends Dexie {
       weather: '++,values,shortName,geopoint',
       diashowObjects: '++,file,duration,startDate,endDate,fileType',
       tiles: '++',
-      poiCategories: '++',
+      poiCategories: '++,sourceId',
       pois: '++',
       stops: '++',
       departures: '++',
       environmentCategories: '++',
-      environmentSubCategories: '++, category',
-      environmentStations: '++, objectId',
+      environmentSubCategories: '++,category',
+      environmentStations: '++,objectId',
       environmentIcons: '++',
-      environmentSensorTypes: '++, subCategory',
-      environmentSensors: '++, sensorType',
-      environmentLocales: '++, key'
+      environmentSensorTypes: '++,subCategory',
+      environmentSensors: '++,sensorType',
+      environmentLocales: '++,key'
     })
   }
 }

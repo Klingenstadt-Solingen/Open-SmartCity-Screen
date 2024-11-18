@@ -182,18 +182,27 @@ export default function BaseMap(
           details: details,
           objectId: objectId
         })
+        let symbolUrl
         const definingDetail = details.find((detail) => detail.symbolName !== undefined)
-        const symbolUrl =
-          definingDetail?.symbolPath +
-          '/' +
-          definingDetail?.symbolName +
-          definingDetail?.symbolMimetype
+        if (definingDetail) {
+          symbolUrl =
+            definingDetail?.symbolPath +
+            '/' +
+            definingDetail?.symbolName +
+            definingDetail?.symbolMimetype
+        } else if (poi.poiCategoryFull) {
+          symbolUrl =
+            poi.poiCategoryFull?.symbolPath +
+            '/' +
+            poi.poiCategoryFull?.symbolName +
+            poi.poiCategoryFull?.symbolMimetype
+        }
         if (symbolUrl) {
           feature.setStyle(
             new olStyle.Style({
               image: new olStyle.Icon({
                 src: symbolUrl,
-                scale: 1.5
+                width: 80
               })
             })
           )

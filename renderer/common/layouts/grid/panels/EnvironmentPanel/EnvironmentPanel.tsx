@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { environment } from '../../../../../environment'
 import { EnvironmentCategory } from '../../../../../models/environmentCategory'
 import { db } from '../../../../../utils/dexie'
@@ -25,6 +25,7 @@ export default function EnvironmentPanel(props: {
   )
   const [selectedStation, selectStation] = React.useState<EnvironmentStation | null>(null)
   const [sensorDetails, setSensorDetails] = useState(undefined)
+  const [pois, setPois] = useState<POI[]>([])
 
   const categories: EnvironmentCategory[] = useLiveQuery(() => db.environmentCategories.toArray())
   const locales: EnvironmentLocale[] = useLiveQuery(() => db.environmentLocales.toArray())
@@ -62,6 +63,25 @@ export default function EnvironmentPanel(props: {
     [sensors]
   )
 
+  useEffect(() => {
+    const fetchCategory = async (sourceId: string) => {
+      return db.poiCategories.get({ sourceId: sourceId })
+    }
+
+    if (stations) {
+      const promises = stations.map((station) => {
+        return new Promise((resolve, reject) => {
+          fetchCategory(station.poi.poiCategory).then((category) => {
+            resolve({ ...station.poi, poiCategoryFull: category })
+          })
+        })
+      })
+      Promise.all(promises).then((pois) => {
+        setPois(pois as POI[])
+      })
+    }
+  }, [stations])
+
   const icons: EnvironmentIcon[] = useLiveQuery(() => db.environmentIcons.toArray())
 
   const currentSensors = useMemo(() => {
@@ -70,7 +90,21 @@ export default function EnvironmentPanel(props: {
     )
     if (selectedStation && filteredSensors.length) {
       return filteredSensors
-    } else if (stations?.length) selectStation(stations[0])
+    } else if (stations?.length) {
+      let closestStation
+      let lowestDistance = Number.MAX_VALUE
+      stations.forEach((s) => {
+        const distance = Math.sqrt(
+          Math.pow(screen.location.latitude - s.poi.geopoint.latitude, 2) +
+            Math.pow(screen.location.longitude - s.poi.geopoint.longitude, 2)
+        )
+        if (distance < lowestDistance) {
+          closestStation = s
+          lowestDistance = distance
+        }
+      })
+      selectStation(closestStation)
+    }
   }, [selectedStation, sensors, selectedCategory, stations])
 
   const onPoiSelected = useCallback(
@@ -79,14 +113,6 @@ export default function EnvironmentPanel(props: {
     },
     [stations]
   )
-
-  const pois = useMemo(() => {
-    if (stations) {
-      return stations.map((station) => {
-        return station.poi
-      })
-    }
-  }, [stations])
 
   if (
     typeof screen !== 'undefined' &&
@@ -100,7 +126,7 @@ export default function EnvironmentPanel(props: {
           sensor={sensorDetails}
           sensorType={sensorTypes.find((type) => type.id === sensorDetails?.sensorType)}
           closeDialog={() => setSensorDetails(undefined)}
-        ></SensorDetailDialog>
+        />
         <div className="break-words text-left h-full flex flex-col pb-8 pt-4 px-16 gap-y-4 bg-white">
           <div className="break-words text-center text-primary-color text-5xl font-bold">
             <span className="flex w-full justify-center items-center gap-x-4">
