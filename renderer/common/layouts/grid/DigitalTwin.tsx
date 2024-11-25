@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   DigitalTwinMessage,
   ProcessedDigitalMessage,
@@ -48,6 +48,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
         ongoing: 'Laufend'
       }
       return {
+        uuid: message.uuid,
         eventType: 'Projekt',
         title: project.name || 'Unbekanntes Projekt',
         location: statusMapping[project.status?.title] || 'Kein Standort',
@@ -59,6 +60,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
     case 'job_posting': {
       const jobposting = innerPayload as DigitalTwinJobPosting
       return {
+        uuid: message.uuid,
         eventType: 'Stellenanzeige',
         title: jobposting.title || 'Unbekannter Job',
         location: jobposting.hiringOrganization?.name || 'Unbekannte Firma',
@@ -70,6 +72,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
     case 'event': {
       const event = innerPayload as DigitalTwinEvent
       return {
+        uuid: message.uuid,
         eventType: 'Veranstaltung',
         title: getStringValue(event.name) || 'Unbekanntes Event',
         createdAt: new Date(event.createdAt || Date.now()).toLocaleString(),
@@ -81,6 +84,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
     case 'plain_message': {
       const plainMessage = innerPayload as unknown as DigitalTwinPlainMessage
       return {
+        uuid: message.uuid,
         eventType: getStringValue(plainMessage.title),
         title: plainMessage.message || 'Unbekanntes Event',
         createdAt: new Date(plainMessage.createdAt || Date.now()).toLocaleString(),
@@ -92,6 +96,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
 
     default:
       return {
+        uuid: message.uuid,
         eventType: 'Unbekannter Typ',
         title: 'Unbekannte Nachricht',
         createdAt: new Date().toLocaleString(),

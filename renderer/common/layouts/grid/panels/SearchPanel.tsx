@@ -61,7 +61,6 @@ export default function SearchPanel(props: Props): React.JSX.Element {
       query: query,
       indices: selectedIndex.value
     })
-    console.log(res)
     setResults(res)
   }, [selectedIndex, query])
 

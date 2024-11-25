@@ -8,5 +8,6 @@ set AWS_SECRET_ACCESS_KEY=***REMOVED***
 set AWS_ENDPOINT_URL=***REMOVED***
 set AWS_BUCKET_NAME=stele-updates
 set IS_WINDOWS=true
+set NEXT_PUBLIC_POLITICS_SERVICE_URL=***REMOVED***
 
 start /d %LOCALAPPDATA%\Programs\digital-signage DigitalSignage.exe

@@ -99,7 +99,7 @@ export default function RoomBookingTile(props: Props): React.JSX.Element {
       <button
         style={props.isOpen ? { opacity: 0 } : { opacity: 1 }}
         className="w-64 h-20 rounded-lg text-2xl bg-secondary-color text-primary-color self-center font-semibold p-2"
-        onMouseDown={() => props.setCenter(<RoomBookingPanel />)}
+        onMouseDown={() => props.setCenter(<RoomBookingPanel roombooking={undefined} />)}
       >
         Alle Raumbelegungen <span className="text-on-primary-color ml-2">&gt;&nbsp;&nbsp;</span>
       </button>

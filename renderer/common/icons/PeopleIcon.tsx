@@ -3,10 +3,12 @@ import { environment } from '../../environment'
 
 function PeopleIcon({
   fill = environment.secondaryColor || '#ffbf00',
+  stroke = '#004373',
   width = '155.7',
   height = '155.683'
 }: {
   fill?: string
+  stroke?: string
   width?: string
   height?: string
 }) {
@@ -24,7 +26,7 @@ function PeopleIcon({
           strokeLinejoin="round"
           strokeLinecap="round"
           strokeWidth="4"
-          stroke="#004373"
+          stroke={stroke}
           fill="transparent"
           data-name="Shape 971"
         />
@@ -33,7 +35,7 @@ function PeopleIcon({
           strokeLinejoin="round"
           strokeLinecap="round"
           strokeWidth="4"
-          stroke="#004373"
+          stroke={stroke}
           fill="transparent"
           data-name="Oval 346"
         />
@@ -42,7 +44,7 @@ function PeopleIcon({
           strokeLinejoin="round"
           strokeLinecap="round"
           strokeWidth="4"
-          stroke="#004373"
+          stroke={stroke}
           fill="transparent"
           data-name="Shape 972"
         />
@@ -51,7 +53,7 @@ function PeopleIcon({
           strokeLinejoin="round"
           strokeLinecap="round"
           strokeWidth="4"
-          stroke="#004373"
+          stroke={stroke}
           fill="transparent"
           data-name="Oval 347"
         />
@@ -60,7 +62,7 @@ function PeopleIcon({
           strokeLinejoin="round"
           strokeLinecap="round"
           strokeWidth="4"
-          stroke="#004373"
+          stroke={stroke}
           fill="transparent"
           data-name="Shape 973"
         />
@@ -70,7 +72,7 @@ function PeopleIcon({
             strokeLinejoin="round"
             strokeLinecap="round"
             strokeWidth="4"
-            stroke="#004373"
+            stroke={stroke}
             fill="transparent"
             data-name="Oval 348"
           />
@@ -79,7 +81,7 @@ function PeopleIcon({
             strokeLinejoin="round"
             strokeLinecap="round"
             strokeWidth="4"
-            stroke="#004373"
+            stroke={stroke}
             fill="transparent"
             data-name="Shape 974"
           />

@@ -12,6 +12,6 @@ export const environment = {
   parseUsername: process.env.NEXT_PUBLIC_PARSE_USERNAME,
   parsePassword: process.env.NEXT_PUBLIC_PARSE_PASSWORD,
   parseMasterKey: process.env.NEXT_PUBLIC_PARSE_MASTERKEY,
-
-  screenshotDir: '/home/kiosk/screenshots'
+  screenshotDir: '/home/kiosk/screenshots',
+  politicsServiceUrl: process.env.NEXT_PUBLIC_POLITICS_SERVICE_URL
 }

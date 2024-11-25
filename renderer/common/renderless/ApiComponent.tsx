@@ -414,8 +414,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
           })
         )
         categories.map((category) => {
-          console.log(category)
-
           category.attributes.subCategories
             .query()
             .include('icon')
@@ -424,7 +422,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             .find()
             .then(async (subCategories) => {
               if (subCategories) {
-                console.log(subCategories)
                 await db.environmentSubCategories.bulkAdd(
                   subCategories.map((subCategory) => {
                     return {
@@ -549,7 +546,6 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         //ignore broken sensorStations
         .limit(1)
         .near('geopoint', screen.location)
-      console.log('WeatherQuery', weatherQuery)
       initTableWithQuery(weatherQuery, db.weather)
         .then((a) => {
           if (typeof weatherSubscription !== 'undefined') {
@@ -558,6 +554,28 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
           subscribeTableToQuery(weatherQuery.equalTo('objectId', a as string), db.weather).then(
             (sub) => setWeatherSubscription(sub)
           )
+        })
+        .catch((e) => console.log(e))
+
+      //  - Query, to find which district the Screen is in
+      const district_query = new Parse.Query('District').polygonContains('area', screen.location)
+      district_query
+        .find()
+        .then((a) => {
+          localStorage.setItem('district-id', a[0].id)
+          localStorage.setItem('district-logo', a[0].get('logo')._url)
+          const districtUrl =
+            '***REMOVED***/api/v1/organisations?districtId=' + a[0].id
+          const settings = { method: 'Get' }
+          try {
+            fetch(districtUrl, settings)
+              .then((res) => res.json())
+              .then((json) => {
+                localStorage.setItem('district-object-id', json[0].id)
+              })
+          } catch (error) {
+            console.error('Error fetching data:', error)
+          }
         })
         .catch((e) => console.log(e))
 

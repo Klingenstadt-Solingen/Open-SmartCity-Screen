@@ -13,6 +13,7 @@ import PersonTile from './PersonTile'
 import ServiceTile from './ServiceTile'
 import SearchTile from './SearchTile'
 import RoomBookingTile from './RoomBookingTile'
+import PoliticsTile from './PoliticsTile'
 
 interface Props {
   isOpen: boolean
@@ -128,6 +129,15 @@ export default function BaseTile(props: Props): React.JSX.Element {
         />
       )
       break
+    case 'Politik':
+      tile = (
+        <PoliticsTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          accessabilityCode={props.accessabilityCode}
+          tilePos={props.position}
+        />
+      )
   }
 
   return (
