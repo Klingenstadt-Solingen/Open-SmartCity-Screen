@@ -107,7 +107,7 @@ export interface DigitalTwinJobPosting {
 }
 
 export interface ProcessedDigitalMessage {
-  uuid: string
+  uuid?: string
   eventType: string
   title: string
   createdAt: string

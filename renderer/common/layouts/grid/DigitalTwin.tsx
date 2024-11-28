@@ -13,6 +13,7 @@ import { Project } from '../../../public/Project'
 import { Jobposting } from '../../../public/Jobposting'
 import { Event } from '../../../public/Event'
 import { Warning } from '../../../public/Warning'
+import useRabbitMQ from '../../../utils/rabbitMQ'
 
 const getStringValue = (value: string) => {
   if (typeof value === 'string') return value
@@ -181,7 +182,7 @@ const ComponentCommonNewstickerItem = ({ message }: { message: ProcessedDigitalM
       </div>
       <div className="flex flex-col mr-1 items-end">
         <span className={`text-sm ${textColor} text-right`}>
-          {'Erhalten: ' + updateMessageTime(message.createdAt)}
+          {updateMessageTime(message.createdAt)}
         </span>
       </div>
     </div>
@@ -192,8 +193,11 @@ interface DigitalTwinProps {
   messages: DigitalTwinMessage[]
 }
 
-export default function DigitalTwin({ messages }: DigitalTwinProps): React.JSX.Element | null {
-  const processedMessages = messages
+export default function DigitalTwin(): React.JSX.Element | null {
+  // Fetch RabbitMQ messages
+  const rabbitMessages = useRabbitMQ('digital_twin_raw', 3)
+
+  const processedMessages = rabbitMessages
     .map(processMessage)
     .filter((message): message is ProcessedDigitalMessage => message !== null) // Type guard
 

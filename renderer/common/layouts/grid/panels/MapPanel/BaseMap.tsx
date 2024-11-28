@@ -164,8 +164,8 @@ export default function BaseMap(
   }, [map, props.onPoiSelected])
 
   const poiLayer = useMemo(() => {
-    if (typeof props.pois !== 'undefined' && typeof map !== 'undefined') {
-      const features = props.pois.map((poi) => {
+    if (typeof props.pois !== 'undefined' && typeof map !== 'undefined' && props.pois.length) {
+      const features = props.pois?.map((poi) => {
         const { address, city, geopoint, details, objectId } = poi
         // poi-all gives stringified json in different form
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

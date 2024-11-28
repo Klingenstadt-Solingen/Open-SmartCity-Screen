@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import BaseTile from './tiles/BaseTile'
 import BasePanel from './panels/BasePanel'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -18,9 +18,21 @@ export default function Grid() {
     return db.layoutConfig.toCollection().first()
   })
 
+  const toggleKeyboard = useCallback((s: boolean, v: string) => {
+    if (s) {
+      setAccessabilityCode(1)
+      setShowKeyboard(s)
+      setKeyboardChange2(v)
+    } else {
+      setAccessabilityCode(0)
+      setShowKeyboard(s)
+    }
+  }, [])
+
   const [centerPanel, setCenterPanel] = useState(<></>)
   const [showKeyboard, setShowKeyboard] = useState<boolean>(false)
   const [keyboardChange, setKeyboardChange] = useState<string>('')
+  const [keyboardChange2, setKeyboardChange2] = useState<string>('')
 
   const boxOrder = [
     [1, 2, 3, 4],
@@ -167,7 +179,7 @@ export default function Grid() {
           isOpen={isOpen}
           accessabilityCode={accessabilityCode}
           setAccessabilityCode={setAccessabilityCode}
-          setShowKeyboard={setShowKeyboard}
+          toggleKeyboard={toggleKeyboard}
           keyboardChange={keyboardChange}
         >
           {centerPanel}
@@ -205,55 +217,60 @@ export default function Grid() {
           </button>
         )}
         {showKeyboard && (
-          <div
-            className="absolute w-screen h-30 bottom-20 z-20 asd"
-            onClick={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-            }}
-          >
-            <KeyboardReact
-              layout={{
-                default: [
-                  '` 1 2 3 4 5 6 7 8 9 0 ß ´ {bksp}',
-                  '{tab} q w e r t z u i o p ü +',
-                  '{lock} a s d f g h j k l ö ä {enter}',
-                  '{shift} y x c v b n m , . - {shift}',
-                  '.com @ {space}'
-                ],
-                shift: [
-                  '~ ! " § $ % & / ( ) = ? ` {bksp}',
-                  '{tab} Q W E R T Z U I O P Ü *',
-                  '{lock} A S D F G H J K L Ö Ä {enter}',
-                  '{shift} Y X C V B N M ; : _ {shift}',
-                  '.com @ {space}'
-                ]
+          <div className="z-20 bottom-36 absolute w-screen flex justify-center bg-opacity-0">
+            <div
+              className="w-full max-w-[40cm]"
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
               }}
-              layoutName={shift ? 'shift' : 'default'}
-              onChange={(c) => {
-                setKeyboardChange(c)
+              onMouseDown={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
               }}
-              onKeyPress={(c) => {
-                if (c === '{lock}') {
-                  setShift(!shift)
-                }
-                if (c === '{shift}') {
-                  setShift(true)
-                }
-              }}
-              onKeyReleased={(c) => {
-                if (c === '{shift}') {
-                  setShift(false)
-                }
-              }}
-              disableButtonHold={true}
-              stopMouseDownPropagation={true}
-              stopMouseUpPropagation={true}
-            />
+            >
+              <KeyboardReact
+                layout={{
+                  default: [
+                    '` 1 2 3 4 5 6 7 8 9 0 ß ´ {bksp}',
+                    '{tab} q w e r t z u i o p ü +',
+                    '{lock} a s d f g h j k l ö ä {enter}',
+                    '{shift} y x c v b n m , . - {shift}',
+                    '.com @ {space}'
+                  ],
+                  shift: [
+                    '~ ! " § $ % & / ( ) = ? ` {bksp}',
+                    '{tab} Q W E R T Z U I O P Ü *',
+                    '{lock} A S D F G H J K L Ö Ä {enter}',
+                    '{shift} Y X C V B N M ; : _ {shift}',
+                    '.com @ {space}'
+                  ]
+                }}
+                layoutName={shift ? 'shift' : 'default'}
+                onChange={(c) => {
+                  setKeyboardChange(c)
+                }}
+                onKeyPress={(c) => {
+                  if (c === '{lock}') {
+                    setShift(!shift)
+                  }
+                  if (c === '{shift}') {
+                    setShift(true)
+                  }
+                }}
+                onKeyReleased={(c) => {
+                  if (c === '{shift}') {
+                    setShift(false)
+                  }
+                }}
+                disableButtonHold={true}
+                stopMouseDownPropagation={true}
+                stopMouseUpPropagation={true}
+                onInit={(k) => {
+                  k.setInput(keyboardChange2)
+                }}
+              />
+            </div>
           </div>
         )}
       </div>

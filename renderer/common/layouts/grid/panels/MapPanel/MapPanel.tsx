@@ -16,7 +16,7 @@ const MapBase = dynamic(async () => await import('./BaseMap'), {
 
 interface Props {
   setAccessabilityCode?: (number) => void
-  setShowKeyboard?: (boolean) => void
+  toggleKeyboard?: (boolean, string) => void
   keyboardChange?: string
   preSelected?: string
 }
@@ -41,6 +41,11 @@ export default function MapPanel(props: Props) {
   const [showDetailSelection, setShowDetailSelection] = useState(false)
   const [tripSelection, setTripSelection] = useState<any>()
   const [trip, setTrip] = useState<any>()
+  const [query, setQuery] = useState<string>()
+
+  useEffect(() => {
+    setQuery(props.keyboardChange)
+  }, [props.keyboardChange])
 
   function getTrip(
     from: { latitude: number; longitude: number },
@@ -116,10 +121,8 @@ export default function MapPanel(props: Props) {
 
   useEffect(() => {
     if (typeof pois !== 'undefined') {
-      if (props.keyboardChange) {
-        setDisplayedPois(
-          pois.filter((poi) => poi.name.toLowerCase().includes(props.keyboardChange.toLowerCase()))
-        )
+      if (query) {
+        setDisplayedPois(pois.filter((poi) => poi.name.toLowerCase().includes(query.toLowerCase())))
       } else {
         setDisplayedPois(
           pois.filter((poi) => {
@@ -132,7 +135,7 @@ export default function MapPanel(props: Props) {
         )
       }
     }
-  }, [displayedPoiFilter, props.keyboardChange])
+  }, [displayedPoiFilter, query])
 
   if (typeof screen === 'undefined') return <p>Kein Screen gefunden</p>
   if (typeof categories === 'undefined') return <p>Keine Kategorien gefunden</p>
@@ -274,12 +277,10 @@ export default function MapPanel(props: Props) {
                 <div>
                   <input
                     onFocus={() => {
-                      props.setAccessabilityCode(1)
-                      props.setShowKeyboard(true)
+                      props.toggleKeyboard(true, query)
                     }}
                     onBlur={() => {
-                      props.setAccessabilityCode(0)
-                      props.setShowKeyboard(false)
+                      props.toggleKeyboard(false, query)
                     }}
                     value={props.keyboardChange}
                     readOnly

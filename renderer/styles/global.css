@@ -72,13 +72,17 @@ div#__next > div {
 }
 
 .hg-button {
-  height: 4vh !important;
+  height: 3vh !important;
   font-size: medium;
 }
 
 .background-image {
-  background-image: url("/images/city-logo.png");
+  background-image: url('/images/city-logo.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 80%;
+}
+
+.center {
+  left: calc(50vw - 20rem);
 }

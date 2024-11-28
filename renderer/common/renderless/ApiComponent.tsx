@@ -1,23 +1,19 @@
 //This eslint-disable comment mostly exists to provoke VSe
 /* eslint-disable sonarjs/no-duplicate-string */
 import React, { PropsWithChildren, useEffect, useState } from 'react'
-
 import Parse, { Query, LiveQuerySubscription } from 'parse'
 import { db } from '../../utils/dexie'
 import { PressRelease } from '../../models/press-release'
 import { IndexableType, Table } from 'dexie'
 import { v4 as uuidv4 } from 'uuid'
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator'
-
 import { Screen } from '../../models/screen'
 import { Weather } from '../../models/weather'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { DiashowObject } from '../../models/diashowObject'
 import { Tile } from '../../models/tile'
-
 import fs, { unlink } from 'fs'
 import { downloadDir } from '../../utils/constants'
-
 import EventEmitter from 'events'
 import { PoiCategory } from '../../models/poi-category'
 import { Grid } from '../../models/grid'

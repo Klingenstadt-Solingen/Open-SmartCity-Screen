@@ -7,7 +7,6 @@ import Footer from '../common/layouts/grid/Footer'
 import { environment } from '../environment'
 import 'react-simple-keyboard/build/css/index.css'
 import DigitalTwin from '../common/layouts/grid/DigitalTwin'
-import useRabbitMQ from '../utils/rabbitMQ'
 
 interface Props {
   isParseOnline: boolean
@@ -22,9 +21,6 @@ const Dashboard = ({ isParseOnline }: Props) => {
   const layoutConfig = useLiveQuery(async () => {
     return db.layoutConfig.toCollection().first()
   })
-
-  // Fetch RabbitMQ messages
-  const rabbitMessages = useRabbitMQ('digital_twin_raw', 3)
 
   //Prevent any Serverside Rendering
   const Grid = dynamic(() => import('../common/layouts/grid/Grid'), {
@@ -63,24 +59,18 @@ const Dashboard = ({ isParseOnline }: Props) => {
         <div
           className={
             layoutConfig.showHeader
-              ? rabbitMessages.length > 0 || !process.env.NEXT_PUBLIC_RABBITMQ_HOST
-                ? 'w-screen h-screen grid grid-rows-header bg-primary-color'
-                : layoutConfig.showFooter
-                  ? 'w-screen h-screen grid grid-rows-footer bg-primary-color'
-                  : 'w-screen h-screen grid grid-rows-full bg-primary-color'
+              ? 'w-screen h-screen grid grid-rows-header bg-primary-color'
               : layoutConfig.showFooter
                 ? 'w-screen h-screen grid grid-rows-footer bg-primary-color'
                 : 'w-screen h-screen grid grid-rows-full bg-primary-color'
           }
         >
-          {layoutConfig.showHeader &&
-            rabbitMessages.length > 0 &&
-            process.env.NEXT_PUBLIC_RABBITMQ_HOST && (
-              <div className="h-full justify-center flex items-center">
-                <DigitalTwin messages={rabbitMessages} />
-              </div>
-            )}
-          {layoutConfig.showHeader && process.env.NEXT_PUBLIC_RABBITMQ_HOST == null && (
+          {layoutConfig.showHeader && process.env.NEXT_PUBLIC_RABBITMQ_HOST && (
+            <div className="h-full justify-center flex items-center">
+              <DigitalTwin />
+            </div>
+          )}
+          {layoutConfig.showHeader && !process.env.NEXT_PUBLIC_RABBITMQ_HOST && (
             <div className="h-full flex items-center">
               <Header />
             </div>

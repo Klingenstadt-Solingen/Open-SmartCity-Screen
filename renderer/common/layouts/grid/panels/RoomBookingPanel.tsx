@@ -1,7 +1,7 @@
 import React from 'react'
 import { RoomBooking } from '../../../../models/roombooking'
 interface Props {
-  roombooking: RoomBooking
+  roombooking?: RoomBooking
 }
 
 export default function RoomBookingPanel(props: Props): React.JSX.Element {

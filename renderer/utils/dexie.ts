@@ -43,7 +43,7 @@ export class SteleDB extends Dexie {
   //Whenever making changes to the database, remember increasing the database version.
   constructor() {
     super('steleDB')
-    this.version(4).stores({
+    this.version(5).stores({
       pressReleases: '++,title,date,content',
       screen: '++,uuid,name,location',
       layoutConfig: '++,name',
@@ -53,7 +53,7 @@ export class SteleDB extends Dexie {
       diashowObjects: '++,file,duration,startDate,endDate,fileType',
       tiles: '++',
       poiCategories: '++,sourceId',
-      pois: '++',
+      pois: '++,poiCategory',
       stops: '++',
       departures: '++',
       environmentCategories: '++',

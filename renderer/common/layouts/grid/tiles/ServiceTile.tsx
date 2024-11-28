@@ -55,7 +55,9 @@ export default function ServiceTile(props: Props): React.JSX.Element {
         >
           <button
             className="text-4xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onMouseDown={() => props.setCenter(<SearchPanel></SearchPanel>)}
+            onMouseDown={() =>
+              props.setCenter(<SearchPanel preSelectedIndex="Dienstleistung"></SearchPanel>)
+            }
           >
             <div className="flex align-top">
               <PlanetIcon height="80" width="80"></PlanetIcon>
@@ -68,7 +70,9 @@ export default function ServiceTile(props: Props): React.JSX.Element {
           </button>
           <button
             className="text-4xl bg-primary-color rounded-xl h-[30%] p-5 flex justify-between"
-            onMouseDown={() => props.setCenter(<SearchPanel></SearchPanel>)}
+            onMouseDown={() =>
+              props.setCenter(<SearchPanel preSelectedIndex="Dienstleistung"></SearchPanel>)
+            }
           >
             <div className="flex align-top">
               <PlanetIcon height="80" width="80"></PlanetIcon>
@@ -97,7 +101,9 @@ export default function ServiceTile(props: Props): React.JSX.Element {
         </div>
         <button
           className="w-72 h-16 rounded-lg text-2xl bg-secondary-color text-primary-color mt-6 self-end"
-          onMouseDown={() => props.setCenter(<SearchPanel></SearchPanel>)}
+          onMouseDown={() =>
+            props.setCenter(<SearchPanel preSelectedIndex="Dienstleistung"></SearchPanel>)
+          }
         >
           Alle Dienstleistungen <span className="text-on-primary-color">&gt;&nbsp;&nbsp;</span>
         </button>

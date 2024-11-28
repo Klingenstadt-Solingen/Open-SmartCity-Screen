@@ -27,9 +27,14 @@ export default function EnvironmentPanel(props: {
   const [sensorDetails, setSensorDetails] = useState(undefined)
   const [pois, setPois] = useState<POI[]>([])
 
+  const category = useLiveQuery(() => db.poiCategories.where('sourceId').equals('umwelt01').first())
+
   const categories: EnvironmentCategory[] = useLiveQuery(() => db.environmentCategories.toArray())
+
   const locales: EnvironmentLocale[] = useLiveQuery(() => db.environmentLocales.toArray())
+
   const screen: Screen = useLiveQuery(() => db.screen.toCollection().first())
+
   const subCategories: EnvironmentSubCategory[] = useLiveQuery(
     () => db.environmentSubCategories.where('category').equals(selectedCategory?.id).toArray(),
     [selectedCategory]

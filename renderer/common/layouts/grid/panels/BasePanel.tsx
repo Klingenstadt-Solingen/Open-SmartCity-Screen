@@ -6,8 +6,8 @@ interface Props {
   isOpen: boolean
   accessabilityCode: number
   setAccessabilityCode: (code: number) => void
-  setShowKeyboard: (show: boolean) => void
   keyboardChange: string
+  toggleKeyboard: (s: boolean, v: string) => void
 }
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -98,8 +98,8 @@ export default function BasePanel(props: PropsWithChildren<Props>): React.JSX.El
           >
             {React.cloneElement(props.children as ReactElement, {
               setAccessabilityCode: props.setAccessabilityCode,
-              setShowKeyboard: props.setShowKeyboard,
-              keyboardChange: props.keyboardChange
+              keyboardChange: props.keyboardChange,
+              toggleKeyboard: props.toggleKeyboard
             })}
           </div>
         )}

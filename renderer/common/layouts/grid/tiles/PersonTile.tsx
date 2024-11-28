@@ -47,7 +47,7 @@ export default function SearchTile(props: Props): React.JSX.Element {
   }
 
   return (
-    <div className="flex flex-col items-center text-6xl font-bold p-12 w-full h-full text-primary-color bg-primary-color bg-secondary-color whitespace-nowrap overflow-hidden">
+    <div className="flex flex-col items-center text-6xl font-bold p-12 w-full h-full text-primary-color bg-secondary-color whitespace-nowrap overflow-hidden">
       <div className="text-left mb-20 w-full tracking-wide" style={cssForTitle}>
         {'Wen genau'} <br /> suchen Sie?
       </div>
