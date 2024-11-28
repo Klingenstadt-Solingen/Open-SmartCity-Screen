@@ -1,3 +1,25 @@
+# [1.29.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.28.0...v1.29.0) (2024-11-28)
+
+
+### Bug Fixes
+
+* added missing stomp dependeny ([5737d74](https://git.app.nedeco.de/solingen/digital-signage/commit/5737d74395e6fa035621f351fcff606da3fb3485))
+* disabled timer for now ([9a2c930](https://git.app.nedeco.de/solingen/digital-signage/commit/9a2c93027c49063775bb6226ccf10186abd237b4))
+* fixed layout and adjust styling ([a8f3074](https://git.app.nedeco.de/solingen/digital-signage/commit/a8f3074e585fc6e14ea7dbafe91dc0c2fe0748a0))
+* try fixing timer ([67dcf85](https://git.app.nedeco.de/solingen/digital-signage/commit/67dcf8510be149c0622d7123cadb9ef374f6e0ea))
+
+
+### Features
+
+* added digtal twin connection and ui ([58fc019](https://git.app.nedeco.de/solingen/digital-signage/commit/58fc0195ff5efdf69726924e6a7ac40884540b97))
+* **environment:** select closes station per default ([7c44af1](https://git.app.nedeco.de/solingen/digital-signage/commit/7c44af1603fbed11ea582c3a6230977740877bc0))
+* **mapPanel:** change CategorySelection logic ([8fedb7d](https://git.app.nedeco.de/solingen/digital-signage/commit/8fedb7da4cc4eff6c2ff0c25c29a3a25b142d52b))
+* **politics:** added politics tile ([07a6f35](https://git.app.nedeco.de/solingen/digital-signage/commit/07a6f3519e9c193596823c5b9bf1c4a027e0b115))
+* **searchPanel:** add first version of searchPanel, show 2 decimals of environment values ([646b3ae](https://git.app.nedeco.de/solingen/digital-signage/commit/646b3ae71975ab2022969bf79bf385f77d679f8a))
+* **searchPanel:** add searchPanel ([af0cb60](https://git.app.nedeco.de/solingen/digital-signage/commit/af0cb60ef86604b677cf785d7ae2173604ffb5ee))
+* **start_script:** add start_windows.bat ([f1c4102](https://git.app.nedeco.de/solingen/digital-signage/commit/f1c41027c5429aa051dac32958da993490c2b08c))
+* **start_script:** renamed from Digital Signage to DigitalSignage, fixed start_script ([694d3a0](https://git.app.nedeco.de/solingen/digital-signage/commit/694d3a0c98b4050e7de5a2b85a309a1410b7caed))
+
 # [1.28.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.27.0...v1.28.0) (2024-09-01)
 
 
