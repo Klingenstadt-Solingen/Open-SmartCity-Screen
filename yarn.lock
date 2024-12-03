@@ -1951,6 +1951,11 @@
   resolved "https://registry.npmjs.org/@sindresorhus/merge-streams/-/merge-streams-2.3.0.tgz"
   integrity sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==
 
+"@socialgouv/matomo-next@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@socialgouv/matomo-next/-/matomo-next-1.9.2.tgz#8175b20f98b01e1a5fcee3c5207b091bcc44dd78"
+  integrity sha512-UtiOBAzKiCwal6/2Lfh3fnv9L8XC4Ovdqqh1K3fimJZJhodf18fD3oy3ansGpgj+A7YE8HPV7/u/q6cYbRP3nw==
+
 "@stomp/stompjs@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npmjs.org/@stomp/stompjs/-/stompjs-7.0.0.tgz"

@@ -7,9 +7,16 @@ import ArrowUp from '../../icons/ArrowUp'
 import ArrowDown from '../../icons/ArrowDown'
 import Rotate from '../../icons/Rotate'
 import KeyboardReact from 'react-simple-keyboard'
+import { push } from '@socialgouv/matomo-next'
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Grid() {
+  useEffect(() => {
+    push(['setDocumentTitle', 'Stele ' + localStorage.getItem('screenName')])
+    push(['setUserId', 'Stele ' + localStorage.getItem('screenName') + '-' + Date.now() / 1000])
+    push(['trackPageView'])
+  }, [])
+
   const tiles = useLiveQuery(async () => {
     return db.tiles.limit(4).toArray()
   })
@@ -65,6 +72,10 @@ export default function Grid() {
       clearTimeout(time)
       time = setTimeout(() => {
         closePanel()
+        // track some events
+        push(['trackEvent', 'Kachel ' + centerPanel.type.name, 'close - inactivity'])
+        push(['setUserId', 'Stele ' + localStorage.getItem('screenName') + '-' + Date.now() / 1000])
+        push(['trackPageView'])
       }, 300000)
     }
   }
@@ -77,12 +88,23 @@ export default function Grid() {
     if (!isOpen) {
       setIsOpen(true)
       setCenterPanel(panel)
+      // track some events
+      // push(['trackEvent', 'Kachel ' + panel.type.name, 'open'])
+
+      push([
+        'setCustomUrl',
+        '/' + encodeURI(localStorage.getItem('screenName')) + '/' + panel.type.name
+      ])
+      push(['setDocumentTitle', 'Kachel ' + panel.type.name])
+      push(['trackPageView'])
     }
   }
 
   function handleOutsideClick(): void {
     if (isOpen) {
       closePanel()
+      // track some events
+      push(['trackEvent', 'Kachel ' + centerPanel.type.name, 'close - outside'])
     }
   }
 
@@ -90,15 +112,21 @@ export default function Grid() {
     event.stopPropagation()
     if (orderStatus === 3) setOrderStatus(0)
     else setOrderStatus(orderStatus + 1)
+    // track some events
+    push(['trackEvent', 'Button', 'rotation'])
   }
 
   function handleToUpButtonClick(event: React.FormEvent): void {
     event.stopPropagation()
     setAccessabilityCode(1)
+    // track some events
+    push(['trackEvent', 'Button', 'up'])
   }
   function handleToDownButtonClick(event: React.FormEvent): void {
     event.stopPropagation()
     setAccessabilityCode(2)
+    // track some events
+    push(['trackEvent', 'Button', 'down'])
   }
 
   let baseTileContainerCss: React.CSSProperties = {}

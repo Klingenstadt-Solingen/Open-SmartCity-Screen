@@ -41,6 +41,7 @@
     "npm": "please-use-yarn"
   },
   "dependencies": {
+    "@socialgouv/matomo-next": "^1.9.2",
     "@stomp/stompjs": "^7.0.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "bufferutil": "^4.0.7",
