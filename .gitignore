@@ -11,3 +11,4 @@ renderer/public/downloads
 renderer/public/download
 .env
 .direnv
+.trunk

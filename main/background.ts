@@ -4,6 +4,13 @@ import { createWindow } from './helpers'
 import { autoUpdater } from 'electron-updater'
 import { version } from '../package.json'
 import { execSync } from 'child_process'
+import * as Sentry from '@sentry/electron/main'
+
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN
+  })
+}
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
 
@@ -50,7 +57,7 @@ if (isProd) {
         const a = 'Error in auto-updater, ' + JSON.stringify(err)
         mainWindow.webContents.executeJavaScript(`console.log('${a}')`)
       } catch {
-        mainWindow.webContents.executeJavaScript(`console.log('Error in auto-updater.')`)
+        mainWindow.webContents.executeJavaScript(`console.error('Error in auto-updater.')`)
       }
     })
     autoUpdater.on('download-progress', (progressObj) => {

@@ -8,6 +8,7 @@ import { POI } from '../../../../../models/poi'
 import { environment } from '../../../../../environment'
 import Parse from 'parse'
 import Close from '../../../../icons/Close'
+import { push } from '@socialgouv/matomo-next'
 
 const MapBase = dynamic(async () => await import('./BaseMap'), {
   loading: () => <p>Lade Karte...</p>,
@@ -136,6 +137,12 @@ export default function MapPanel(props: Props) {
       }
     }
   }, [displayedPoiFilter, query])
+
+  useEffect(() => {
+    if (detailSelection) {
+      push(['trackEvent', 'Kachel MapPanel', 'POI Kategorie - ' + detailSelection.name])
+    }
+  }, [detailSelection])
 
   if (typeof screen === 'undefined') return <p>Kein Screen gefunden</p>
   if (typeof categories === 'undefined') return <p>Keine Kategorien gefunden</p>

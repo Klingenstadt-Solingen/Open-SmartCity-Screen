@@ -286,7 +286,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .descending('date')
       .limit(10)
 
-    initTableWithQuery(pressReleaseQuery, db.pressReleases).catch((e) => console.log(e))
+    initTableWithQuery(pressReleaseQuery, db.pressReleases).catch((e) => console.error(e))
     if (typeof pressReleaseSubscription !== 'undefined') {
       pressReleaseSubscription.unsubscribe()
     }
@@ -295,7 +295,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     })
 
     const poiCategoryQuery = new Query<Parse.Object<PoiCategory>>('POICategory')
-    initTableWithQuery(poiCategoryQuery, db.poiCategories).catch((e) => console.log(e))
+    initTableWithQuery(poiCategoryQuery, db.poiCategories).catch((e) => console.error(e))
     if (typeof poiCategorySubscription !== 'undefined') {
       poiCategorySubscription.unsubscribe()
     }
@@ -303,10 +303,10 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       setPoiCategorySubscription(sub)
     })
 
-    initTableWithFunction('poi-all', db.pois).catch((e) => console.log(e))
+    initTableWithFunction('poi-all', db.pois).catch((e) => console.error(e))
 
-    fetchEnvironment()
-    subscribeToEnvironment()
+    //fetchEnvironment()
+    //subscribeToEnvironment()
   }
 
   async function subscribeToEnvironment() {
@@ -391,7 +391,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     const environmentLocaleQuery = new Query<Parse.Object<EnvironmentLocale>>('EnvironmentLocale')
       .equalTo('locale', 'de-DE')
       .limit(1000)
-    initTableWithQuery(environmentLocaleQuery, db.environmentLocales).catch((e) => console.log(e))
+    initTableWithQuery(environmentLocaleQuery, db.environmentLocales).catch((e) => console.error(e))
 
     const environmentCategoryQuery = new Query<Parse.Object<EnvironmentCategory>>(
       'EnvironmentCategory'
@@ -466,7 +466,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .include('icon')
       .limit(1000)
     initTableWithQuery(environmentSensorTypeQuery, db.environmentSensorTypes).catch((e) =>
-      console.log(e)
+      console.error(e)
     )
     const environmentStationsQuery = new Query<Parse.Object<EnvironmentStation>>(
       'EnvironmentStation'
@@ -474,7 +474,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       .include('poi')
       .limit(1000)
     initTableWithQuery(environmentStationsQuery, db.environmentStations).catch((e) =>
-      console.log(e)
+      console.error(e)
     )
 
     const environmentSensorQuery = new Query<Parse.Object<EnvironmentSensor>>(
@@ -499,7 +499,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     const environmentIconQuery = new Query<Parse.Object<EnvironmentIcon>>('EnvironmentIcon').limit(
       1000
     )
-    initTableWithQuery(environmentIconQuery, db.environmentIcons).catch((e) => console.log(e))
+    initTableWithQuery(environmentIconQuery, db.environmentIcons).catch((e) => console.error(e))
   }
 
   //Creates new Screen in Parse with given AppId
@@ -551,7 +551,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             (sub) => setWeatherSubscription(sub)
           )
         })
-        .catch((e) => console.log(e))
+        .catch((e) => console.error(e))
 
       //  - Query, to find which district the Screen is in
       const district_query = new Parse.Query('District').polygonContains('area', screen.location)
@@ -573,7 +573,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             console.error('Error fetching data:', error)
           }
         })
-        .catch((e) => console.log(e))
+        .catch((e) => console.error(e))
 
       Parse.Cloud.run('pt-stop-nearby', {
         lat: screen?.location?.latitude,
@@ -623,7 +623,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             setLayoutConfigSubscription(sub)
           )
         })
-        .catch((e) => console.log(e))
+        .catch((e) => console.error(e))
     }
   }, [screen?.layoutConfig?.objectId])
 
@@ -645,7 +645,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             })
             .finally(() => setGridConfigDirty(false))
         })
-        .catch((e) => console.log(e))
+        .catch((e) => console.error(e))
     }
   }, [layoutConfig?.gridConfig?.objectId])
 
@@ -666,7 +666,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
             })
             .finally(() => setDiashowConfigDirty(false))
         })
-        .catch((e) => console.log(e))
+        .catch((e) => console.error(e))
     }
   }, [layoutConfig?.diashowConfig?.objectId])
 
@@ -696,7 +696,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
                 })
               }
             })
-            .catch((e) => console.log(e))
+            .catch((e) => console.error(e))
         })
     }
   }, [diashowConfig?.diashowObjects])
@@ -720,7 +720,7 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
               })
             }
           })
-          .catch((e) => console.log(e))
+          .catch((e) => console.error(e))
       })
     }
   }, [gridConfig?.tiles])
