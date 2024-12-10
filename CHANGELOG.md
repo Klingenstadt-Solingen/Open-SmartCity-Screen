@@ -1,3 +1,12 @@
+# [1.30.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.29.0...v1.30.0) (2024-12-10)
+
+
+### Features
+
+* add matomo support ([f62d942](https://git.app.nedeco.de/solingen/digital-signage/commit/f62d94244ca87ba6968d2ab358a1da0584886294))
+* added Sentry ([f0851d3](https://git.app.nedeco.de/solingen/digital-signage/commit/f0851d3772b6083a73ee95d74b26452d19e87438))
+* **config:** add config field to tiles, change environment polling to be less heavy ([051ec19](https://git.app.nedeco.de/solingen/digital-signage/commit/051ec192adb9597431eaf25b2c46db484337c167))
+
 # [1.29.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.28.0...v1.29.0) (2024-11-28)
 
 
