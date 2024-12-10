@@ -2,7 +2,7 @@ import React from 'react'
 import ReactPlayer from 'react-player'
 
 interface Props {
-  config: any
+  config?: any
 }
 
 export default function BobTile(props: Props): React.JSX.Element {

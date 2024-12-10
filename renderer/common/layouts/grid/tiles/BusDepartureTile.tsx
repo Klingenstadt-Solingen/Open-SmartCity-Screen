@@ -5,7 +5,7 @@ import Parse from 'parse'
 
 interface Props {
   isOpen: boolean
-  config: any
+  config?: any
 }
 
 function minutesUntilNow(time: string) {
