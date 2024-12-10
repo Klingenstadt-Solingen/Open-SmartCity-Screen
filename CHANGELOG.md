@@ -1,3 +1,10 @@
+## [1.30.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.30.0...v1.30.1) (2024-12-10)
+
+
+### Bug Fixes
+
+* **config:** add nullcheck for config objects ([719ba47](https://git.app.nedeco.de/solingen/digital-signage/commit/719ba470df429efa20a85f45dcf575857a7ccd5f))
+
 # [1.30.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.29.0...v1.30.0) (2024-12-10)
 
 
