@@ -42,12 +42,16 @@ export default function PoliticsPanel(props: Props): React.JSX.Element {
 
         {props.preSelectedIndex == 'member' && results && (
           <div className="text-left font-bold mb-4 w-full">
-            <div className="text-2xl pl-[30px] mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
-              E-Mail
-            </div>
-            <div className="mr-12 text-xl my-2 text-on-background-color font-thin line-clamp-3">
-              {results[0].person.email}
-            </div>
+            {results[0]?.person.email.length != 0 && (
+              <>
+                <div className="text-2xl pl-[30px] mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                  E-Mail
+                </div>
+                <div className="mr-12 text-xl my-2 text-on-background-color font-thin line-clamp-3">
+                  {results[0]?.person.email.join(', ')}
+                </div>
+              </>
+            )}
             <div className="mr-12 text-4xl my-10 text-secondary-color font-bold line-clamp-3">
               Mitgliedschaften
             </div>
