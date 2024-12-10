@@ -11,6 +11,7 @@ interface Props {
   tilePos: number
   setCenter: setCenter
   accessabilityCode: number
+  config: any
 }
 
 export default function PressReleaseTile(props: Props): React.JSX.Element {

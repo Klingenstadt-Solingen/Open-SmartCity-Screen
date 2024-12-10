@@ -1,7 +1,11 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 
-export default function BobTile(): React.JSX.Element {
+interface Props {
+  config: any
+}
+
+export default function BobTile(props: Props): React.JSX.Element {
   return (
     <div className="w-full h-full bg-secondary-color">
       <ReactPlayer

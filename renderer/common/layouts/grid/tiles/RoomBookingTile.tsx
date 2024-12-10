@@ -8,6 +8,7 @@ interface Props {
   tilePos: number
   setCenter: setCenter
   accessabilityCode: number
+  config: any
 }
 
 export default function RoomBookingTile(props: Props): React.JSX.Element {

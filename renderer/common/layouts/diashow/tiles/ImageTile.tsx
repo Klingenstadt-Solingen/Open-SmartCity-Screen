@@ -41,6 +41,7 @@ interface Props {
   setCenter?: (panel: React.JSX.Element) => void | undefined
   isOpen?: boolean | undefined
   layoutDiashow?: boolean
+  config: any
 }
 
 export default function ImageTile(props: Props): React.JSX.Element {

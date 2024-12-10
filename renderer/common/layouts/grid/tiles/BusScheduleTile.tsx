@@ -8,6 +8,7 @@ type setCenter = (panel: React.JSX.Element) => void
 interface Props {
   setCenter: setCenter
   isOpen: boolean
+  config: any
 }
 
 export default function BusScheduleTile(props: Props): React.JSX.Element {

@@ -368,8 +368,13 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
     q6.on('create', () => {
       fetchEnvironment()
     })
-    q6.on('update', () => {
-      fetchEnvironment()
+    q6.on('update', (a) => {
+      db.environmentSensors
+        .where('id')
+        .equals(a.id)
+        .modify((sensor) => {
+          sensor.value = a.attributes.value
+        })
     })
     q6.on('delete', () => {
       fetchEnvironment()
@@ -714,7 +719,11 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
                 tilesSubscription.unsubscribe()
               }
               subscribeTableToQuery(new Query<Parse.Object<Tile>>('SteleTilePosition'), db.tiles, {
-                initQuery: gC.attributes.tiles.query().include('tile.tileType').include('position')
+                initQuery: gC.attributes.tiles
+                  .query()
+                  .include('tile.tileType')
+                  .include('position')
+                  .include('tile.config')
               }).then((sub) => {
                 setTilesSubscription(sub)
               })

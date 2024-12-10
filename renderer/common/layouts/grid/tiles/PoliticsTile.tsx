@@ -15,6 +15,7 @@ interface Props {
   tilePos: number
   setCenter: setCenter
   accessabilityCode: number
+  config: any
 }
 
 export default function PoliticsTile(props: Props): React.JSX.Element {

@@ -34,6 +34,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           tilePos={props.position}
           accessabilityCode={props.accessabilityCode}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -44,6 +45,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           tilePos={props.position}
           accessabilityCode={props.accessabilityCode}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -54,6 +56,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           tilePos={props.position}
           accessabilityCode={props.accessabilityCode}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -64,20 +67,34 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           tilePos={props.position}
           accessabilityCode={props.accessabilityCode}
+          config={props.tile.tile.config}
         />
       )
       break
     case 'Busabfahrten':
-      tile = <BusDepartureTile isOpen={props.isOpen} />
+      tile = <BusDepartureTile isOpen={props.isOpen} config={props.tile.tile.config} />
       break
     case 'Aushangsfahrplan':
-      tile = <BusScheduleTile setCenter={props.setCenter} isOpen={props.isOpen} />
+      tile = (
+        <BusScheduleTile
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          config={props.tile.tile.config}
+        />
+      )
       break
     case 'Diashow':
-      tile = <ImageTile layoutDiashow={false} setCenter={props.setCenter} isOpen={props.isOpen} />
+      tile = (
+        <ImageTile
+          layoutDiashow={false}
+          setCenter={props.setCenter}
+          isOpen={props.isOpen}
+          config={props.tile.tile.config}
+        />
+      )
       break
     case 'Bob':
-      tile = <BobTile />
+      tile = <BobTile config={props.tile.tile.config} />
       break
     case 'Umwelt':
       tile = (
@@ -86,6 +103,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           tilePos={props.position}
           accessabilityCode={props.accessabilityCode}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -96,6 +114,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           accessabilityCode={props.accessabilityCode}
           tilePos={props.position}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -106,6 +125,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           accessabilityCode={props.accessabilityCode}
           tilePos={props.position}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -116,6 +136,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           accessabilityCode={props.accessabilityCode}
           tilePos={props.position}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -126,6 +147,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           accessabilityCode={props.accessabilityCode}
           tilePos={props.position}
+          config={props.tile.tile.config}
         />
       )
       break
@@ -136,6 +158,7 @@ export default function BaseTile(props: Props): React.JSX.Element {
           isOpen={props.isOpen}
           accessabilityCode={props.accessabilityCode}
           tilePos={props.position}
+          config={props.tile.tile.config}
         />
       )
   }

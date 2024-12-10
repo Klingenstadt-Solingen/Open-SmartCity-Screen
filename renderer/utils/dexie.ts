@@ -40,10 +40,10 @@ export class SteleDB extends Dexie {
   environmentSensors!: Table<EnvironmentSensor, string>
   environmentLocales!: Table<EnvironmentLocale, string>
 
-  //Whenever making changes to the database, remember increasing the database version.
+  //Whenever making changes to the database, remember increasing the  database version.
   constructor() {
     super('steleDB')
-    this.version(5).stores({
+    this.version(6).stores({
       pressReleases: '++,title,date,content',
       screen: '++,uuid,name,location',
       layoutConfig: '++,name',
@@ -61,7 +61,7 @@ export class SteleDB extends Dexie {
       environmentStations: '++,objectId',
       environmentIcons: '++',
       environmentSensorTypes: '++,subCategory',
-      environmentSensors: '++,sensorType',
+      environmentSensors: '++,id,sensorType',
       environmentLocales: '++,key'
     })
   }
