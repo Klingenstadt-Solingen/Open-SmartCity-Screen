@@ -28,8 +28,8 @@ function App({ Component, pageProps }: AppProps) {
           Sentry.browserProfilingIntegration(),
           Sentry.extraErrorDataIntegration()
         ],
-        tracesSampleRate: 1.0, //0.5,
-        replaysSessionSampleRate: 1.0, // 0.1,
+        tracesSampleRate: 0.5, //0.5,
+        replaysSessionSampleRate: 0.2, // 0.1,
         replaysOnErrorSampleRate: 1.0
       })
     }
