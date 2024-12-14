@@ -27,6 +27,7 @@ import { EnvironmentStation } from '../../models/environmentStation'
 import { EnvironmentSensor } from '../../models/environmentSensor'
 import { EnvironmentIcon } from '../../models/environmentIcon'
 import { EnvironmentLocale } from '../../models/environmentLocale'
+import * as Sentry from '@sentry/react'
 
 EventEmitter.defaultMaxListeners = 20
 
@@ -631,6 +632,10 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
         .catch((e) => console.error(e))
     }
   }, [screen?.layoutConfig?.objectId])
+
+  useEffect(() => {
+    Sentry.setUser({ id: screen?.objectId, username: screen?.name })
+  }, [screen?.name, screen?.objectId])
 
   useEffect(() => {
     if (typeof layoutConfig?.gridConfig?.objectId !== 'undefined') {
