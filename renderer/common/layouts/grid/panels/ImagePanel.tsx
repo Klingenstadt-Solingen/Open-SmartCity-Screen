@@ -7,6 +7,7 @@ interface Props {
   pdfCanvasWidth?: number | undefined
   pdfCanvasHeight?: number | undefined
 }
+ImagePanel.displayName = 'ImagePanel'
 export default function ImagePanel(props: Props): React.JSX.Element {
   return (
     <>

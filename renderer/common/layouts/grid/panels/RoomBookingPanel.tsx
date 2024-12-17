@@ -3,7 +3,7 @@ import { RoomBooking } from '../../../../models/roombooking'
 interface Props {
   roombooking?: RoomBooking
 }
-
+RoomBookingPanel.displayName = 'RoomBookingPanel'
 export default function RoomBookingPanel(props: Props): React.JSX.Element {
   return (
     <div className="p-12 flex flex-col justify-between gap-y-12">

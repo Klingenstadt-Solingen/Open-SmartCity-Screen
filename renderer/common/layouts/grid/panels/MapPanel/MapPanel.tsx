@@ -22,6 +22,7 @@ interface Props {
   preSelected?: string
 }
 
+MapPanel.displayName = 'MapPanel'
 export default function MapPanel(props: Props) {
   const screen = useLiveQuery(async () => {
     return db.screen.toCollection().first()
@@ -140,7 +141,11 @@ export default function MapPanel(props: Props) {
 
   useEffect(() => {
     if (detailSelection) {
-      push(['trackEvent', 'Kachel MapPanel', 'POI Kategorie - ' + detailSelection.name])
+      push([
+        'trackEvent',
+        `Kachel ${MapPanel.displayName}`,
+        `POI Kategorie - ${detailSelection.name}`
+      ])
     }
   }, [detailSelection])
 

@@ -17,6 +17,7 @@ import SensorDetailDialog from './SensorDetailDialog'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { POI } from '../../../../../models/poi'
 
+EnvironmentPanel.displayName = 'EnvironmentPanel'
 export default function EnvironmentPanel(props: {
   category: EnvironmentCategory
 }): React.JSX.Element {

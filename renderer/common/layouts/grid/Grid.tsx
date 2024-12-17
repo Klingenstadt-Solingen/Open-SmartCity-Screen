@@ -73,7 +73,7 @@ export default function Grid() {
       time = setTimeout(() => {
         closePanel()
         // track some events
-        push(['trackEvent', 'Kachel ' + centerPanel.type.name, 'close - inactivity'])
+        push(['trackEvent', 'Kachel ' + centerPanel.type.displayName, 'close - inactivity'])
         push(['setUserId', 'Stele ' + localStorage.getItem('screenName') + '-' + Date.now() / 1000])
         push(['trackPageView'])
       }, 300000)
@@ -89,13 +89,13 @@ export default function Grid() {
       setIsOpen(true)
       setCenterPanel(panel)
       // track some events
-      // push(['trackEvent', 'Kachel ' + panel.type.name, 'open'])
+      // push(['trackEvent', 'Kachel ' + panel.type.displayName, 'open'])
 
       push([
         'setCustomUrl',
-        '/' + encodeURI(localStorage.getItem('screenName')) + '/' + panel.type.name
+        '/' + encodeURI(localStorage.getItem('screenName')) + '/' + panel.type.displayName
       ])
-      push(['setDocumentTitle', 'Kachel ' + panel.type.name])
+      push(['setDocumentTitle', 'Kachel ' + panel.type.displayName])
       push(['trackPageView'])
     }
   }
@@ -104,7 +104,7 @@ export default function Grid() {
     if (isOpen) {
       closePanel()
       // track some events
-      push(['trackEvent', 'Kachel ' + centerPanel.type.name, 'close - outside'])
+      push(['trackEvent', 'Kachel ' + centerPanel.type.displayName, 'close - outside'])
     }
   }
 

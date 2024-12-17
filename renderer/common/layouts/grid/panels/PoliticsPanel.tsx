@@ -6,7 +6,7 @@ interface Props {
   objectId?: string
   title?: string
 }
-
+PoliticsPanel.displayName = 'PoliticsPanel'
 export default function PoliticsPanel(props: Props): React.JSX.Element {
   const [results, setResults] = useState<Array<any>>([])
 

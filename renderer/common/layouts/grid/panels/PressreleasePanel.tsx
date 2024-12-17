@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 interface Props {
   pressRelease: PressRelease
 }
-
+PressReleasePanel.displayName = 'PressReleasePanel'
 export default function PressReleasePanel(props: Props): React.JSX.Element {
   return (
     <div className="p-12 flex flex-col justify-between gap-y-12">

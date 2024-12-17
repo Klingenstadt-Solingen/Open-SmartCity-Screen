@@ -7,6 +7,7 @@ import Rain from '../../../icons/Rain'
 import Moisture from '../../../icons/Moisture'
 import AirPressure from '../../../icons/AirPressure'
 
+WeatherPanel.displayName = 'WeatherPanel'
 export default function WeatherPanel(props: { weather: Weather }): React.JSX.Element {
   return (
     <>

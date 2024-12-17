@@ -32,7 +32,7 @@ const styles = {
     }
   })
 }
-
+SearchPanel.displayName = 'SearchPanel'
 export default function SearchPanel(props: Props): React.JSX.Element {
   const [indices, setIndices] = useState<Array<{ label: string; value: Array<string> }>>()
   const [selectedIndex, setSelectedIndex] = useState<{ label: string; value: Array<string> }>()
