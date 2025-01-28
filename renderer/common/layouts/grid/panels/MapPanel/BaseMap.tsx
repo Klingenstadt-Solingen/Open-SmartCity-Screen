@@ -73,14 +73,16 @@ export default function BaseMap(
       const youAreHereVector = new olSource.Vector({})
       youAreHereVector.addFeature(featureLine)
 
+      const blueMapMarkerURL = 'images/svg/MapMarker.svg'
+
       const youAreHereLayer = new olLayer.Vector({
         zIndex: 20,
         properties: { name: 'youAreHere' },
         source: youAreHereVector,
         style: new olStyle.Style({
           image: new olStyle.Icon({
-            src: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
-            scale: 0.15
+            src: blueMapMarkerURL,
+            scale: 0.2
           })
         })
       })

@@ -305,8 +305,8 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
 
     initTableWithFunction('poi-all', db.pois).catch((e) => console.error(e))
 
-    //fetchEnvironment()
-    //subscribeToEnvironment()
+    fetchEnvironment()
+    subscribeToEnvironment()
   }
 
   async function subscribeToEnvironment() {

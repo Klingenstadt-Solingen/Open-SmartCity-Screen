@@ -11,7 +11,7 @@ export default function Footer(): React.JSX.Element {
     return <></>
   } else {
     const messages = [
-      'Wetter: ' + weather.values.lufttemperatur.value + weather.values.lufttemperatur.unit
+      'Wetter: ' + weather.values.lufttemperatur?.value + weather.values.lufttemperatur?.unit
     ]
     return (
       <div className="text-3xl font-normal w-screen border-t-2 border-primary-color flex items-center bg-background-color-dark z-0">

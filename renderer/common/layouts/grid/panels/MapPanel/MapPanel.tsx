@@ -198,10 +198,7 @@ export default function MapPanel(props: Props) {
                           key={index}
                           className="w-full flex flex-row justify-between items-center"
                         >
-                          <img
-                            width="12%"
-                            src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
-                          ></img>
+                          <img width="12%" src="images/svg/MapMarker.svg" />
                           {t.origin.name}
                         </div>
                         <div className="py-10 px-5 h-full border-l-4 w-full ml-[1.2rem] flex flex-col items-start justify-around">
@@ -218,10 +215,7 @@ export default function MapPanel(props: Props) {
 
                         {trip.trips.length === index + 1 ? (
                           <div className="w-full flex flex-row justify-between items-center">
-                            <img
-                              width="12%"
-                              src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
-                            ></img>
+                            <img width="12%" src="images/svg/MapMarker.svg" />
                             {t.destination?.name}
                           </div>
                         ) : (
