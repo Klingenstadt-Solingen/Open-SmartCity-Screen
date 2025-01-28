@@ -43,7 +43,9 @@ This project uses [semantic-release](https://github.com/semantic-release/semanti
 There is no need to create tags or edit changelog manually.
 
 To deploy the application, start the manual tast build:deploy-tag on masterbranch.
-A new Application will be built and pushed into an S3 bucket via [electron-builder](https://www.electron.build/index.html)
+A new Application will be built and pushed into an S3 bucket via [electron-builder](https://www.electron.build/index.html). \
+The running Application will auto-update itself if a new release is found in the S3 bucket. \
+To verify if the new Version is applied, visit https://monitoring.opensmartcity.fans/zabbix.php?action=dashboard.view and check 'Digital Signage Version'.
 
 ## CI/CD
 
