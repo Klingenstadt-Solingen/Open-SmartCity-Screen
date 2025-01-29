@@ -1,3 +1,12 @@
+# [1.31.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.30.1...v1.31.0) (2025-01-29)
+
+
+### Features
+
+* comment in fetchEnvironment() and subscribeToEnvironment() ([1e33468](https://git.app.nedeco.de/solingen/digital-signage/commit/1e33468891be3cfb025d1af2bc3e1e506ee316e3))
+* **tile:** update title in ServiceTile ([a5f7791](https://git.app.nedeco.de/solingen/digital-signage/commit/a5f7791f822f69202a4ea6ecc7f251abca96b0e2))
+* update 'Release Flow' section in README ([a9f349b](https://git.app.nedeco.de/solingen/digital-signage/commit/a9f349bb6dd7f87aa998800ffaf91752132d9e7a))
+
 ## [1.30.1](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.30.0...v1.30.1) (2024-12-10)
 
 
