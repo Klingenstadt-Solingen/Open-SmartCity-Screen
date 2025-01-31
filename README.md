@@ -47,6 +47,11 @@ A new Application will be built and pushed into an S3 bucket via [electron-build
 The running Application will auto-update itself if a new release is found in the S3 bucket. \
 To verify if the new Version is applied, visit https://monitoring.opensmartcity.fans/zabbix.php?action=dashboard.view and check 'Digital Signage Version'.
 
+Pipeline `build-publish:linux` and `build-publish:windows` only build executables for the corresponidng operating systems and upload them to MinIO.
+Pipeline `build:latest` builds both executables and uploads them as gitlab artifact only.
+
+`build-publish:windows` can be used for testing purposes, since no Windows Devices are used in Production.
+
 ## CI/CD
 
 Every commit is checked for linting errors with eslint.
