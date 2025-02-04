@@ -1,3 +1,17 @@
+# [1.32.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.31.0...v1.32.0) (2025-02-04)
+
+
+### Bug Fixes
+
+* fix politic member optinal email ([a3deda4](https://git.app.nedeco.de/solingen/digital-signage/commit/a3deda4b6a92cbca8e5c43cbc7079c4400513f18))
+* panel names are now gathered via a new variable displayName ([116696a](https://git.app.nedeco.de/solingen/digital-signage/commit/116696a8025166bac247145e19c56a1cd686a542))
+
+
+### Features
+
+* added user (Stele Screen) to Sentry ([dbf957f](https://git.app.nedeco.de/solingen/digital-signage/commit/dbf957f6f7927dd5ef81515ec71fc57966f2c92f))
+* reduced sentry sample rates ([887bf19](https://git.app.nedeco.de/solingen/digital-signage/commit/887bf1958dfddf22213aca9ec255fd375420bac0))
+
 # [1.31.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.30.1...v1.31.0) (2025-01-29)
 
 
