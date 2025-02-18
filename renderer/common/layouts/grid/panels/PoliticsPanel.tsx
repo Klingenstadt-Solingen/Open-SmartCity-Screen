@@ -336,7 +336,7 @@ export function PdfViewer({ url, className = null }: PdfViewerProps) {
           Zurück
         </button>
         <p>
-          Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
+          Seite {pageNumber || (numPages ? 1 : '--')} von {numPages || '--'}
         </p>
         <button
           className="flex items-center gap-2"
