@@ -4,11 +4,13 @@ import { environment } from '../../environment'
 function Clock({
   fill = environment.onPrimaryColor || '#FFFFFF',
   height = '40',
-  width = '40'
+  width = '40',
+  className = null
 }: {
   fill?: string
   height?: string
   width?: string
+  className?: string
 }) {
   return (
     <svg
@@ -16,6 +18,7 @@ function Clock({
       width={width}
       height={height}
       fill={fill}
+      className={className}
       viewBox="0 0 16 16"
     >
       <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />

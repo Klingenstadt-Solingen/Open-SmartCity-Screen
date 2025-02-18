@@ -89,8 +89,8 @@ export default function PoliticsTile(props: Props): React.JSX.Element {
   }
 
   return (
-    <div className="h-full w-full p-6 overflow-hidden">
-      <div className="bg-background-color-dark p-6 rounded-lg text-primary-color w-full h-full flex flex-col overflow-hidden">
+    <div className="h-full w-full p-12 overflow-hidden">
+      <div className="text-primary-color w-full h-full flex flex-col overflow-hidden">
         <div
           className="ml-4 text-left tracking-wide text-6xl font-bold mb-11"
           style={
@@ -156,47 +156,45 @@ export default function PoliticsTile(props: Props): React.JSX.Element {
                 if (dataType == 'district') {
                   return (
                     <div key={index} className="text-left font-bold mb-4 w-full">
-                      <div className="text-3xl pb-0 text-secondary-color font-bold text-center">
-                        {item?.name}
-                      </div>
-                      <div className="text-center pb-5 w-full flex justify-center">
+                      <div className="text-center pb-4 w-full flex justify-center">
                         <img
+                          className="rounded-md shadow-inner aspect-square w-1/2"
                           src={localStorage.getItem('district-logo')}
-                          width={160}
-                          height={160}
                         ></img>
                       </div>
-                      <div className="text-2xl pl-[30px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                      <div className="text-3xl pb-4 text-secondary-color font-bold text-center break-normal">
+                        {item?.name}
+                      </div>
+                      <div className="pl-4 border-spacing-0 text-2xl mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                         {item?.newestMayor?.role}
                       </div>
-                      <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
-                        {item?.newestMayor?.person?.formOfAddress}{' '}
-                        {item?.newestMayor?.person?.firstName} {item?.newestMayor?.person?.lastName}
+                      <div className="mx-5 text-2xl my-2 text-primary-color line-clamp-3">
+                        {`${item?.newestMayor?.person?.formOfAddress} ${item?.newestMayor?.person?.firstName} ${item?.newestMayor?.person?.lastName}`}
                       </div>
-                      <div className="mt-8 text-2xl pl-[30px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                      <div className="pl-4 border-spacing-0 text-2xl mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                         Anschrift
                       </div>
-                      <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
+                      <div className="mb-4 mx-5 text-2xl my-2 text-primary-color line-clamp-3">
                         {item?.location?.streetAddress}
                         <br />
                         {item?.location?.postalCode} {item?.location?.locality}
                         <br />
                         {item?.location?.room}
                       </div>
-                      <div className="flex">
-                        <div className="w-2/4">
-                          <div className="mt-8 text-2xl pl-[30px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                      <div className="flex flex-wrap gap-y-4">
+                        <div className="flex-1 w-1/2">
+                          <div className="pl-4 border-spacing-0 text-2xl mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                             Ratsmitglieder
                           </div>
-                          <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
+                          <div className="mx-5 text-2xl my-2 text-primary-color line-clamp-3">
                             {item?.memberCount}
                           </div>
                         </div>
-                        <div className="w-2/4">
-                          <div className="mt-8 text-2xl pl-[30px]  mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                        <div className="flex-1 w-1/2">
+                          <div className="pl-4 border-spacing-0 text-2xl mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                             Stimmberechtigte
                           </div>
-                          <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
+                          <div className="mx-5 text-2xl my-2 text-primary-color line-clamp-3">
                             {item?.votingMemberCount}
                           </div>
                         </div>
@@ -206,20 +204,21 @@ export default function PoliticsTile(props: Props): React.JSX.Element {
                 } else if (dataType == 'members') {
                   return (
                     <div key={index} className="text-left font-bold mb-4 w-full">
-                      <div className="text-xl pl-[30px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                      <div className="pl-4 border-spacing-0 text-xl mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                         {item?.role}
                       </div>
-                      <div className="mx-12 text-2xl mb-2 text-primary-color line-clamp-3">
+                      <div className="mx-5 text-2xl mb-2 text-primary-color line-clamp-3">
                         {item?.person?.formOfAddress} {item?.person?.firstName}{' '}
                         {item?.person?.lastName}
                       </div>
                       <div
-                        className="mx-12 text-l font-normal text-on-background-color"
+                        className="mx-5 text-xl font-normal text-on-background-color"
                         onMouseDown={() =>
                           props.setCenter(
                             <PoliticsPanel
                               preSelectedIndex="member"
                               objectId={item?.person?.id}
+                              role={item?.role}
                               title={
                                 item?.person?.formOfAddress +
                                 ' ' +
@@ -238,18 +237,18 @@ export default function PoliticsTile(props: Props): React.JSX.Element {
                 } else if (dataType == 'meetings') {
                   return (
                     <div key={index} className="text-left font-bold mb-8 w-full">
-                      <div className="text-xl pl-[30px] ml-8 mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
+                      <div className="pl-4 border-spacing-0 text-2xl mr-12 font-thin border-l-2 border-secondary-color text-on-background-color">
                         {dayjs(new Date(item?.startDateTime)).format('DD.MMM YYYY')}
                       </div>
-                      <div className="mx-12 text-2xl my-2 text-primary-color line-clamp-3">
+                      <div className="mx-5 text-2xl my-2 text-primary-color line-clamp-3">
                         {item?.name}
                       </div>
 
-                      <div className="flex">
+                      <div className="flex items-center">
                         <div className="w-2/4">
-                          <span className="pl-[30px] ml-8 mr-12 mt-3 font-thin text-normal text-on-background-color flex">
-                            <Clock height="38" width="38" fill="#999"></Clock>
-                            <p className="ml-3">
+                          <span className="flex gap-2 items-center ml-5">
+                            <Clock width="60" height="60" fill="#999"></Clock>
+                            <p className="font-light text-xl text-on-background-color">
                               {dayjs(new Date(item?.startDateTime)).format('HH:mm')} -{' '}
                               {dayjs(new Date(item?.endDateTime)).format('HH:mm')}
                             </p>
@@ -257,7 +256,7 @@ export default function PoliticsTile(props: Props): React.JSX.Element {
                         </div>
                         <div className="w-2/4 text-right">
                           <button
-                            className="h-10 rounded-xl text-l bg-secondary-color text-primary-color pl-3 pr-3 mr-10"
+                            className="mx-5 h-10 rounded-xl text-l bg-secondary-color text-primary-color pl-3 pr-3"
                             onMouseDown={() =>
                               props.setCenter(
                                 <PoliticsPanel

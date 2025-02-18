@@ -67,10 +67,10 @@ export default function SearchTile(props: Props): React.JSX.Element {
           was Sie suchen!
         </div>
         <button
-          className="w-60 h-14 rounded-lg mt-20 text-2xl bg-secondary-color text-primary-color"
+          className="w-60 h-14 rounded-lg text-2xl bg-secondary-color text-primary-color"
           onMouseDown={() => props.setCenter(<SearchPanel></SearchPanel>)}
         >
-          Jetzt suchen <span className="text-on-primary-color ml-2">&gt;&nbsp;&nbsp;</span>
+          Jetzt suchen
         </button>
       </div>
     </div>

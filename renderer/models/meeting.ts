@@ -1,3 +1,5 @@
+import { PoliticFile } from './politic-file'
+
 export interface Meeting {
   id: string
   endDateTime: string
@@ -5,4 +7,7 @@ export interface Meeting {
   name: string
   startDateTime: string
   webUrl: string
+  invitationFile?: PoliticFile
+  resultsProtocolFile?: PoliticFile
+  verbatimProtocolFile?: PoliticFile
 }

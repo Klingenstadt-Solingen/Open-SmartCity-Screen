@@ -562,18 +562,18 @@ export default function ApiComponent(props: PropsWithChildren): React.JSX.Elemen
       //  - Query, to find which district the Screen is in
       const district_query = new Parse.Query('District').polygonContains('area', screen.location)
       district_query
-        .find()
-        .then((a) => {
-          localStorage.setItem('district-id', a[0].id)
-          localStorage.setItem('district-logo', a[0].get('logo')._url)
+        .first()
+        .then((district) => {
+          localStorage.setItem('district-id', district.id)
+          localStorage.setItem('district-logo', district.get('logo')._url)
           const districtUrl =
-            '***REMOVED***/api/v1/organisations?districtId=' + a[0].id
+            environment.politicsServiceUrl + '/api/v1/organisations?districtId=' + district.id
           const settings = { method: 'Get' }
           try {
             fetch(districtUrl, settings)
               .then((res) => res.json())
-              .then((json) => {
-                localStorage.setItem('district-object-id', json[0].id)
+              .then((orga) => {
+                localStorage.setItem('district-object-id', orga[0].id)
               })
           } catch (error) {
             console.error('Error fetching data:', error)
