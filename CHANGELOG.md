@@ -1,3 +1,15 @@
+# [1.33.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.32.0...v1.33.0) (2025-02-18)
+
+
+### Bug Fixes
+
+* changed pdf render text to german ([f386f5b](https://git.app.nedeco.de/solingen/digital-signage/commit/f386f5bcf5ec12559db4f3a6be4ef1ae7ddbe265))
+
+
+### Features
+
+* added pdf reader to politic ([44e8dc3](https://git.app.nedeco.de/solingen/digital-signage/commit/44e8dc3480147f419d5ca6120933888046335145))
+
 # [1.32.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.31.0...v1.32.0) (2025-02-04)
 
 
