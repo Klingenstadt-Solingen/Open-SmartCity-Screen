@@ -65,7 +65,7 @@ div#__next > div {
 }
 
 .scrollbar-hide::-webkit-scrollbar-thumb {
-  background: rgba(255, 191, 9, 0.8);
+  @apply bg-secondary-color;
   -webkit-border-radius: 5px;
   border: 1px solid rgba(30, 30, 30, 0.8);
   scroll-behavior: smooth;
