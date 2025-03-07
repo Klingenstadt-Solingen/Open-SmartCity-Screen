@@ -27,7 +27,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
   if (!message || !message.payload) return null
 
   const innerPayload = message.payload
-  const eventType = message.event_type || 'unknown'
+  const eventType = message.eventType || 'unknown'
 
   switch (eventType) {
     case 'press_release': {
@@ -96,6 +96,7 @@ const processMessage = (message: DigitalTwinMessage): ProcessedDigitalMessage | 
     }
 
     default:
+      console.warn(message)
       return {
         uuid: message.uuid,
         eventType: 'Unbekannter Typ',

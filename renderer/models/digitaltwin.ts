@@ -1,12 +1,12 @@
 export interface DigitalTwinMessage {
   uuid: string
-  schema_version: number
-  message_version: number
-  event_type: DigitalTwinEventType
-  district_ids: string[]
-  event_start_date_time?: string
-  event_end_date_time?: string
-  expected_duration?: number
+  schemaVersion: number
+  messageVersion: number
+  eventType: DigitalTwinEventType
+  districtIds: string[]
+  eventStartDateTime?: string
+  eventEndDateTime?: string
+  expectedDuration?: number
   severity: 'normal' | 'low' | 'high'
   payload:
     | DigitalTwinPressRelease
