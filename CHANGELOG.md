@@ -1,3 +1,15 @@
+# [1.34.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.33.0...v1.34.0) (2025-03-10)
+
+
+### Bug Fixes
+
+* changed scrollbar color to scondary color ([7781a84](https://git.app.nedeco.de/solingen/digital-signage/commit/7781a84c07f4293cc16195478bde0278b6e22021))
+
+
+### Features
+
+* changed twin properties from snkae case to camel case ([e043062](https://git.app.nedeco.de/solingen/digital-signage/commit/e0430626cc1af1f4d7d57339b803a42b1585c8f2))
+
 # [1.33.0](https://git.app.nedeco.de/solingen/digital-signage/compare/v1.32.0...v1.33.0) (2025-02-18)
 
 
