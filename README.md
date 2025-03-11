@@ -3,6 +3,11 @@
   <img height="100px" alt="logo" src="documentation/images/logo.svg">
 </div>
 
+## Important Notice
+
+- **Read-Only Repository:** This GitHub repository is a mirror of our project's source code. It is not intended for direct changes.
+- **Contribution Process:** Any modifications, improvements, or contributions must be made through our [Open Code](https://gitlab.opencode.de/) platform. Direct changes via GitHub are not accepted.
+
 This is an electron app, running a digital signage react application.
 
 It runs with
