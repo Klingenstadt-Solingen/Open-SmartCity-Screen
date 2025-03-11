@@ -1,8 +1,7 @@
 <div style="display:flex;gap:1%;margin-bottom:10px">
-  <h1 style="border:none">Open Smart City Screen Configurator</h1>
+  <h1 style="border:none">Open Smart City Screen</h1>
+  <img height="100px" alt="logo" src="documentation/images/logo.svg">
 </div>
-
-Complete Documentation: https://solingen.gitlabpages.app.nedeco.de/stele-docs/
 
 This is an electron app, running a digital signage react application.
 
@@ -62,4 +61,4 @@ There is a manual build:latest pipeline available on all branches to build a Lin
 
 ## License
 
-Digital-Signage Configurator is licensed under the [Open Smart City License](LICENSE.md).
+Open Smart City Screen is licensed under the [Open Smart City License](LICENSE.md).
