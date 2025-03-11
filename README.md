@@ -1,4 +1,6 @@
-# Solingen Digital Signage
+<div style="display:flex;gap:1%;margin-bottom:10px">
+  <h1 style="border:none">Open Smart City Screen Configurator</h1>
+</div>
 
 Complete Documentation: https://solingen.gitlabpages.app.nedeco.de/stele-docs/
 
@@ -57,3 +59,7 @@ Pipeline `build:latest` builds both executables and uploads them as gitlab artif
 Every commit is checked for linting errors with eslint.
 
 There is a manual build:latest pipeline available on all branches to build a Linux AppImage and a Windows nsis installer, which are available in the pipeline artifacts afterwards.
+
+## License
+
+Digital-Signage Configurator is licensed under the [Open Smart City License](LICENSE.md).
